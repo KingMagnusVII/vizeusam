@@ -18,7 +18,7 @@ import {
   todayIndex,
   type ClassItem,
 } from "@/lib/timetable";
-import { TimetableProvider, useTimetable } from "@/lib/use-timetable";
+import { useTimetable } from "@/lib/use-timetable";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -40,11 +40,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: () => (
-    <TimetableProvider>
-      <TimetableApp />
-    </TimetableProvider>
-  ),
+  component: TimetableApp,
 });
 
 function TimetableApp() {
