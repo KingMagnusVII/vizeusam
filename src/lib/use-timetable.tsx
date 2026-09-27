@@ -84,8 +84,7 @@ export function useTimetable() {
         schedules: p.schedules.map((s) =>
           s.id === p.activeScheduleId ? { ...s, dayInfo: { ...(s.dayInfo ?? {}), [day]: info } } : s,
         ),
-      }),
-
+      })),
     addSchedule: (personId: string, name: string) =>
       updatePerson(personId, (p) => {
         const s = emptySchedule(name);
