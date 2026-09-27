@@ -25,7 +25,7 @@ export function ClassCard({
       </div>
       <div className="min-w-0 flex-1">
         <div className="flex items-start gap-2">
-          <h3 className="flex-1 truncate text-base font-semibold">{item.subject}</h3>
+          <h3 className="min-w-0 flex-1 whitespace-normal break-words text-base font-semibold">{item.subject}</h3>
           {item.room ? (
             <span className="time-mono rounded-md bg-muted px-1.5 py-0.5 text-[11px] text-muted-foreground">
               {item.room}
@@ -33,10 +33,10 @@ export function ClassCard({
           ) : null}
         </div>
         {item.professor ? (
-          <p className="mt-0.5 truncate text-sm text-muted-foreground">{item.professor}</p>
+          <p className="mt-0.5 whitespace-normal break-words text-sm text-muted-foreground">{item.professor}</p>
         ) : null}
         {item.task ? (
-          <p className="mt-1 flex items-center gap-1.5 truncate text-[13px]" style={{ color: item.color }}>
+          <p className="mt-1 flex items-start gap-1.5 whitespace-normal break-words text-[13px]" style={{ color: item.color }}>
             <Pin className="size-3 shrink-0" />
             {item.task}
           </p>

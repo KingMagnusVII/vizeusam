@@ -94,7 +94,7 @@ export function activeSchedule(person: Person): Schedule {
 
 /* ------------------------- import / export ------------------------- */
 
-const FIELDS = ["day", "subject", "professor", "start", "end", "room", "task", "color"];
+const FIELDS = ["day", "subject", "professor", "start", "end", "room", "task", "color", "morning", "afternoon"];
 
 function normalizeDay(value: string): number {
   const v = value.trim().toLowerCase().slice(0, 3);
@@ -169,12 +169,39 @@ export function parseCsv(text: string): ClassItem[] {
   });
 }
 
-export type ImportResult = { name?: string; classes: ClassItem[] };
+export type ImportResult = {\n  name?: string;\n  classes: ClassItem[];\n  dayInfo?: Partial<Record<number, DayInfo>>;\n};
 
 export function parseImport(fileName: string, text: string): ImportResult {
   if (fileName.toLowerCase().endsWith(".csv")) {
-    return { classes: parseCsv(text) };
+    const lines = text
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .filter(Boolean);
+    if (!lines.length) return { classes: [] };
+    const header = splitCsvLine(lines[0]!).map((h) => h.trim().toLowerCase());
+    const hasHeader = header.some((h) => FIELDS.includes(h));
+    const cols = hasHeader ? header : FIELDS;
+    const body = hasHeader ? lines.slice(1) : lines;
+    const dayInfo: Partial<Record<number, DayInfo>> = {};
+    const classes = body.map((line, i) => {
+      const cells = splitCsvLine(line);
+      const row: Record<string, string> = {};
+      cols.forEach((c, ci) => (row[c] = cells[ci] ?? ""));
+      const day = normalizeDay(row.day ?? "");
+      if (row.morning?.trim() || row.afternoon?.trim()) {
+        dayInfo[day] = {
+          date: "",
+          morning: row.morning?.trim() ?? "",
+          afternoon: row.afternoon?.trim() ?? "",
+        };
+      }
+      const hasClassData = ["subject", "professor", "start", "end", "room", "task", "color"]
+        .some((field) => row[field]?.trim());
+      return hasClassData ? toClassItem(row, i) : null;
+    });
+    return { classes: classes.filter((item): item is ClassItem => item !== null), dayInfo };
   }
+
   const data = JSON.parse(text);
   const rows = Array.isArray(data)
     ? data
@@ -183,21 +210,57 @@ export function parseImport(fileName: string, text: string): ImportResult {
       : Array.isArray(data.schedule)
         ? data.schedule
         : [];
+  const dayInfo = data?.dayInfo as Partial<Record<number, DayInfo>> | undefined;
   return {
     name: typeof data?.name === "string" ? data.name : undefined,
     classes: rows.map((r: Record<string, string>, i: number) => toClassItem(r, i)),
+    dayInfo,
   };
 }
 
-export function toCsv(classes: ClassItem[]): string {
+export function toCsv(
+  classes: ClassItem[],
+  dayInfo?: Partial<Record<number, DayInfo>>,
+): string {
   const esc = (v: string) => (/[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
   const head = FIELDS.join(",");
-  const rows = classes.map((c) =>
-    [DAYS[c.day], c.subject, c.professor, c.start, c.end, c.room, c.task, c.color]
+  const rows = classes.map((c) => {
+    const info = dayInfo?.[c.day];
+    return [
+      DAYS[c.day],
+      c.subject,
+      c.professor,
+      c.start,
+      c.end,
+      c.room,
+      c.task,
+      c.color,
+      info?.morning ?? "",
+      info?.afternoon ?? "",
+    ]
       .map((v) => esc(String(v ?? "")))
-      .join(","),
-  );
-  return [head, ...rows].join("\n");
+      .join(",");
+  });
+  const classDays = new Set(classes.map((c) => c.day));
+  const coordinatorRows = Object.entries(dayInfo ?? {})
+    .filter(([day]) => !classDays.has(Number(day)))
+    .map(([day, info]) =>
+      [
+        DAYS[Number(day)],
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        info?.morning ?? "",
+        info?.afternoon ?? "",
+      ]
+        .map((v) => esc(String(v ?? "")))
+        .join(","),
+    );
+  return [head, ...rows, ...coordinatorRows].join("\n");
 }
 
 export function download(filename: string, content: string, type: string) {

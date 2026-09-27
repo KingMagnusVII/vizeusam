@@ -54,6 +54,7 @@ export function SettingsSheet({
     setActiveSchedule,
     appendClasses,
     replaceClasses,
+    updateDayInfo,
   } = useTimetable();
   const { theme, wallpaper, opacity, primaryColor } = state.settings;
   const fileRef = useRef<HTMLInputElement>(null);
@@ -65,11 +66,19 @@ export function SettingsSheet({
 
   const onFile = async (file: File, mode: "merge" | "replace") => {
     try {
-      const { classes } = parseImport(file.name, await file.text());
-      if (!classes.length) throw new Error("No classes found in that file.");
+      const { classes, dayInfo } = parseImport(file.name, await file.text());
+      if (!classes.length && !dayInfo) throw new Error("No timetable data found in that file.");
       if (mode === "replace") replaceClasses(person.id, classes);
-      else appendClasses(person.id, classes);
-      setNote(`Imported ${classes.length} classes.`);
+      else if (classes.length) appendClasses(person.id, classes);
+      if (dayInfo) {
+        Object.entries(dayInfo).forEach(([day, info]) => {
+          if (info) updateDayInfo(person.id, Number(day), info);
+        });
+      }
+      const coordinatorCount = dayInfo ? Object.keys(dayInfo).length : 0;
+      setNote(
+        `Imported ${classes.length} classes${coordinatorCount ? ` and ${coordinatorCount} coordinator day${coordinatorCount === 1 ? "" : "s"}` : ""}.`,
+      );
     } catch (e) {
       setNote(e instanceof Error ? e.message : "Could not read that file.");
     }
@@ -300,7 +309,7 @@ export function SettingsSheet({
                 onClick={() =>
                   download(
                     `${person.name}-timetable.json`,
-                    JSON.stringify({ name: person.name, classes: schedule?.classes ?? [] }, null, 2),
+                    JSON.stringify({ name: person.name, classes: schedule?.classes ?? [], dayInfo: schedule?.dayInfo ?? {} }, null, 2),
                     "application/json",
                   )
                 }
@@ -311,7 +320,7 @@ export function SettingsSheet({
                 variant="secondary"
                 className="rounded-2xl"
                 onClick={() =>
-                  download(`${person.name}-timetable.csv`, toCsv(schedule?.classes ?? []), "text/csv")
+                  download(`${person.name}-timetable.csv`, toCsv(schedule?.classes ?? [], schedule?.dayInfo), "text/csv")
                 }
               >
                 <Download className="size-4" /> Export CSV
