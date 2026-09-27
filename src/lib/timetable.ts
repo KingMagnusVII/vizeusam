@@ -23,10 +23,17 @@ export type ClassItem = {
   color: string;
 };
 
+export type DayInfo = {
+  date: string;
+  morning: string;
+  afternoon: string;
+};
+
 export type Schedule = {
   id: string;
   name: string;
   classes: ClassItem[];
+  dayInfo?: Partial<Record<number, DayInfo>>;
 };
 
 export type Person = {
@@ -53,8 +60,10 @@ export type AppState = {
   settings: {
     theme: ThemeName;
     wallpaper: string;
-    opacity: number;\n    primaryColor: string;
+    opacity: number;
+    primaryColor: string;
   };
+};
 };
 
 export const uid = () => Math.random().toString(36).slice(2, 10);
