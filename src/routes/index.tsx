@@ -1,3 +1,4 @@
+// Route module intentionally touched to invalidate stale Vite/TanStack route chunks after preview sync.
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { CalendarDays, CheckSquare, Plus, Settings } from "lucide-react";
