@@ -10,7 +10,7 @@ export function DayCoordinatorCard({
   onSave,
 }: {
   day: number;
-  info?: DayInfo;
+  info: DayInfo | undefined;
   onSave: (info: DayInfo) => void;
 }) {
   const [editing, setEditing] = useState(!info);
