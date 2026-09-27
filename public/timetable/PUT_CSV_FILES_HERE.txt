@@ -1,0 +1,3 @@
+Put your timetable CSV files in this folder.
+
+The folder is public/timetable/ on the main branch.
