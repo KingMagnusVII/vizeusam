@@ -1,0 +1,1 @@
+Upload the dog photos you want to use for the app/Home Screen icon into this folder. Recommended: square PNG or JPG images, ideally 512x512 or larger. You can upload multiple photos. Do not delete this instruction file until the photos are added.
