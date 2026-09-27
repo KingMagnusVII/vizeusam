@@ -137,6 +137,13 @@ function TimetableApp() {
         <main className="flex-1 space-y-2 px-3 pb-6">
           {tab === "timetable" ? (
             <>
+              {classes.length > 0 && (
+                <DayCoordinatorCard
+                  day={day}
+                  info={schedule.dayInfo?.[day]}
+                  onSave={(info) => updateDayInfo(person.id, day, info)}
+                />
+              )}
               {classes.map((c) => (
                 <ClassCard
                   key={c.id}
@@ -166,13 +173,7 @@ function TimetableApp() {
                     No classes on {DAYS[day]} yet.
                   </p>
                 )
-              ) : (
-                <DayCoordinatorCard
-                  day={day}
-                  info={schedule.dayInfo?.[day]}
-                  onSave={(info) => updateDayInfo(person.id, day, info)}
-                />
-              )}
+              ) : null}
               <button
                 onClick={() => {
                   setEditing(null);
