@@ -280,129 +280,25 @@ export function download(filename: string, content: string, type: string) {
 /* ----------------------------- defaults ----------------------------- */
 
 export function defaultState(): AppState {
-  const mine: Schedule = {
-    id: uid(),
-    name: "Semester 5",
-    classes: [
-      {
-        id: uid(),
-        day: 1,
-        subject: "Data Structures",
-        professor: "Dr. Singh",
-        start: "09:00",
-        end: "10:30",
-        room: "CS-102",
-        task: "Complete BST assignment",
-        color: "#38bdf8",
-      },
-      {
-        id: uid(),
-        day: 1,
-        subject: "Linear Algebra",
-        professor: "Prof. Sharma",
-        start: "11:00",
-        end: "12:30",
-        room: "LH-301",
-        task: "Practice eigenvalues",
-        color: "#fbbf24",
-      },
-      {
-        id: uid(),
-        day: 1,
-        subject: "Chemistry",
-        professor: "Dr. Nair",
-        start: "14:00",
-        end: "15:30",
-        room: "Sci-A",
-        task: "Review reaction mechanisms",
-        color: "#34d399",
-      },
-      {
-        id: uid(),
-        day: 0,
-        subject: "English Lit",
-        professor: "Ms. Iyer",
-        start: "10:00",
-        end: "11:00",
-        room: "H-204",
-        task: "Essay draft",
-        color: "#f472b6",
-      },
-      {
-        id: uid(),
-        day: 2,
-        subject: "Physics Lab",
-        professor: "Dr. Rao",
-        start: "09:30",
-        end: "12:30",
-        room: "Lab-2",
-        task: "Read lab safety guidelines",
-        color: "#a78bfa",
-      },
-    ],
-  };
-  const friendSchedule: Schedule = {
-    id: uid(),
-    name: "Week",
-    classes: [
-      {
-        id: uid(),
-        day: 1,
-        subject: "DBMS",
-        professor: "Ms. Verma",
-        start: "14:00",
-        end: "15:30",
-        room: "CS-105",
-        task: "ER diagram submission",
-        color: "#2dd4bf",
-      },
-    ],
-  };
+  const week1 = emptySchedule("Week 1");
+  const week2 = emptySchedule("Week 2");
+
   const me: Person = {
     id: "me",
     name: "Sammy",
-    schedules: [mine],
-    activeScheduleId: mine.id,
+    schedules: [week1, week2],
+    activeScheduleId: week1.id,
   };
-  const friend: Person = {
-    id: uid(),
-    name: "Arya Sharma",
-    schedules: [friendSchedule],
-    activeScheduleId: friendSchedule.id,
-  };
+
   return {
-    people: [me, friend],
+    people: [me],
     activePersonId: "me",
-    todos: [
-      {
-        id: uid(),
-        text: "Submit Calculus problem set 4",
-        tag: "Calculus II · Tomorrow",
-        done: false,
-        color: "#a78bfa",
-      },
-      {
-        id: uid(),
-        text: "Write 500-word essay draft",
-        tag: "English Lit · Wed",
-        done: false,
-        color: "#f472b6",
-      },
-      {
-        id: uid(),
-        text: "BST assignment – 3 methods left",
-        tag: "Data Structures · Tue",
-        done: false,
-        color: "#38bdf8",
-      },
-      {
-        id: uid(),
-        text: "Read lab safety guidelines",
-        tag: "Physics Lab · Done",
-        done: true,
-        color: "#2dd4bf",
-      },
-    ],
-    settings: { theme: "dark", wallpaper: "", opacity: 0.85, primaryColor: "#a78bfa" },
+    todos: [],
+    settings: {
+      theme: "dark",
+      wallpaper: "",
+      opacity: 0.85,
+      primaryColor: "#3b82f6",
+    },
   };
 }

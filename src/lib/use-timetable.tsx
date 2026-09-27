@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { fetchCloudTimetable } from "./cloud-timetable-safe";
 import {
   defaultState,
+  parseImport,
   emptySchedule,
   uid,
   type AppState,
@@ -10,7 +10,7 @@ import {
   type Todo,
 } from "./timetable";
 
-const KEY = "timetable-app-state-v1";
+const KEY = "timetable-app-state-v2";
 
 type Ctx = {
   state: AppState;
@@ -26,22 +26,68 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as Partial<AppState>;
+    let cancelled = false;
+
+    const loadInitialState = async () => {
+      try {
+        const raw = localStorage.getItem(KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw) as Partial<AppState>;
+          const defaults = defaultState();
+          setState({
+            ...defaults,
+            ...parsed,
+            // Keep newly added settings fields when loading older local data.
+            settings: { ...defaults.settings, ...(parsed.settings ?? {}) },
+          });
+          return;
+        }
+
+        const [week1Response, week2Response] = await Promise.all([
+          fetch("/timetable/Foundation_Course_Week1_BatchC_v2.csv"),
+          fetch("/timetable/Foundation_Course_Week2_BatchC_v2.csv"),
+        ]);
+
+        if (!week1Response.ok || !week2Response.ok) {
+          throw new Error("Bundled timetable CSV could not be loaded");
+        }
+
+        const [week1Text, week2Text] = await Promise.all([
+          week1Response.text(),
+          week2Response.text(),
+        ]);
+
+        const week1 = parseImport("Week1.csv", week1Text);
+        const week2 = parseImport("Week2.csv", week2Text);
         const defaults = defaultState();
-        setState({
-          ...defaults,
-          ...parsed,
-          // Keep newly added settings fields when loading older local data.
-          settings: { ...defaults.settings, ...(parsed.settings ?? {}) },
-        });
+        const schedules = [
+          { id: uid(), name: "Week 1", classes: week1.classes, dayInfo: week1.dayInfo },
+          { id: uid(), name: "Week 2", classes: week2.classes, dayInfo: week2.dayInfo },
+        ];
+
+        if (!cancelled) {
+          setState({
+            ...defaults,
+            people: [
+              {
+                ...defaults.people[0]!,
+                schedules,
+                activeScheduleId: schedules[0]!.id,
+              },
+            ],
+          });
+        }
+      } catch {
+        // Keep the built-in empty Week 1/Week 2 state if the bundled CSVs fail.
+      } finally {
+        if (!cancelled) setLoaded(true);
       }
-    } catch {
-      /* ignore corrupt storage */
-    }
-    setLoaded(true);
+    };
+
+    void loadInitialState();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
