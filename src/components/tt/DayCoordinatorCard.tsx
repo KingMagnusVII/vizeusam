@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Pencil, Check } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import type { DayInfo } from "@/lib/timetable";
 
 export function DayCoordinatorCard({
