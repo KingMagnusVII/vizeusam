@@ -1,0 +1,18 @@
+{
+  "name": "My Timetable",
+  "short_name": "Timetable",
+  "description": "Offline-first personal timetable",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#16131f",
+  "theme_color": "#8b5cf6",
+  "icons": [
+    {
+      "src": "/app-icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
