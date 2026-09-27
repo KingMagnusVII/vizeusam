@@ -145,7 +145,6 @@ export function SettingsSheet({
             <div className="grid grid-cols-6 gap-2">
               {[
                 "#ef4444",
-                "#fb7185",
                 "#f97316",
                 "#fbbf24",
                 "#22c55e",
@@ -155,6 +154,7 @@ export function SettingsSheet({
                 "#38bdf8",
                 "#a78bfa",
                 "#f472b6",
+                "#fb7185",
                 "#ffffff",
               ].map((c) => (
                 <button
