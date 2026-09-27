@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Check, Download, Pencil, Plus, Trash2, Upload } from "lucide-react";
+import { Check, Download, Image as ImageIcon, Moon, Pencil, Plus, Sun, Trash2, Upload, Waves } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -16,11 +16,11 @@ import wallpaperNeon from "@/assets/wallpaper-neon.jpg";
 
 export const WALLPAPERS = [wallpaperNight, wallpaperClouds, wallpaperOcean, wallpaperNeon];
 
-const THEMES: { id: ThemeName; label: string; emoji: string }[] = [
-  { id: "light", label: "Light", emoji: "☀️" },
-  { id: "dark", label: "Dark", emoji: "🌙" },
-  { id: "ocean", label: "Ocean", emoji: "🌊" },
-  { id: "wallpaper", label: "Wallpaper", emoji: "🖼️" },
+const THEMES: { id: ThemeName; label: string; Icon: typeof Sun }[] = [
+  { id: "light", label: "Light", Icon: Sun },
+  { id: "dark", label: "Dark", Icon: Moon },
+  { id: "ocean", label: "Ocean", Icon: Waves },
+  { id: "wallpaper", label: "Wallpaper", Icon: ImageIcon },
 ];
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -106,7 +106,7 @@ export function SettingsSheet({
                     theme === t.id ? "bg-primary text-primary-foreground" : "bg-muted text-foreground",
                   )}
                 >
-                  <span>{t.emoji}</span>
+                  <t.Icon className="size-4" />
                   {t.label}
                 </button>
               ))}
