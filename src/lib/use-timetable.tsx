@@ -78,6 +78,14 @@ export function useTimetable() {
     appendClasses: (personId: string, list: ClassItem[]) =>
       mutateClasses(personId, (old) => [...old, ...list]),
 
+    updateDayInfo: (personId: string, day: number, info: { date: string; morning: string; afternoon: string }) =>
+      updatePerson(personId, (p) => ({
+        ...p,
+        schedules: p.schedules.map((s) =>
+          s.id === p.activeScheduleId ? { ...s, dayInfo: { ...(s.dayInfo ?? {}), [day]: info } } : s,
+        ),
+      }),
+
     addSchedule: (personId: string, name: string) =>
       updatePerson(personId, (p) => {
         const s = emptySchedule(name);
