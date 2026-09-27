@@ -5,8 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { download, parseImport, toCsv, type ThemeName } from "@/lib/timetable";
-import { isCurrentUserTimetableAdmin, publishCloudTimetable } from "@/lib/cloud-timetable-safe";
-import { supabase } from "@/integrations/supabase/client";
 import { useTimetable } from "@/lib/use-timetable";
 import { cn } from "@/lib/utils";
 import type { ConfirmState } from "./ConfirmDialog";
@@ -63,11 +61,6 @@ export function SettingsSheet({
   const [draftName, setDraftName] = useState("");
   const [note, setNote] = useState("");
   const bgRef = useRef<HTMLInputElement>(null);
-  const [adminEmail, setAdminEmail] = useState("");
-  const [adminPassword, setAdminPassword] = useState("");
-  const [admin, setAdmin] = useState(false);
-  const [adminNote, setAdminNote] = useState("");
-
   const schedule = person.schedules.find((s) => s.id === person.activeScheduleId);
 
   const onFile = async (file: File, mode: "merge" | "replace") => {
@@ -143,8 +136,30 @@ export function SettingsSheet({
               />
             </div>
             <div className="grid grid-cols-6 gap-2">
-              {["#a78bfa","#f472b6","#2dd4bf","#fbbf24","#34d399","#38bdf8","#fb7185","#f97316","#ef4444","#22c55e","#06b6d4","#ffffff"].map((c) => (
-                <button key={c} aria-label={c} onClick={() => updateSettings({ primaryColor: c })} className={cn("size-8 rounded-full border-2", primaryColor.toLowerCase() === c.toLowerCase() ? "border-foreground" : "border-transparent")} style={{ backgroundColor: c }} />
+              {[
+                "#ef4444",
+                "#f97316",
+                "#fbbf24",
+                "#22c55e",
+                "#34d399",
+                "#2dd4bf",
+                "#06b6d4",
+                "#38bdf8",
+                "#a78bfa",
+                "#f472b6",
+                "#fb7185",
+                "#ffffff",
+              ].map((c) => (
+                <button
+                  key={c}
+                  aria-label={c}
+                  onClick={() => updateSettings({ primaryColor: c })}
+                  className={cn(
+                    "size-8 rounded-full border-2",
+                    primaryColor.toLowerCase() === c.toLowerCase() ? "border-foreground" : "border-transparent",
+                  )}
+                  style={{ backgroundColor: c }}
+                />
               ))}
             </div>
             <p className="text-[11px] text-muted-foreground">Changes the selected/primary UI colour without changing the existing visual design.</p>
@@ -258,45 +273,6 @@ export function SettingsSheet({
                 <Plus className="size-4" /> New timetable
               </Button>
             </div>
-          </Section>
-
-          <Section title="Cloud timetable">
-            {!admin ? (
-              <div className="space-y-2">
-                <Input type="email" value={adminEmail} onChange={(e) => setAdminEmail(e.target.value)} placeholder="Admin email" className="rounded-2xl" />
-                <Input type="password" value={adminPassword} onChange={(e) => setAdminPassword(e.target.value)} placeholder="Admin password" className="rounded-2xl" />
-                <Button
-                  className="w-full rounded-2xl"
-                  onClick={async () => {
-                    setAdminNote("Signing in…");
-                    const { error } = await supabase.auth.signInWithPassword({ email: adminEmail, password: adminPassword });
-                    if (error) { setAdminNote(error.message); return; }
-                    const ok = await isCurrentUserTimetableAdmin();
-                    setAdmin(ok);
-                    setAdminNote(ok ? "Admin access enabled." : "This account is not an approved timetable admin.");
-                  }}
-                >Admin sign in</Button>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                <p className="text-xs text-muted-foreground">You are signed in as a timetable admin. Local changes can be reviewed here and published to every connected device.</p>
-                <Button
-                  className="w-full rounded-2xl"
-                  onClick={async () => {
-                    try {
-                      const current = Number(localStorage.getItem("timetable-cloud-version-v1") ?? "0");
-                      const result = await publishCloudTimetable(schedule?.classes ?? [], schedule?.dayInfo ?? {}, current);
-                      localStorage.setItem("timetable-cloud-version-v1", String(result.version));
-                      setAdminNote(`Published timetable v${result.version}.`);
-                    } catch (e) {
-                      setAdminNote(e instanceof Error ? e.message : "Could not publish timetable.");
-                    }
-                  }}
-                >Publish timetable</Button>
-                <Button variant="secondary" className="w-full rounded-2xl" onClick={async () => { await supabase.auth.signOut(); setAdmin(false); setAdminNote("Signed out."); }}>Sign out admin</Button>
-              </div>
-            )}
-            {adminNote && <p className="text-xs text-primary">{adminNote}</p>}
           </Section>
 
           <Section title="Import & export">

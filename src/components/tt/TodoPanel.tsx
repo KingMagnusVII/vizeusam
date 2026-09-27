@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Check, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { CLASS_COLORS } from "@/lib/timetable";
 import { useTimetable } from "@/lib/use-timetable";
@@ -42,7 +43,7 @@ export function TodoPanel() {
         <p className={cn("truncate text-sm font-medium", t.done && "text-muted-foreground line-through")}>
           {t.text}
         </p>
-        <p className="truncate text-xs" style={{ color: t.color }}>
+        <p className="whitespace-pre-wrap break-words text-xs" style={{ color: t.color }}>
           {t.tag}
         </p>
       </div>
@@ -59,12 +60,15 @@ export function TodoPanel() {
   return (
     <div className="space-y-3">
       <div className="flex gap-2">
-        <Input
+        <Textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && add()}
+          onKeyDown={(e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === "Enter") add();
+          }}
           placeholder="Add a task..."
-          className="h-12 rounded-2xl"
+          rows={2}
+          className="min-h-12 resize-none rounded-2xl"
         />
         <Button onClick={add} className="h-12 rounded-full px-5">
           Add
