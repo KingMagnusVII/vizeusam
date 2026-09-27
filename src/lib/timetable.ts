@@ -53,7 +53,7 @@ export type AppState = {
   settings: {
     theme: ThemeName;
     wallpaper: string;
-    opacity: number;
+    opacity: number;\n    primaryColor: string;
   };
 };
 
