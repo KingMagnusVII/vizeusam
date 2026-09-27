@@ -59,18 +59,21 @@ function TimetableApp() {
   const classes = sortClasses(schedule.classes.filter((c) => c.day === day));
   const pendingCount = state.todos.filter((t) => !t.done).length;
   const isWallpaper = theme === "wallpaper" && !!wallpaper;
+  const themeClass =
+    theme === "light" ? "theme-light" : theme === "ocean" ? "theme-ocean" : "theme-dark";
+
+  // Themes must live on <html> so portalled sheets/dialogs inherit them too.
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove("theme-light", "theme-dark", "theme-ocean");
+    root.classList.add(themeClass, "app-root");
+    root.style.setProperty("--panel-opacity", String(isWallpaper ? opacity : 1));
+    root.style.backgroundImage = isWallpaper ? `url(${wallpaper})` : "";
+  }, [themeClass, isWallpaper, opacity, wallpaper]);
 
   return (
-    <div
-      className={cn(
-        "app-root flex min-h-svh flex-col",
-        theme === "light" ? "theme-light" : theme === "ocean" ? "theme-ocean" : "theme-dark",
-      )}
-      style={{
-        "--panel-opacity": isWallpaper ? opacity : 1,
-        backgroundImage: isWallpaper ? `url(${wallpaper})` : undefined,
-      } as React.CSSProperties}
-    >
+    <div className={cn("app-root flex min-h-svh flex-col", themeClass)}>
+
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col">
         {/* Header */}
         <header className="panel m-3 rounded-3xl border border-border p-4">
