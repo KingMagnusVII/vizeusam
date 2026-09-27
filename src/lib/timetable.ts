@@ -153,7 +153,8 @@ function splitCsvLine(line: string): string[] {
 
 export function parseCsv(text: string): ClassItem[] {
   const lines = text
-    .split(/\r?\n/)
+    .split(/\r?
+/)
     .map((l) => l.trim())
     .filter(Boolean);
   if (!lines.length) return [];
@@ -169,12 +170,17 @@ export function parseCsv(text: string): ClassItem[] {
   });
 }
 
-export type ImportResult = {\n  name?: string;\n  classes: ClassItem[];\n  dayInfo?: Partial<Record<number, DayInfo>>;\n};
+export type ImportResult = {
+  name?: string;
+  classes: ClassItem[];
+  dayInfo?: Partial<Record<number, DayInfo>>;
+};
 
 export function parseImport(fileName: string, text: string): ImportResult {
   if (fileName.toLowerCase().endsWith(".csv")) {
     const lines = text
-      .split(/\r?\n/)
+      .split(/\r?
+/)
       .map((l) => l.trim())
       .filter(Boolean);
     if (!lines.length) return { classes: [] };
@@ -222,7 +228,8 @@ export function toCsv(
   classes: ClassItem[],
   dayInfo?: Partial<Record<number, DayInfo>>,
 ): string {
-  const esc = (v: string) => (/[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
+  const esc = (v: string) => (/[",
+]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
   const head = FIELDS.join(",");
   const rows = classes.map((c) => {
     const info = dayInfo?.[c.day];
@@ -260,7 +267,8 @@ export function toCsv(
         .map((v) => esc(String(v ?? "")))
         .join(","),
     );
-  return [head, ...rows, ...coordinatorRows].join("\n");
+  return [head, ...rows, ...coordinatorRows].join("
+");
 }
 
 export function download(filename: string, content: string, type: string) {
