@@ -143,8 +143,30 @@ export function SettingsSheet({
               />
             </div>
             <div className="grid grid-cols-6 gap-2">
-              {["#a78bfa","#f472b6","#2dd4bf","#fbbf24","#34d399","#38bdf8","#fb7185","#f97316","#ef4444","#22c55e","#06b6d4","#ffffff"].map((c) => (
-                <button key={c} aria-label={c} onClick={() => updateSettings({ primaryColor: c })} className={cn("size-8 rounded-full border-2", primaryColor.toLowerCase() === c.toLowerCase() ? "border-foreground" : "border-transparent")} style={{ backgroundColor: c }} />
+              {[
+                "#ef4444",
+                "#fb7185",
+                "#f97316",
+                "#fbbf24",
+                "#22c55e",
+                "#34d399",
+                "#2dd4bf",
+                "#06b6d4",
+                "#38bdf8",
+                "#a78bfa",
+                "#f472b6",
+                "#ffffff",
+              ].map((c) => (
+                <button
+                  key={c}
+                  aria-label={c}
+                  onClick={() => updateSettings({ primaryColor: c })}
+                  className={cn(
+                    "size-8 rounded-full border-2",
+                    primaryColor.toLowerCase() === c.toLowerCase() ? "border-foreground" : "border-transparent",
+                  )}
+                  style={{ backgroundColor: c }}
+                />
               ))}
             </div>
             <p className="text-[11px] text-muted-foreground">Changes the selected/primary UI colour without changing the existing visual design.</p>
