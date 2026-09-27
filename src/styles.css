@@ -259,3 +259,8 @@
   }
 }
 
+
+html.app-root body {
+  background-color: transparent;
+  min-height: 100svh;
+}
