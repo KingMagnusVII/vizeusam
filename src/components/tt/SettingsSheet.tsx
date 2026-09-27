@@ -81,9 +81,6 @@ export function SettingsSheet({
       <SheetContent side="bottom" className="mx-auto max-h-[92svh] max-w-md overflow-y-auto rounded-t-3xl">
         <SheetHeader className="flex-row items-center justify-between space-y-0">
           <SheetTitle>Settings</SheetTitle>
-          <Button variant="secondary" size="sm" className="rounded-full" onClick={() => onOpenChange(false)}>
-            Done
-          </Button>
         </SheetHeader>
 
         <div className="space-y-6 px-4 pb-8">
