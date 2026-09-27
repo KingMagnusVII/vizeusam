@@ -23,10 +23,17 @@ export type ClassItem = {
   color: string;
 };
 
+export type DayInfo = {
+  date: string;
+  morning: string;
+  afternoon: string;
+};
+
 export type Schedule = {
   id: string;
   name: string;
   classes: ClassItem[];
+  dayInfo?: Partial<Record<number, DayInfo>>;
 };
 
 export type Person = {
@@ -54,7 +61,9 @@ export type AppState = {
     theme: ThemeName;
     wallpaper: string;
     opacity: number;
+    primaryColor: string;
   };
+};
 };
 
 export const uid = () => Math.random().toString(36).slice(2, 10);
@@ -77,7 +86,7 @@ export function sortClasses(list: ClassItem[]): ClassItem[] {
 }
 
 export function emptySchedule(name: string): Schedule {
-  return { id: uid(), name, classes: [] };
+  return { id: uid(), name, classes: [], dayInfo: {} };
 }
 
 export function activeSchedule(person: Person): Schedule {
@@ -328,6 +337,6 @@ export function defaultState(): AppState {
         color: "#2dd4bf",
       },
     ],
-    settings: { theme: "dark", wallpaper: "", opacity: 0.85 },
+    settings: { theme: "dark", wallpaper: "", opacity: 0.85, primaryColor: "#a78bfa" },
   };
 }

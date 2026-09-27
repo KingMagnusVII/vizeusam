@@ -7,7 +7,7 @@ import { ConfirmDialog, type ConfirmState } from "@/components/tt/ConfirmDialog"
 import { DayStrip } from "@/components/tt/DayStrip";
 import { PeoplePanel } from "@/components/tt/PeoplePanel";
 import { SettingsSheet } from "@/components/tt/SettingsSheet";
-import { TodoPanel } from "@/components/tt/TodoPanel";
+import { TodoPanel } from "@/components/tt/TodoPanel";\nimport { DayCoordinatorCard } from "@/components/tt/DayCoordinatorCard";
 import {
   DAYS,
   activeSchedule,
@@ -46,7 +46,7 @@ export const Route = createFileRoute("/")({
 });
 
 function TimetableApp() {
-  const { state, person, addClass, updateClass, removeClass } = useTimetable();
+  const { state, person, addClass, updateClass, removeClass, updateDayInfo } = useTimetable();
   const [day, setDay] = useState(todayIndex);
   const [tab, setTab] = useState<"timetable" | "todo">("timetable");
   const [formOpen, setFormOpen] = useState(false);
@@ -54,7 +54,7 @@ function TimetableApp() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [confirmState, setConfirmState] = useState<ConfirmState>(null);
 
-  const { theme, wallpaper, opacity } = state.settings;
+  const { theme, wallpaper, opacity, primaryColor } = state.settings;
   const schedule = activeSchedule(person);
   const classes = sortClasses(schedule.classes.filter((c) => c.day === day));
   const pendingCount = state.todos.filter((t) => !t.done).length;
@@ -67,7 +67,7 @@ function TimetableApp() {
     const root = document.documentElement;
     root.classList.remove("theme-light", "theme-dark", "theme-ocean");
     root.classList.add(themeClass, "app-root");
-    root.style.setProperty("--panel-opacity", String(isWallpaper ? opacity : 1));
+    root.style.setProperty("--panel-opacity", String(isWallpaper ? opacity : 1));\n    root.style.setProperty("--primary", primaryColor);\n    const hex = primaryColor.replace("#", "");\n    const n = Number.parseInt(hex.length === 6 ? hex : "a78bfa", 16);\n    const luminance = (0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;\n    root.style.setProperty("--primary-foreground", luminance > 0.62 ? "#17131f" : "#ffffff");
     root.style.backgroundImage = isWallpaper ? `url(${wallpaper})` : "";
   }, [themeClass, isWallpaper, opacity, wallpaper]);
 
@@ -147,10 +147,24 @@ function TimetableApp() {
                   }
                 />
               ))}
-              {classes.length === 0 && (
-                <p className="py-10 text-center text-sm text-muted-foreground">
-                  No classes on {DAYS[day]} yet.
-                </p>
+              {classes.length === 0 ? (
+                day === 6 ? (
+                  <div className="panel rounded-2xl border border-border p-8 text-center">
+                    <div className="text-4xl">🎉</div>
+                    <p className="mt-2 text-lg font-bold">No classes today</p>
+                    <p className="mt-1 text-sm text-muted-foreground">Enjoy your Sunday!</p>
+                  </div>
+                ) : (
+                  <p className="py-10 text-center text-sm text-muted-foreground">
+                    No classes on {DAYS[day]} yet.
+                  </p>
+                )
+              ) : (
+                <DayCoordinatorCard
+                  day={day}
+                  info={schedule.dayInfo?.[day]}
+                  onSave={(info) => updateDayInfo(person.id, day, info)}
+                />
               )}
               <button
                 onClick={() => {
