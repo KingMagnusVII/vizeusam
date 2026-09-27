@@ -28,7 +28,16 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(KEY);
-      if (raw) setState({ ...defaultState(), ...JSON.parse(raw) });
+      if (raw) {
+        const parsed = JSON.parse(raw) as Partial<AppState>;
+        const defaults = defaultState();
+        setState({
+          ...defaults,
+          ...parsed,
+          // Keep newly added settings fields when loading older local data.
+          settings: { ...defaults.settings, ...(parsed.settings ?? {}) },
+        });
+      }
     } catch {
       /* ignore corrupt storage */
     }
