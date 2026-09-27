@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";\nimport { fetchCloudTimetable } from "./cloud-timetable-safe";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { fetchCloudTimetable } from "./cloud-timetable-safe";
 import {
   defaultState,
   emptySchedule,
