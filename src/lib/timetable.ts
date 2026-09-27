@@ -195,9 +195,11 @@ export function parseImport(fileName: string, text: string): ImportResult {
           afternoon: row.afternoon?.trim() ?? "",
         };
       }
-      return toClassItem(row, i);
+      const hasClassData = ["subject", "professor", "start", "end", "room", "task", "color"]
+        .some((field) => row[field]?.trim());
+      return hasClassData ? toClassItem(row, i) : null;
     });
-    return { classes, dayInfo };
+    return { classes: classes.filter((item): item is ClassItem => item !== null), dayInfo };
   }
 
   const data = JSON.parse(text);
@@ -239,7 +241,26 @@ export function toCsv(
       .map((v) => esc(String(v ?? "")))
       .join(",");
   });
-  return [head, ...rows].join("\n");
+  const classDays = new Set(classes.map((c) => c.day));
+  const coordinatorRows = Object.entries(dayInfo ?? {})
+    .filter(([day]) => !classDays.has(Number(day)))
+    .map(([day, info]) =>
+      [
+        DAYS[Number(day)],
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        info?.morning ?? "",
+        info?.afternoon ?? "",
+      ]
+        .map((v) => esc(String(v ?? "")))
+        .join(","),
+    );
+  return [head, ...rows, ...coordinatorRows].join("\n");
 }
 
 export function download(filename: string, content: string, type: string) {
