@@ -4,7 +4,9 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { download, parseImport, toCsv, type ThemeName } from "@/lib/timetable";\nimport { isCurrentUserTimetableAdmin, publishCloudTimetable } from "@/lib/cloud-timetable-safe";\nimport { supabase } from "@/integrations/supabase/client";
+import { download, parseImport, toCsv, type ThemeName } from "@/lib/timetable";
+import { isCurrentUserTimetableAdmin, publishCloudTimetable } from "@/lib/cloud-timetable-safe";
+import { supabase } from "@/integrations/supabase/client";
 import { useTimetable } from "@/lib/use-timetable";
 import { cn } from "@/lib/utils";
 import type { ConfirmState } from "./ConfirmDialog";
@@ -59,7 +61,12 @@ export function SettingsSheet({
   const fileRef = useRef<HTMLInputElement>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draftName, setDraftName] = useState("");
-  const [note, setNote] = useState("");\n  const bgRef = useRef<HTMLInputElement>(null);\n  const [adminEmail, setAdminEmail] = useState("");\n  const [adminPassword, setAdminPassword] = useState("");\n  const [admin, setAdmin] = useState(false);\n  const [adminNote, setAdminNote] = useState("");
+  const [note, setNote] = useState("");
+  const bgRef = useRef<HTMLInputElement>(null);
+  const [adminEmail, setAdminEmail] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
+  const [admin, setAdmin] = useState(false);
+  const [adminNote, setAdminNote] = useState("");
 
   const schedule = person.schedules.find((s) => s.id === person.activeScheduleId);
 
