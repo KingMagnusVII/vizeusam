@@ -77,7 +77,7 @@ export function sortClasses(list: ClassItem[]): ClassItem[] {
 }
 
 export function emptySchedule(name: string): Schedule {
-  return { id: uid(), name, classes: [] };
+  return { id: uid(), name, classes: [], dayInfo: {} };
 }
 
 export function activeSchedule(person: Person): Schedule {
@@ -328,6 +328,6 @@ export function defaultState(): AppState {
         color: "#2dd4bf",
       },
     ],
-    settings: { theme: "dark", wallpaper: "", opacity: 0.85 },
+    settings: { theme: "dark", wallpaper: "", opacity: 0.85, primaryColor: "#a78bfa" },
   };
 }
