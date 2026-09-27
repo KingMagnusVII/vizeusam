@@ -40,7 +40,7 @@ export function TodoPanel() {
         {t.done && <Check className="size-3.5 text-background" />}
       </button>
       <div className="min-w-0 flex-1">
-        <p className={cn("truncate text-sm font-medium", t.done && "text-muted-foreground line-through")}>
+        <p className={cn("whitespace-pre-wrap break-all text-sm font-medium", t.done && "text-muted-foreground line-through")}>
           {t.text}
         </p>
         <p className="whitespace-pre-wrap break-words text-xs" style={{ color: t.color }}>
