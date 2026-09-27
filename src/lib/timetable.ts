@@ -81,7 +81,7 @@ export function emptySchedule(name: string): Schedule {
 }
 
 export function activeSchedule(person: Person): Schedule {
-  return person.schedules.find((s) => s.id === person.activeScheduleId) ?? person.schedules[0];
+  return person.schedules.find((s) => s.id === person.activeScheduleId) ?? person.schedules[0]!;
 }
 
 /* ------------------------- import / export ------------------------- */
@@ -149,7 +149,7 @@ export function parseCsv(text: string): ClassItem[] {
     .map((l) => l.trim())
     .filter(Boolean);
   if (!lines.length) return [];
-  const header = splitCsvLine(lines[0]).map((h) => h.trim().toLowerCase());
+  const header = splitCsvLine(lines[0]!).map((h) => h.trim().toLowerCase());
   const hasHeader = header.some((h) => FIELDS.includes(h));
   const cols = hasHeader ? header : FIELDS;
   const body = hasHeader ? lines.slice(1) : lines;

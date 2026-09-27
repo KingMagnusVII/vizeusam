@@ -89,7 +89,7 @@ export function SettingsSheet({
         <div className="space-y-6 px-4 pb-8">
           <Section title="Your name">
             <Input
-              value={state.people[0].name}
+              value={state.people[0]!.name}
               onChange={(e) => renamePerson("me", e.target.value)}
               className="h-12 rounded-2xl"
             />
@@ -137,7 +137,7 @@ export function SettingsSheet({
                   min={0.2}
                   max={1}
                   step={0.05}
-                  onValueChange={([v]) => updateSettings({ opacity: v })}
+                  onValueChange={([v]) => updateSettings({ opacity: v! })}
                 />
               </Section>
             </>

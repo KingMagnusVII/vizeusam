@@ -78,7 +78,7 @@ function TimetableApp() {
             <div>
               <p className="text-xs text-muted-foreground">{formatToday()}</p>
               <h1 className="text-xl font-bold tracking-tight">
-                {person.id === "me" ? `${state.people[0].name}'s` : `${person.name}'s`} Timetable
+                {person.id === "me" ? `${state.people[0]!.name}'s` : `${person.name}'s`} Timetable
               </h1>
             </div>
             <div className="flex items-center gap-2">

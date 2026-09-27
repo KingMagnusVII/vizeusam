@@ -13,7 +13,7 @@ const blank = (day: number): Omit<ClassItem, "id"> => ({
   end: "10:30",
   room: "",
   task: "",
-  color: CLASS_COLORS[0],
+  color: CLASS_COLORS[0]!,
 });
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {

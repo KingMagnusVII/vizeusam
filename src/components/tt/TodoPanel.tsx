@@ -19,7 +19,7 @@ export function TodoPanel() {
       text: text.trim(),
       tag: "General · Soon",
       done: false,
-      color: CLASS_COLORS[state.todos.length % CLASS_COLORS.length],
+      color: CLASS_COLORS[state.todos.length % CLASS_COLORS.length]!,
     });
     setText("");
   };

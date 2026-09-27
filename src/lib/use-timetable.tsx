@@ -39,7 +39,7 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
   }, [state, loaded]);
 
   const value = useMemo<Ctx>(() => {
-    const person = state.people.find((p) => p.id === state.activePersonId) ?? state.people[0];
+    const person = state.people.find((p) => p.id === state.activePersonId) ?? state.people[0]!;
     const updatePerson = (id: string, fn: (p: Person) => Person) =>
       setState((s) => ({ ...s, people: s.people.map((p) => (p.id === id ? fn(p) : p)) }));
     return { state, setState, person, updatePerson };
@@ -97,7 +97,7 @@ export function useTimetable() {
           schedules: list,
           activeScheduleId: list.some((s) => s.id === p.activeScheduleId)
             ? p.activeScheduleId
-            : list[0].id,
+            : list[0]!.id,
         };
       }),
     setActiveSchedule: (personId: string, scheduleId: string) =>
