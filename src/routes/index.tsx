@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { CalendarDays, CheckSquare, Plus, Settings } from "lucide-react";
 import { ClassCard } from "@/components/tt/ClassCard";
@@ -72,7 +72,7 @@ function TimetableApp() {
   }, [themeClass, isWallpaper, opacity, wallpaper]);
 
   return (
-    <div className={cn("app-root flex min-h-svh flex-col", themeClass)}>
+    <div className="flex min-h-svh flex-col">
 
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col">
         {/* Header */}
