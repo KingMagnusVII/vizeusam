@@ -75,7 +75,7 @@ function TimetableApp() {
     const luminance = (0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
     root.style.setProperty("--primary-foreground", luminance > 0.62 ? "#17131f" : "#ffffff");
     root.style.backgroundImage = isWallpaper ? `url(${wallpaper})` : "";
-  }, [themeClass, isWallpaper, opacity, wallpaper]);
+  }, [themeClass, isWallpaper, opacity, wallpaper, primaryColor]);
 
   return (
     <div className="flex min-h-svh flex-col">
