@@ -7,7 +7,8 @@ import { ConfirmDialog, type ConfirmState } from "@/components/tt/ConfirmDialog"
 import { DayStrip } from "@/components/tt/DayStrip";
 import { PeoplePanel } from "@/components/tt/PeoplePanel";
 import { SettingsSheet } from "@/components/tt/SettingsSheet";
-import { TodoPanel } from "@/components/tt/TodoPanel";\nimport { DayCoordinatorCard } from "@/components/tt/DayCoordinatorCard";
+import { TodoPanel } from "@/components/tt/TodoPanel";
+import { DayCoordinatorCard } from "@/components/tt/DayCoordinatorCard";
 import {
   DAYS,
   activeSchedule,
@@ -67,7 +68,12 @@ function TimetableApp() {
     const root = document.documentElement;
     root.classList.remove("theme-light", "theme-dark", "theme-ocean");
     root.classList.add(themeClass, "app-root");
-    root.style.setProperty("--panel-opacity", String(isWallpaper ? opacity : 1));\n    root.style.setProperty("--primary", primaryColor);\n    const hex = primaryColor.replace("#", "");\n    const n = Number.parseInt(hex.length === 6 ? hex : "a78bfa", 16);\n    const luminance = (0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;\n    root.style.setProperty("--primary-foreground", luminance > 0.62 ? "#17131f" : "#ffffff");
+    root.style.setProperty("--panel-opacity", String(isWallpaper ? opacity : 1));
+    root.style.setProperty("--primary", primaryColor);
+    const hex = primaryColor.replace("#", "");
+    const n = Number.parseInt(hex.length === 6 ? hex : "a78bfa", 16);
+    const luminance = (0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
+    root.style.setProperty("--primary-foreground", luminance > 0.62 ? "#17131f" : "#ffffff");
     root.style.backgroundImage = isWallpaper ? `url(${wallpaper})` : "";
   }, [themeClass, isWallpaper, opacity, wallpaper]);
 
