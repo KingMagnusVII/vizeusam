@@ -142,3 +142,125 @@
     color: var(--color-foreground);
   }
 }
+
+/* ---------------------------------------------------------------
+ * Timetable app themes
+ * --------------------------------------------------------------- */
+
+@theme inline {
+  --color-panel: var(--panel);
+  --color-panel-strong: var(--panel-strong);
+  --font-mono-time: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.theme-dark {
+  --background: oklch(0.16 0.02 280);
+  --foreground: oklch(0.97 0.01 280);
+  --panel: oklch(0.22 0.025 282);
+  --panel-strong: oklch(0.26 0.03 282);
+  --card: oklch(0.22 0.025 282);
+  --card-foreground: oklch(0.97 0.01 280);
+  --popover: oklch(0.2 0.025 282);
+  --popover-foreground: oklch(0.97 0.01 280);
+  --primary: oklch(0.72 0.17 295);
+  --primary-foreground: oklch(0.16 0.02 280);
+  --secondary: oklch(0.28 0.03 282);
+  --secondary-foreground: oklch(0.97 0.01 280);
+  --muted: oklch(0.28 0.03 282);
+  --muted-foreground: oklch(0.7 0.02 285);
+  --accent: oklch(0.3 0.04 290);
+  --accent-foreground: oklch(0.97 0.01 280);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.72 0.17 295);
+}
+
+.theme-light {
+  --background: oklch(0.97 0.005 285);
+  --foreground: oklch(0.2 0.02 285);
+  --panel: oklch(1 0 0);
+  --panel-strong: oklch(0.985 0.003 285);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.02 285);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.02 285);
+  --primary: oklch(0.56 0.2 290);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.95 0.01 285);
+  --secondary-foreground: oklch(0.25 0.02 285);
+  --muted: oklch(0.95 0.01 285);
+  --muted-foreground: oklch(0.5 0.02 285);
+  --accent: oklch(0.93 0.02 290);
+  --accent-foreground: oklch(0.25 0.02 285);
+  --border: oklch(0.2 0.02 285 / 10%);
+  --input: oklch(0.2 0.02 285 / 14%);
+  --ring: oklch(0.56 0.2 290);
+}
+
+.theme-ocean {
+  --background: oklch(0.19 0.05 240);
+  --foreground: oklch(0.96 0.01 220);
+  --panel: oklch(0.25 0.055 240);
+  --panel-strong: oklch(0.29 0.06 238);
+  --card: oklch(0.25 0.055 240);
+  --card-foreground: oklch(0.96 0.01 220);
+  --popover: oklch(0.23 0.05 240);
+  --popover-foreground: oklch(0.96 0.01 220);
+  --primary: oklch(0.75 0.13 200);
+  --primary-foreground: oklch(0.16 0.04 240);
+  --secondary: oklch(0.3 0.055 238);
+  --secondary-foreground: oklch(0.96 0.01 220);
+  --muted: oklch(0.3 0.055 238);
+  --muted-foreground: oklch(0.73 0.03 220);
+  --accent: oklch(0.34 0.07 225);
+  --accent-foreground: oklch(0.96 0.01 220);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.75 0.13 200);
+}
+
+.app-root {
+  --panel-opacity: 1;
+  background-color: var(--background);
+  color: var(--foreground);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+@utility panel {
+  background-color: color-mix(
+    in oklab,
+    var(--panel) calc(var(--panel-opacity) * 100%),
+    transparent
+  );
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+@utility panel-strong {
+  background-color: color-mix(
+    in oklab,
+    var(--panel-strong) calc(min(var(--panel-opacity) + 0.15, 1) * 100%),
+    transparent
+  );
+  backdrop-filter: blur(20px) saturate(140%);
+}
+
+@utility time-mono {
+  font-family: var(--font-mono-time);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+html.app-root body {
+  background-color: transparent;
+  min-height: 100svh;
+}
