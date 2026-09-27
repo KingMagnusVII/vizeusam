@@ -18,7 +18,6 @@ export function DayCoordinatorCard({
 
   useEffect(() => {
     setForm(info ?? { date: "", morning: "", afternoon: "" });
-    setEditing(!info);
   }, [info]);
 
   const updateField = (field: "morning" | "afternoon", value: string) => {
@@ -30,16 +29,9 @@ export function DayCoordinatorCard({
   return (
     <div className="panel rounded-2xl border border-border p-4">
       <div className="flex items-start justify-between">
-        <div>
-          <p className="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
-            Date Co-ordinators
-          </p>
-          {!editing && (
-            <p className="mt-1 text-xs text-muted-foreground">
-              Tap the pencil to edit
-            </p>
-          )}
-        </div>
+        <p className="text-[11px] font-semibold tracking-widest text-muted-foreground uppercase">
+          Date Co-ordinators
+        </p>
         <button
           aria-label={editing ? "Finish editing date coordinators" : "Edit date coordinators"}
           className="rounded-lg p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
