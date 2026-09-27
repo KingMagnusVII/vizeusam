@@ -111,16 +111,17 @@ function normalizeTime(value: string): string {
 export function toClassItem(row: Record<string, string>, index: number): ClassItem {
   return {
     id: uid(),
-    day: normalizeDay(row.day ?? ""),
-    subject: row.subject?.trim() || "Untitled class",
-    professor: row.professor?.trim() || "",
-    start: normalizeTime(row.start ?? "09:00"),
-    end: normalizeTime(row.end ?? "10:00"),
-    room: row.room?.trim() || "",
-    task: row.task?.trim() || "",
-    color: row.color?.trim() || CLASS_COLORS[index % CLASS_COLORS.length],
+    day: normalizeDay(row["day"] ?? ""),
+    subject: row["subject"]?.trim() || "Untitled class",
+    professor: row["professor"]?.trim() || "",
+    start: normalizeTime(row["start"] ?? "09:00"),
+    end: normalizeTime(row["end"] ?? "10:00"),
+    room: row["room"]?.trim() || "",
+    task: row["task"]?.trim() || "",
+    color: row["color"]?.trim() || CLASS_COLORS[index % CLASS_COLORS.length]!,
   };
 }
+
 
 function splitCsvLine(line: string): string[] {
   const out: string[] = [];
