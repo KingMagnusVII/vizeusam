@@ -27,15 +27,15 @@ export function ClassCard({
         className="absolute inset-y-2 left-0 w-1 rounded-full"
         style={{ backgroundColor: item.color }}
       />
-      <div className="flex w-14 shrink-0 flex-col justify-between py-0.5">
+      <div className="w-[4.25rem] shrink-0 flex flex-col justify-between py-0.5">
         <span
-          className="time-mono text-sm font-semibold"
+          className="time-mono whitespace-nowrap text-[13px] font-semibold tracking-tight"
           style={{ color: item.color }}
         >
           {formatTime(item.start, show24HourTime)}
         </span>
         <span className="mx-auto my-1 w-px flex-1 bg-border" />
-        <span className="time-mono text-xs text-muted-foreground">
+        <span className="time-mono whitespace-nowrap text-[11px] text-muted-foreground tracking-tight">
           {formatTime(item.end, show24HourTime)}
         </span>
       </div>
