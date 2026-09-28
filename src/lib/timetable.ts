@@ -131,11 +131,11 @@ export function toClassItem(row: Record<string, string>, index: number): ClassIt
     id: uid(),
     day: normalizeDay(row["day"] ?? ""),
     subject: row["subject"]?.trim() || "Untitled class",
-    professor: row["professor"]?.trim() || "",
+    professor: row["professor"]?.trim() || "None",
     start: normalizeTime(row["start"] ?? "09:00"),
     end: normalizeTime(row["end"] ?? "10:00"),
-    room: row["room"]?.trim() || "",
-    task: row["task"]?.trim() || "",
+    room: row["room"]?.trim() || "None",
+    task: row["task"]?.trim() || "None",
     color: row["color"]?.trim() || CLASS_COLORS[index % CLASS_COLORS.length]!,
   };
 }
@@ -204,9 +204,9 @@ export function parseImport(fileName: string, text: string): ImportResult {
       const day = normalizeDay(row.day ?? "");
       if (row.morning?.trim() || row.afternoon?.trim()) {
         dayInfo[day] = {
-          date: "",
-          morning: row.morning?.trim() ?? "",
-          afternoon: row.afternoon?.trim() ?? "",
+          date: "None",
+          morning: row.morning?.trim() || "None",
+          afternoon: row.afternoon?.trim() || "None",
         };
       }
       const hasClassData = ["subject", "professor", "start", "end", "room", "task", "color"]
