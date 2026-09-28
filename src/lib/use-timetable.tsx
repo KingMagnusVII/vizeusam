@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   defaultState,
   parseImport,
@@ -11,6 +11,7 @@ import {
 } from "./timetable";
 
 const KEY = "timetable-app-state-v2";
+const PERSIST_DELAY_MS = 150;
 
 type Ctx = {
   state: AppState;
@@ -24,6 +25,12 @@ const TimetableContext = createContext<Ctx | null>(null);
 export function TimetableProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AppState>(() => defaultState());
   const [loaded, setLoaded] = useState(false);
+  const latestState = useRef(state);
+  const persistTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    latestState.current = state;
+  }, [state]);
 
   useEffect(() => {
     let cancelled = false;
@@ -110,8 +117,36 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (loaded) localStorage.setItem(KEY, JSON.stringify(state));
+    if (!loaded) return;
+
+    if (persistTimer.current) clearTimeout(persistTimer.current);
+    persistTimer.current = setTimeout(() => {
+      localStorage.setItem(KEY, JSON.stringify(latestState.current));
+      persistTimer.current = null;
+    }, PERSIST_DELAY_MS);
+
+    return () => {
+      if (persistTimer.current) {
+        clearTimeout(persistTimer.current);
+        persistTimer.current = null;
+      }
+    };
   }, [state, loaded]);
+
+  useEffect(() => {
+    if (!loaded) return;
+
+    const persistNow = () => {
+      if (persistTimer.current) {
+        clearTimeout(persistTimer.current);
+        persistTimer.current = null;
+      }
+      localStorage.setItem(KEY, JSON.stringify(latestState.current));
+    };
+
+    window.addEventListener("pagehide", persistNow);
+    return () => window.removeEventListener("pagehide", persistNow);
+  }, [loaded]);
 
   const value = useMemo<Ctx>(() => {
     const person = state.people.find((p) => p.id === state.activePersonId) ?? state.people[0]!;
