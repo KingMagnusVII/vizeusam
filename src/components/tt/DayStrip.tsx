@@ -1,5 +1,5 @@
 import { DAYS, type ClassItem } from "@/lib/timetable";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { cn } from "@/lib/utils";
 
 export const DayStrip = memo(function DayStrip({
@@ -13,10 +13,11 @@ export const DayStrip = memo(function DayStrip({
   classes: ClassItem[];
   compact?: boolean;
 }) {
-  const counts = classes.reduce((acc, item) => {
-    acc[item.day] += 1;
-    return acc;
-  }, [0, 0, 0, 0, 0, 0, 0]);
+  const counts = useMemo(() => {
+    const next = [0, 0, 0, 0, 0, 0, 0];
+    for (const item of classes) next[item.day] += 1;
+    return next;
+  }, [classes]);
 
   return (
     <div className="no-scrollbar flex gap-1.5 overflow-x-auto">
