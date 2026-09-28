@@ -241,7 +241,7 @@ function TimetableContent() {
         <main className="flex-1 space-y-2 px-3 pb-6">
           {tab === "timetable" ? (
             <>
-              {showDayCoordinators && classes.length > 0 && (
+              {showDayCoordinators && (
                 <DayCoordinatorCard
                   day={day}
                   info={schedule.dayInfo?.[day]}
