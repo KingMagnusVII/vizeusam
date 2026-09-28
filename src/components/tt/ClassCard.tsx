@@ -5,13 +5,13 @@ import { cn } from "@/lib/utils";
 export function ClassCard({
   item,
   status = "upcoming",
-  use24HourTime = true,
+  show24HourTime = true,
   onEdit,
   onDelete,
 }: {
   item: ClassItem;
   status?: "past" | "current" | "upcoming";
-  use24HourTime?: boolean;
+  show24HourTime?: boolean;
   onEdit?: () => void;
   onDelete?: () => void;
 }) {
@@ -32,11 +32,11 @@ export function ClassCard({
           className="time-mono text-sm font-semibold"
           style={{ color: item.color }}
         >
-          {formatTime(item.start, use24HourTime)}
+          {formatTime(item.start, show24HourTime)}
         </span>
         <span className="mx-auto my-1 w-px flex-1 bg-border" />
         <span className="time-mono text-xs text-muted-foreground">
-          {formatTime(item.end, use24HourTime)}
+          {formatTime(item.end, show24HourTime)}
         </span>
       </div>
       <div className="min-w-0 flex-1">
