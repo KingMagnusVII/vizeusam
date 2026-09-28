@@ -35,6 +35,7 @@ export type Schedule = {
 export type Person = {
   id: string;
   name: string;
+  avatar?: string;
   schedules: Schedule[];
   activeScheduleId: string;
 };
