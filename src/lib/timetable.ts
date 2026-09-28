@@ -3,8 +3,8 @@ export type DayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 // Compact rainbow palette with white, grey, and black included.
 export const CLASS_COLORS = [
-  "#ef4444", "#f97316", "#f59e0b", "#eab308", "#22c55e", "#10b981", "#06b6d4",
-  "#0ea5e9", "#3b82f6", "#6366f1", "#a855f7", "#ec4899", "#9ca3af", "#000000",
+  "#ef4444", "#f97316", "#eab308", "#22c55e", "#10b981", "#06b6d4", "#0ea5e9",
+  "#3b82f6", "#6366f1", "#a855f7", "#ec4899", "#ffffff", "#9ca3af", "#000000",
 ];
 
 export type ClassItem = {
