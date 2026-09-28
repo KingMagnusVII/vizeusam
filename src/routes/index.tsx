@@ -52,7 +52,7 @@ function TimetableApp() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [confirmState, setConfirmState] = useState<ConfirmState>(null);
 
-  const { theme, wallpaper, opacity, primaryColor } = state.settings;
+  const { theme, wallpaper, opacity, primaryColor, showDayCoordinators, appName, appIcon } = state.settings;
   const schedule = activeSchedule(person);
   const classes = sortClasses(schedule.classes.filter((c) => c.day === day));
   const pendingCount = state.todos.filter((t) => !t.done).length;
@@ -72,7 +72,29 @@ function TimetableApp() {
     const luminance = (0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
     root.style.setProperty("--primary-foreground", luminance > 0.62 ? "#17131f" : "#ffffff");
     root.style.backgroundImage = isWallpaper ? `url(${wallpaper})` : "";
-  }, [themeClass, isWallpaper, opacity, wallpaper, primaryColor]);
+    document.title = appName || "My Timetable";
+    const icon = document.querySelector<HTMLLinkElement>("link[rel=\"icon\"]");
+    if (icon) icon.href = appIcon || "/app-icons/golden_192x192.png";
+    const manifest = document.querySelector<HTMLLinkElement>("link[rel=\"manifest\"]");
+    if (manifest) {
+      const manifestUrl = URL.createObjectURL(new Blob([JSON.stringify({
+        name: appName || "My Timetable",
+        short_name: appName || "Timetable",
+        start_url: "/",
+        scope: "/",
+        display: "standalone",
+        background_color: "#000000",
+        theme_color: primaryColor,
+        icons: [{ src: appIcon || "/app-icons/golden_192x192.png", sizes: "512x512", type: "image/png", purpose: "any maskable" }],
+      })], { type: "application/manifest+json" }));
+      const previous = manifest.href;
+      manifest.href = manifestUrl;
+      return () => {
+        URL.revokeObjectURL(manifestUrl);
+        if (previous.startsWith("blob:")) URL.revokeObjectURL(previous);
+      };
+    }
+  }, [themeClass, isWallpaper, opacity, wallpaper, primaryColor, appName, appIcon]);
 
   return (
     <div className="flex min-h-svh flex-col">
@@ -133,7 +155,7 @@ function TimetableApp() {
         <main className="flex-1 space-y-2 px-3 pb-6">
           {tab === "timetable" ? (
             <>
-              {classes.length > 0 && (
+              {showDayCoordinators && classes.length > 0 && (
                 <DayCoordinatorCard
                   day={day}
                   info={schedule.dayInfo?.[day]}
