@@ -20,7 +20,7 @@ import {
   todayIndex,
   type ClassItem,
 } from "@/lib/timetable";
-import { useTimetable } from "@/lib/use-timetable";
+import { TimetableProvider, useTimetable } from "@/lib/use-timetable";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -42,7 +42,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: TimetableApp,
+  component: TimetablePage,
 });
 
 function getClassStatus(item: ClassItem, now: Date): "past" | "current" | "upcoming" {
@@ -56,7 +56,7 @@ function getClassStatus(item: ClassItem, now: Date): "past" | "current" | "upcom
   return "upcoming";
 }
 
-function TimetableApp() {
+function TimetablePage() {\n  return (\n    <TimetableProvider>\n      <TimetableApp />\n    </TimetableProvider>\n  );\n}\n\nfunction TimetableApp() {
   const { state, person, addClass, updateClass, removeClass, updateDayInfo } = useTimetable();
   const [day, setDay] = useState(todayIndex);
   const [tab, setTab] = useState<"timetable" | "todo">("timetable");
