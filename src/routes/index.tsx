@@ -73,6 +73,14 @@ function TimetableContent() {
   const [now, setNow] = useState(() => new Date());
 
   const { theme, wallpaper, opacity, primaryColor, use24HourTime, showDayCoordinators, appName, appIcon } = state.settings;
+
+  useEffect(() => {
+    document.title = appName?.trim() || "My Timetable";
+    const icon = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+    if (icon && appIcon) icon.href = appIcon;
+    const appleIcon = document.querySelector<HTMLLinkElement>('link[rel="apple-touch-icon"]');
+    if (appleIcon && appIcon) appleIcon.href = appIcon;
+  }, [appName, appIcon]);
   const fullDayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] as const;
   const show24HourTime = use24HourTime ?? true;
   const schedule = useMemo(() => activeSchedule(person), [person]);
