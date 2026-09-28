@@ -53,6 +53,15 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
             ...person,
             schedules: (person.schedules ?? []).map((schedule) => ({
               ...schedule,
+              classes: (schedule.classes ?? []).map((item) => ({
+                ...item,
+                // Older saved/imported data used "None" for empty class fields.
+                // Keep class subject, professor, room, and task blank instead.
+                subject: item.subject === "None" ? "" : item.subject,
+                professor: item.professor === "None" ? "" : item.professor,
+                room: item.room === "None" ? "" : item.room,
+                task: item.task === "None" ? "" : item.task,
+              })),
               dayInfo: Object.fromEntries(
                 Object.entries(schedule.dayInfo ?? {}).map(([day, info]) => [
                   day,
