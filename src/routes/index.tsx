@@ -83,6 +83,21 @@ function TimetableContent() {
     const timer = window.setInterval(() => setNow(new Date()), 30_000);
     return () => window.clearInterval(timer);
   }, [today]);
+
+  useEffect(() => {
+    if (day !== today || classes.length === 0) return;
+    const lastClassEnd = Math.max(
+      ...classes.map((item) => {
+        const [hour, minute] = item.end.split(":").map(Number);
+        return hour * 60 + minute;
+      }),
+    );
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+    if (currentMinutes >= lastClassEnd) {
+      setDay((currentDay) => (currentDay + 1) % DAYS.length);
+    }
+  }, [day, today, classes, now]);
   const pendingCount = state.todos.filter((t) => !t.done).length;
   const isWallpaper = theme === "wallpaper" && !!wallpaper;
   const themeClass =
