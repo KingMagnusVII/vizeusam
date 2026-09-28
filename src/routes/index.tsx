@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { CalendarDays, CheckSquare, Plus, Settings } from "lucide-react";
-import { ClassCard } from "@/components/tt/ClassCard";
+import { ClassCard } from "@/components/tt/ClassCardV2";
 import { ClassFormSheet } from "@/components/tt/ClassFormSheet";
 import { ConfirmDialog, type ConfirmState } from "@/components/tt/ConfirmDialog";
 import { DayStrip } from "@/components/tt/DayStrip";
