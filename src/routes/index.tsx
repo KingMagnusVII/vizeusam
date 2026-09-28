@@ -87,9 +87,24 @@ function TimetableContent() {
   useEffect(() => {
     // Always land on the current day when the app opens, rather than a previously selected day.
     setDay(today);
-    const timer = window.setInterval(() => setNow(new Date()), 30_000);
-    return () => window.clearInterval(timer);
   }, [today]);
+
+  useEffect(() => {
+    const tick = () => setNow(new Date());
+    tick();
+
+    const delay = 60_000 - (Date.now() % 60_000) + 50;
+    let interval: number | undefined;
+    const timeout = window.setTimeout(() => {
+      tick();
+      interval = window.setInterval(tick, 60_000);
+    }, delay);
+
+    return () => {
+      window.clearTimeout(timeout);
+      if (interval !== undefined) window.clearInterval(interval);
+    };
+  }, []);
 
   const lastClassEnd = useMemo(
     () =>
