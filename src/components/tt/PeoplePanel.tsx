@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { ChevronUp, Pencil, Plus, Trash2, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { parseImport } from "@/lib/timetable";
@@ -9,7 +9,7 @@ import type { ConfirmState } from "./ConfirmDialog";
 const initials = (name: string) =>
   name.split(" ").map((w) => w[0]).filter(Boolean).slice(0, 2).join("").toUpperCase();
 
-export function PeoplePanel({ confirm }: { confirm: (s: ConfirmState) => void }) {
+export const PeoplePanel = memo(function PeoplePanel({ confirm }: { confirm: (s: ConfirmState) => void }) {
   const { state, person, setActivePerson, addPerson, removePerson, renamePerson } = useTimetable();
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
@@ -76,4 +76,4 @@ export function PeoplePanel({ confirm }: { confirm: (s: ConfirmState) => void })
       <input ref={fileRef} type="file" accept=".csv,.json" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); e.target.value = ""; }} />
     </div>
   );
-}
+});
