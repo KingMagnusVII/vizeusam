@@ -264,3 +264,10 @@ html.app-root body {
   background-color: transparent;
   min-height: 100svh;
 }
+
+
+/* Hide the Lovable preview/edit badge when the host injects it. */
+#lovable-badge,
+[data-lovable-badge] {
+  display: none !important;
+}
