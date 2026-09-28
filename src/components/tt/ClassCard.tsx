@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 export function ClassCard({
   item,
   status = "upcoming",
+  use24HourTime = true,
   onEdit,
   onDelete,
 }: {
@@ -13,7 +14,6 @@ export function ClassCard({
   use24HourTime?: boolean;
   onEdit?: () => void;
   onDelete?: () => void;
-  use24HourTime?: boolean;
 }) {
   return (
     <div
@@ -32,10 +32,12 @@ export function ClassCard({
           className="time-mono text-sm font-semibold"
           style={{ color: item.color }}
         >
-          {formatTime(item.start, use24HourTime ?? true)}
+          {formatTime(item.start, use24HourTime)}
         </span>
         <span className="mx-auto my-1 w-px flex-1 bg-border" />
-        <span className="time-mono text-xs text-muted-foreground">{formatTime(item.end, use24HourTime ?? true)}</span>
+        <span className="time-mono text-xs text-muted-foreground">
+          {formatTime(item.end, use24HourTime)}
+        </span>
       </div>
       <div className="min-w-0 flex-1">
         <div className="flex items-start gap-2">
