@@ -36,10 +36,10 @@ export const PeoplePanel = memo(function PeoplePanel({ confirm }: { confirm: (s:
   const onFile = async (file: File) => {
     try {
       const text = await file.text();
-      const { name, classes } = parseImport(file.name, text);
+      const { name, classes, dayInfo } = parseImport(file.name, text);
       if (!classes.length) throw new Error("No classes found in that file.");
       const friendName = name || file.name.replace(/\.(csv|json)$/i, "");
-      const id = addPerson(friendName, classes);
+      const id = addPerson(friendName, classes, dayInfo);
       setActivePerson(id);
       setError("");
     } catch (e) {
