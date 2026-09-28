@@ -113,7 +113,7 @@ export function SettingsSheet({
                     <p className="text-sm font-semibold">Show 24-hour time</p>
                     <p className="text-[11px] text-muted-foreground">Use 24-hour times instead of AM/PM.</p>
                   </div>
-                  <Toggle checked={use24HourTime} onChange={(value) => updateSettings({ use24HourTime: value })} />
+                  <Toggle checked={use24HourTime ?? true} onChange={(value) => updateSettings({ use24HourTime: value })} />
                 </div>
                 <Input value={state.people[0]!.name} onChange={(e) => renamePerson("me", e.target.value)} placeholder="Your name" className="h-12 rounded-2xl" />
                 <div className="flex items-center justify-between rounded-2xl border border-border px-4 py-3">
