@@ -1,33 +1,33 @@
 day,subject,professor,start,end,room,task,color,morning,afternoon
-Mon,Introduction to PESUIMSR (College & Administration),Dr. Ramesh Krishna,09:00,10:00,LG / MRD,,#a78bfa,Dr Priyadharshini (CM),Dr Supriya (Biochem)
-Mon,Ice Breaking Session,Dr. Sahana / Dr. Divya,10:00,11:00,LG / MRD,,#f472b6,Dr Priyadharshini (CM),Dr Supriya (Biochem)
-Mon,Tea Break,,11:00,11:15,,,#94a3b8,Dr Priyadharshini (CM),Dr Supriya (Biochem)
-Mon,Student Welfare Q&A + Antiragging Session,Dr. Sridevi (Vice Principal) / Antiragging Committee,11:15,12:15,,,#2dd4bf,Dr Priyadharshini (CM),Dr Supriya (Biochem)
-Mon,Indoor & Outdoor Sports Facilities Guidelines,Mr. Shashikumar (PED),12:15,13:15,MRD,,#fbbf24,Dr Priyadharshini (CM),Dr Supriya (Biochem)
-Mon,Lunch Break,,13:15,14:00,,,#94a3b8,Dr Priyadharshini (CM),Dr Supriya (Biochem)
-Mon,Cultural & ECA - Student Talents Info Session,Dr Anu / Dr Anisha / Dr Shalini / Dr Pavan / Dr Dyna / Dr Indu,14:00,14:30,LG / MRD,,#34d399,Dr Priyadharshini (CM),Dr Supriya (Biochem)
-Tue,Introduction to PESU Hospital & Administration,Dr. Madhav Reddy (Medical Superintendent),09:00,10:00,,,#fb7185,Dr Saranya,Dr Rithika
-Tue,Core Values of a Physician,Dr. N Nagendra Prasad (Vice Principal),10:00,11:00,LG,,#38bdf8,Dr Saranya,Dr Rithika
-Tue,Tea Break,,11:00,11:15,,,#94a3b8,Dr Saranya,Dr Rithika
-Tue,Substance Abuse and Addiction,Dr. Chandrashekhar (Psychiatry),11:15,12:15,,,#22d3ee,Dr Saranya,Dr Rithika
-Tue,Disability and IMG,Dr. Avinash,12:15,13:00,LG,,#c084fc,Dr Saranya,Dr Rithika
-Tue,Lunch Break,,13:15,14:00,,,#94a3b8,Dr Saranya,Dr Rithika
-Tue,National Health Goals & Policies + Health Care Systems in India (Community Medicine),Dr. Sudeepa & Team,14:00,15:30,SG,,#4ade80,Dr Saranya,Dr Rithika
-Tue,ECA - Meditation Demo & Practice Session,Mr. Suresh (Yoga Instructor),15:30,17:00,EC Campus,,#f97316,Dr Saranya,Dr Rithika
-Wed,Meet the Doctor Panel Discussion + Career Pathways,Dr. Sushma / Dr. Nikhil,09:00,11:00,,"Panel: Dr Harivatsa, Dr Geraldine, Dr Subrahmanya, Dr Anjal, Dr MD Sharma",#60a5fa,Dr. Reshma,Dr Shalini
-Wed,Tea Break,,11:00,11:15,,,#94a3b8,Dr. Reshma,Dr Shalini
-Wed,Professionalism and Ethics in Medicine,Dr. Suresh Krishnamurthy,11:15,12:15,LG,,#a78bfa,Dr. Reshma,Dr Shalini
-Wed,Values Before Skills - Student Presentation Logistics,Dr. Anu / Dr. Reetha,12:15,13:00,,,#f472b6,Dr. Reshma,Dr Shalini
-Wed,Lunch Break,,13:15,14:00,,,#94a3b8,Dr. Reshma,Dr Shalini
-Wed,Medico-Legal Aspects for IMG,Dr. Akshith (FMT),14:00,15:00,,,#2dd4bf,Dr. Reshma,Dr Shalini
-Wed,ECA,Dr Anu / Dr Anisha / Dr Shalini / Dr Pavan / Dr Dyna / Dr Indu,15:00,17:00,,,#fbbf24,Dr. Reshma,Dr Shalini
-Thu,Shadowing Patient & Doctor - Hospital OP / Diagnostics (Batch C),Coordinators: ENT / Ortho / Ophthal / Dermatology / Pediatrics,09:00,11:00,,,#34d399,Dr Lakshmi T.A.,Dr Sahana
-Thu,Tea Break,,11:00,11:15,,,#94a3b8,Dr Lakshmi T.A.,Dr Sahana
-Thu,Reflection + Significance of Documentation (Batch C),Dr. Shruthi & Dr. Vinayaka,11:15,13:00,LG,,#fb7185,Dr Lakshmi T.A.,Dr Sahana
-Thu,Lunch Break,,13:15,14:00,,,#94a3b8,Dr Lakshmi T.A.,Dr Sahana
-Thu,Movie Time (Batch C),Dr. Sahana (Obg),15:00,16:00,,,#38bdf8,Dr Lakshmi T.A.,Dr Sahana
+Mon,Introduction to PESUIMSR (College & Administration),Dr. Ramesh Krishna,09:00,10:00,LG / MRD,,#a78bfa,Dr. Priyadharshini (CM),Dr. Supriya (Biochem)
+Mon,Ice Breaking Session,Dr. Sahana / Dr. Divya,10:00,11:00,LG / MRD,,#f472b6,Dr. Priyadharshini (CM),Dr. Supriya (Biochem)
+Mon,Tea Break,,11:00,11:15,,,#94a3b8,Dr. Priyadharshini (CM),Dr. Supriya (Biochem)
+Mon,Student Welfare Q&A + Antiragging Session,Dr. Sridevi (Vice Principal) / Antiragging Committee,11:15,12:15,,,#2dd4bf,Dr. Priyadharshini (CM),Dr. Supriya (Biochem)
+Mon,Indoor & Outdoor Sports Facilities Guidelines,Mr. Shashikumar (PED),12:15,13:15,MRD,,#fbbf24,Dr. Priyadharshini (CM),Dr. Supriya (Biochem)
+Mon,Lunch Break,,13:15,14:00,,,#94a3b8,Dr. Priyadharshini (CM),Dr. Supriya (Biochem)
+Mon,Cultural & ECA - Student Talents Info Session,Dr. Anu / Dr. Anisha / Dr. Shalini / Dr. Pavan / Dr. Dyna / Dr. Indu,14:00,14:30,LG / MRD,,#34d399,Dr. Priyadharshini (CM),Dr. Supriya (Biochem)
+Tue,Introduction to PESU Hospital & Administration,Dr. Madhav Reddy (Medical Superintendent),09:00,10:00,,,#fb7185,Dr. Saranya,Dr. Rithika
+Tue,Core Values of a Physician,Dr. N Nagendra Prasad (Vice Principal),10:00,11:00,LG,,#38bdf8,Dr. Saranya,Dr. Rithika
+Tue,Tea Break,,11:00,11:15,,,#94a3b8,Dr. Saranya,Dr. Rithika
+Tue,Substance Abuse and Addiction,Dr. Chandrashekhar (Psychiatry),11:15,12:15,,,#22d3ee,Dr. Saranya,Dr. Rithika
+Tue,Disability and IMG,Dr. Avinash,12:15,13:00,LG,,#c084fc,Dr. Saranya,Dr. Rithika
+Tue,Lunch Break,,13:15,14:00,,,#94a3b8,Dr. Saranya,Dr. Rithika
+Tue,National Health Goals & Policies + Health Care Systems in India (Community Medicine),Dr. Sudeepa & Team,14:00,15:30,SG,,#4ade80,Dr. Saranya,Dr. Rithika
+Tue,ECA - Meditation Demo & Practice Session,Mr. Suresh (Yoga Instructor),15:30,17:00,EC Campus,,#f97316,Dr. Saranya,Dr. Rithika
+Wed,Meet the Doctor Panel Discussion + Career Pathways,Dr. Sushma / Dr. Nikhil,09:00,11:00,,"Panel: Dr. Harivatsa, Dr. Geraldine, Dr. Subrahmanya, Dr. Anjal, Dr. MD Sharma",#60a5fa,Dr. Reshma,Dr. Shalini
+Wed,Tea Break,,11:00,11:15,,,#94a3b8,Dr. Reshma,Dr. Shalini
+Wed,Professionalism and Ethics in Medicine,Dr. Suresh Krishnamurthy,11:15,12:15,LG,,#a78bfa,Dr. Reshma,Dr. Shalini
+Wed,Values Before Skills - Student Presentation Logistics,Dr. Anu / Dr. Reetha,12:15,13:00,,,#f472b6,Dr. Reshma,Dr. Shalini
+Wed,Lunch Break,,13:15,14:00,,,#94a3b8,Dr. Reshma,Dr. Shalini
+Wed,Medico-Legal Aspects for IMG,Dr. Akshith (FMT),14:00,15:00,,,#2dd4bf,Dr. Reshma,Dr. Shalini
+Wed,ECA,Dr. Anu / Dr. Anisha / Dr. Shalini / Dr. Pavan / Dr. Dyna / Dr. Indu,15:00,17:00,,,#fbbf24,Dr. Reshma,Dr. Shalini
+Thu,Shadowing Patient & Doctor - Hospital OP / Diagnostics (Batch C),Coordinators: ENT / Ortho / Ophthal / Dermatology / Pediatrics,09:00,11:00,,,#34d399,Dr. Lakshmi T.A.,Dr. Sahana
+Thu,Tea Break,,11:00,11:15,,,#94a3b8,Dr. Lakshmi T.A.,Dr. Sahana
+Thu,Reflection + Significance of Documentation (Batch C),Dr. Shruthi & Dr. Vinayaka,11:15,13:00,LG,,#fb7185,Dr. Lakshmi T.A.,Dr. Sahana
+Thu,Lunch Break,,13:15,14:00,,,#94a3b8,Dr. Lakshmi T.A.,Dr. Sahana
+Thu,Movie Time (Batch C),Dr. Sahana (Obg),15:00,16:00,,,#38bdf8,Dr. Lakshmi T.A.,Dr. Sahana
 Fri,Gandhi Jayanthi - Holiday,,09:00,17:00,,No classes,#f87171,,
-Sat,Principles of Family Practice,Dr. Smitha Chandra & Team,09:00,10:30,LG/SG,,#22d3ee,Dr Sangeetha (Microbiology),
-Sat,Local Language (Kannada) in Patient & Peer Interactions,Mr. Manjunath,10:30,12:15,,,#c084fc,Dr Sangeetha (Microbiology),
-Sat,Tea Break,,11:00,11:15,,,#94a3b8,Dr Sangeetha (Microbiology),
-Sat,ECA (Sports) - Outdoor Games (Cricket / Volleyball),Mr. Shashi,11:15,17:00,,,#4ade80,Dr Sangeetha (Microbiology),
+Sat,Principles of Family Practice,Dr. Smitha Chandra & Team,09:00,10:30,LG/SG,,#22d3ee,Dr. Sangeetha (Microbiology),
+Sat,Local Language (Kannada) in Patient & Peer Interactions,Mr. Manjunath,10:30,12:15,,,#c084fc,Dr. Sangeetha (Microbiology),
+Sat,Tea Break,,11:00,11:15,,,#94a3b8,Dr. Sangeetha (Microbiology),
+Sat,ECA (Sports) - Outdoor Games (Cricket / Volleyball),Mr. Shashi,11:15,17:00,,,#4ade80,Dr. Sangeetha (Microbiology),
