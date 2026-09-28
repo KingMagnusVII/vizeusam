@@ -36,7 +36,7 @@ export const ClassCard = memo(function ClassCard({
       >
         <span
           className="time-mono whitespace-nowrap text-[13px] font-semibold tracking-tight"
-          style={{ color: item.color }}
+          style={{ color: item.color === "#000000" ? "#ffffff" : item.color }}
         >
           {formatTime(item.start, show24HourTime)}
         </span>
@@ -91,7 +91,7 @@ export const ClassCard = memo(function ClassCard({
             <button
               onClick={onDelete}
               aria-label={`Delete ${item.subject}`}
-              className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-destructive"
+              className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               <Trash2 className="size-4" />
             </button>
