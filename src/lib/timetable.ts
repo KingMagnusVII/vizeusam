@@ -178,7 +178,7 @@ export function parseCsv(text: string): ClassItem[] {
     .map((l) => l.trim())
     .filter(Boolean);
   if (!lines.length) return [];
-  const header = splitCsvLine(lines[0]!).map((h) => h.trim().toLowerCase());
+  const header = splitCsvLine(lines[0]!).map(normalizeImportColumn);
   const hasHeader = header.some((h) => FIELDS.includes(h));
   const cols = hasHeader ? header : FIELDS;
   const body = hasHeader ? lines.slice(1) : lines;
