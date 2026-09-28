@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { ClassCard } from "@/components/tt/ClassCardV2";
 import { todayIndex, type ClassItem } from "@/lib/timetable";
 
@@ -14,7 +14,7 @@ function getClassStatus(item: ClassItem, now: Date): "past" | "current" | "upcom
   return "upcoming";
 }
 
-export function ClassList({
+export const ClassList = memo(function ClassList({
   classes,
   day,
   show24HourTime,
@@ -62,4 +62,4 @@ export function ClassList({
       ))}
     </>
   );
-}
+});
