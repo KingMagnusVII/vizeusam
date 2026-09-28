@@ -27,7 +27,7 @@ export function ClassCard({
         className="absolute inset-y-2 left-0 w-1 rounded-full"
         style={{ backgroundColor: item.color }}
       />
-      <div className="w-[4.25rem] shrink-0 flex flex-col justify-between py-0.5">
+      <div className="w-[3.75rem] shrink-0 flex flex-col justify-between py-0.5">
         <span
           className="time-mono whitespace-nowrap text-[13px] font-semibold tracking-tight"
           style={{ color: item.color }}
