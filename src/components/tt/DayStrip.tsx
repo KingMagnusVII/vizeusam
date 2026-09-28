@@ -1,7 +1,8 @@
 import { DAYS, type ClassItem } from "@/lib/timetable";
+import { memo } from "react";
 import { cn } from "@/lib/utils";
 
-export function DayStrip({
+export const DayStrip = memo(function DayStrip({
   day,
   onSelect,
   classes,
@@ -38,4 +39,4 @@ export function DayStrip({
       })}
     </div>
   );
-}
+});

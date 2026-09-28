@@ -1,8 +1,9 @@
+import { memo } from "react";
 import { Pencil, Pin, Trash2 } from "lucide-react";
 import { formatTime, type ClassItem } from "@/lib/timetable";
 import { cn } from "@/lib/utils";
 
-export function ClassCard({
+export const ClassCard = memo(function ClassCard({
   item,
   status = "upcoming",
   show24HourTime = true,
@@ -99,4 +100,4 @@ export function ClassCard({
       )}
     </div>
   );
-}
+});

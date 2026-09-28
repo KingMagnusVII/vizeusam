@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { Pencil } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import type { DayInfo } from "@/lib/timetable";
 
-export function DayCoordinatorCard({
+export const DayCoordinatorCard = memo(function DayCoordinatorCard({
   info,
   onSave,
 }: {
@@ -78,4 +78,4 @@ export function DayCoordinatorCard({
       )}
     </div>
   );
-}
+});
