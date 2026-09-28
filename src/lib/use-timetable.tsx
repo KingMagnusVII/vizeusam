@@ -257,7 +257,8 @@ export function useTimetable() {
   );
 
   const setActivePerson = useCallback(
-    (id: string) => setState((s) => ({ ...s, activePersonId: id })),
+    (id: string) =>
+      setState((s) => (s.activePersonId === id ? s : { ...s, activePersonId: id })),
     [setState],
   );
   const addClass = useCallback(
@@ -341,7 +342,9 @@ export function useTimetable() {
   );
   const setActiveSchedule = useCallback(
     (personId: string, scheduleId: string) =>
-      updatePerson(personId, (p) => ({ ...p, activeScheduleId: scheduleId })),
+      updatePerson(personId, (p) =>
+        p.activeScheduleId === scheduleId ? p : { ...p, activeScheduleId: scheduleId },
+      ),
     [updatePerson],
   );
   const addPerson = useCallback(
@@ -363,7 +366,8 @@ export function useTimetable() {
     [setState],
   );
   const renamePerson = useCallback(
-    (id: string, name: string) => updatePerson(id, (p) => ({ ...p, name })),
+    (id: string, name: string) =>
+      updatePerson(id, (p) => (p.name === name ? p : { ...p, name })),
     [updatePerson],
   );
   const addTodo = useCallback(
