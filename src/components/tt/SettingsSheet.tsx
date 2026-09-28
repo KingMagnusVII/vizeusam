@@ -255,7 +255,7 @@ export function SettingsSheet({
         title={cropMode === "wallpaper" ? "Crop wallpaper" : "Crop app icon"}
         onOpenChange={(value) => { if (!value) { setCropMode(null); setCropFile(null); } }}
         onSave={(dataUrl) => {
-          if (cropMode === "wallpaper") updateSettings({ wallpaper: dataUrl, theme: "wallpaper" });
+          if (cropMode === "wallpaper") updateSettings({ wallpaper: dataUrl, customWallpaper: dataUrl, theme: "wallpaper" });
           else updateSettings({ appIcon: dataUrl });
           setCropMode(null);
           setCropFile(null);
