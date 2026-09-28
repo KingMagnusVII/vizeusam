@@ -1,31 +1,31 @@
 day,subject,professor,start,end,room,task,color,morning,afternoon
-Mon,Values Before Skills - Student Presentation,Dr. Reshma / Dr. Anu (Anatomy) / Dr. Reetha (Ophthalmology),09:00,10:00,LG/SG,,#a78bfa,Dr Anu,Dr Anuswaru
-Mon,Waste Management / PPE / Hand Washing / Standard Precautions (Batch-wise rotation stations),Dept. of Microbiology & Dr. Muthuraj (Surgery),10:00,13:00,SG,Batches A-D rotate through 4 stations,#fbbf24,Dr Anu,Dr Anuswaru
-Mon,Tea Break,,11:00,11:15,,,#94a3b8,Dr Anu,Dr Anuswaru
-Mon,Lunch Break,,13:15,14:00,,,#94a3b8,Dr Anu,Dr Anuswaru
-Mon,Communication Skills: Academic & Clinico-laboratory,Dr. Gopal / Dr. Sharan / Dr. Anuswaru,14:00,15:30,LG/SG,,#38bdf8,Dr Anu,Dr Anuswaru
-Mon,Alternate Systems of Medicine,Dr. Nagaraj,15:30,16:00,LG,,#a78bfa,Dr Anu,Dr Anuswaru
-Mon,Yoga Demonstration & Practice Session,Mr. Suresh (Yoga Instructor),16:00,17:00,EC Campus,,#f472b6,Dr Anu,Dr Anuswaru
-Tue,History of Medicine,Dr. Lakshmi T.A. / Dr. Garima,09:00,10:00,LG/SG,,#38bdf8,Dr Anitha (Physiology),Dr Raksha
-Tue,Humanities in Medicine,Dr. Manjulika Vas,10:00,11:00,LG,,#a78bfa,Dr Anitha (Physiology),Dr Raksha
-Tue,Tea Break,,11:00,11:15,,,#94a3b8,Dr Anitha (Physiology),Dr Raksha
-Tue,Cadaveric Oath - AETCOM Module 1.5 (Body Donation Talk + Oath Ceremony),Dr. Anu Francis / Dr. Lakshmi T.A. & Team,11:15,13:15,Dissection Hall,,#c084fc,Dr Anitha (Physiology),Dr Raksha
-Tue,Lunch Break,,13:15,14:00,,,#94a3b8,Dr Anitha (Physiology),Dr Raksha
-Tue,Role of Mentoring,Dr. Sridevi NS & Mentoring Committee,14:00,15:00,LG,Mentor allotment,#a78bfa,Dr Anitha (Physiology),Dr Raksha
-Tue,Role of Students in Learning Skills & Collaborative Learning,Dr. Anitha (OR) / Dr. Anitha (Medicine),15:00,17:00,LG/SG,,#a78bfa,Dr Anitha (Physiology),Dr Raksha
-Wed,Stress Management,Dr. Keya,09:00,10:00,LG,,#a78bfa,Dr Anjali,Dr Shalini
-Wed,Time Management,Dr. Anjali,10:00,11:00,,,#a78bfa,Dr Anjali,Dr Shalini
-Wed,Tea Break,,11:00,11:15,,,#94a3b8,Dr Anjali,Dr Shalini
-Wed,Research Opportunities,Dr. Rita Christopher,11:15,12:15,,,#a78bfa,Dr Anjali,Dr Shalini
-Wed,Gender Sensitivity and Harassment,Dr. Shashikala / Dr. Raksha,12:15,13:15,LG/SG,,#a78bfa,Dr Anjali,Dr Shalini
-Wed,Lunch Break,,13:15,14:00,,,#94a3b8,Dr Anjali,Dr Shalini
-Wed,First Aid 5 Stations (Batch C),Dr. Praveen & Team / Dr. Avinash & Team,14:00,15:00,,,#fbbf24,Dr Anjali,Dr Shalini
-Wed,Suturing Skill Demo (Batch C),Dept. of Surgery,15:00,17:00,,,#fbbf24,Dr Anjali,Dr Shalini
-Thu,Immunization (Batch C),Dr. Sudeepa & Team,09:00,09:45,,,#34d399,Dr Showri,Dr Kankana
-Thu,Field Visit - PHC & Anganawadi (Batch C),Dr. Sudeepa & Team,09:45,13:00,,,#34d399,Dr Showri,Dr Kankana
-Thu,Tea Break,,11:00,11:15,,,#94a3b8,Dr Showri,Dr Kankana
-Thu,Group Dynamics - Healthcare Team & Interpersonal Relationships,Dr. Padmanabha / Sushma Naidu / Dr. Keya / Dr. Amanda,13:15,15:00,LG/SG,,#a78bfa,Dr Showri,Dr Kankana
-Thu,Overview & Newer Elements of CBME Curriculum,Dr. Reshma,15:00,17:00,LG,,#38bdf8,Dr Showri,Dr Kankana
+Mon,Values Before Skills - Student Presentation,Dr. Reshma / Dr. Anu (Anatomy) / Dr. Reetha (Ophthalmology),09:00,10:00,LG/SG,,#a78bfa,Dr. Anu,Dr. Anuswaru
+Mon,Waste Management / PPE / Hand Washing / Standard Precautions (Batch-wise rotation stations),Dept. of Microbiology & Dr. Muthuraj (Surgery),10:00,13:00,SG,Batches A-D rotate through 4 stations,#fbbf24,Dr. Anu,Dr. Anuswaru
+Mon,Tea Break,,11:00,11:15,,,#94a3b8,Dr. Anu,Dr. Anuswaru
+Mon,Lunch Break,,13:15,14:00,,,#94a3b8,Dr. Anu,Dr. Anuswaru
+Mon,Communication Skills: Academic & Clinico-laboratory,Dr. Gopal / Dr. Sharan / Dr. Anuswaru,14:00,15:30,LG/SG,,#38bdf8,Dr. Anu,Dr. Anuswaru
+Mon,Alternate Systems of Medicine,Dr. Nagaraj,15:30,16:00,LG,,#a78bfa,Dr. Anu,Dr. Anuswaru
+Mon,Yoga Demonstration & Practice Session,Mr. Suresh (Yoga Instructor),16:00,17:00,EC Campus,,#f472b6,Dr. Anu,Dr. Anuswaru
+Tue,History of Medicine,Dr. Lakshmi T.A. / Dr. Garima,09:00,10:00,LG/SG,,#38bdf8,Dr. Anitha (Physiology),Dr. Raksha
+Tue,Humanities in Medicine,Dr. Manjulika Vas,10:00,11:00,LG,,#a78bfa,Dr. Anitha (Physiology),Dr. Raksha
+Tue,Tea Break,,11:00,11:15,,,#94a3b8,Dr. Anitha (Physiology),Dr. Raksha
+Tue,Cadaveric Oath - AETCOM Module 1.5 (Body Donation Talk + Oath Ceremony),Dr. Anu Francis / Dr. Lakshmi T.A. & Team,11:15,13:15,Dissection Hall,,#c084fc,Dr. Anitha (Physiology),Dr. Raksha
+Tue,Lunch Break,,13:15,14:00,,,#94a3b8,Dr. Anitha (Physiology),Dr. Raksha
+Tue,Role of Mentoring,Dr. Sridevi NS & Mentoring Committee,14:00,15:00,LG,Mentor allotment,#a78bfa,Dr. Anitha (Physiology),Dr. Raksha
+Tue,Role of Students in Learning Skills & Collaborative Learning,Dr. Anitha (OR) / Dr. Anitha (Medicine),15:00,17:00,LG/SG,,#a78bfa,Dr. Anitha (Physiology),Dr. Raksha
+Wed,Stress Management,Dr. Keya,09:00,10:00,LG,,#a78bfa,Dr. Anjali,Dr. Shalini
+Wed,Time Management,Dr. Anjali,10:00,11:00,,,#a78bfa,Dr. Anjali,Dr. Shalini
+Wed,Tea Break,,11:00,11:15,,,#94a3b8,Dr. Anjali,Dr. Shalini
+Wed,Research Opportunities,Dr. Rita Christopher,11:15,12:15,,,#a78bfa,Dr. Anjali,Dr. Shalini
+Wed,Gender Sensitivity and Harassment,Dr. Shashikala / Dr. Raksha,12:15,13:15,LG/SG,,#a78bfa,Dr. Anjali,Dr. Shalini
+Wed,Lunch Break,,13:15,14:00,,,#94a3b8,Dr. Anjali,Dr. Shalini
+Wed,First Aid 5 Stations (Batch C),Dr. Praveen & Team / Dr. Avinash & Team,14:00,15:00,,,#fbbf24,Dr. Anjali,Dr. Shalini
+Wed,Suturing Skill Demo (Batch C),Dept. of Surgery,15:00,17:00,,,#fbbf24,Dr. Anjali,Dr. Shalini
+Thu,Immunization (Batch C),Dr. Sudeepa & Team,09:00,09:45,,,#34d399,Dr. Showri,Dr. Kankana
+Thu,Field Visit - PHC & Anganawadi (Batch C),Dr. Sudeepa & Team,09:45,13:00,,,#34d399,Dr. Showri,Dr. Kankana
+Thu,Tea Break,,11:00,11:15,,,#94a3b8,Dr. Showri,Dr. Kankana
+Thu,Group Dynamics - Healthcare Team & Interpersonal Relationships,Dr. Padmanabha / Sushma Naidu / Dr. Keya / Dr. Amanda,13:15,15:00,LG/SG,,#a78bfa,Dr. Showri,Dr. Kankana
+Thu,Overview & Newer Elements of CBME Curriculum,Dr. Reshma,15:00,17:00,LG,,#38bdf8,Dr. Showri,Dr. Kankana
 Fri,Visit to RR Campus (Overall in-charge Dr. Akshay),Dr. Akshay (Pathology),09:00,11:00,RR Campus,,#38bdf8,,
 Fri,Tea Break,,11:00,11:15,,,#94a3b8,,
 Fri,RR Campus Visit - Robotic Lab / R&D / PESU Academy Intro / ECA Clubs / Research Facilities,Dept coordinators: Microbiology / Ortho / OBG / Pharmac / ENT / Pathology / Medicine,11:15,17:00,RR Campus,6 buses - 1 faculty per bus,#38bdf8,,
