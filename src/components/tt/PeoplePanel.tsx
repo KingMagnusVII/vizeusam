@@ -37,7 +37,7 @@ export const PeoplePanel = memo(function PeoplePanel({ confirm }: { confirm: (s:
     try {
       const text = await file.text();
       const { name, classes, dayInfo } = parseImport(file.name, text);
-      if (!classes.length && !dayInfo) throw new Error("No timetable data found in that file.");
+      if (!classes.length && !Object.keys(dayInfo ?? {}).length) throw new Error("No timetable data found in that file.");
       const friendName = name || file.name.replace(/\.(csv|json)$/i, "");
       const id = addPerson(friendName, classes, dayInfo);
       setActivePerson(id);
