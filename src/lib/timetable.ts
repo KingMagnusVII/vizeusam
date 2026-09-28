@@ -130,7 +130,7 @@ export function toClassItem(row: Record<string, string>, index: number): ClassIt
   return {
     id: uid(),
     day: normalizeDay(row["day"] ?? ""),
-    subject: row["subject"]?.trim() || "Untitled class",
+    subject: row["subject"]?.trim() || "",
     professor: row["professor"]?.trim() || "",
     start: normalizeTime(row["start"] ?? "09:00"),
     end: normalizeTime(row["end"] ?? "10:00"),
