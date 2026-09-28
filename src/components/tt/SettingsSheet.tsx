@@ -238,7 +238,7 @@ export function SettingsSheet({
 
             <Section title="App">
               <div className="space-y-3">
-                <Input value={appName} onChange={(e) => updateSettings({ appName: e.target.value || "My Timetable" })} placeholder="App name" className="h-11 rounded-2xl" />
+                <Input value={appName} onChange={(e) => updateSettings({ appName: e.target.value })} placeholder="My Timetable" className="h-11 rounded-2xl" />
                 <div className="flex items-center justify-between rounded-2xl border border-border px-3 py-2">
                   <div className="flex items-center gap-3 min-w-0">
                     <img src={appIcon} alt="" className="size-12 rounded-xl object-cover" />
