@@ -106,23 +106,6 @@ function TimetableContent() {
     };
   }, []);
 
-  const lastClassEnd = useMemo(
-    () =>
-      classes.reduce((latest, item) => {
-        const [hour, minute] = item.end.split(":").map(Number);
-        return Math.max(latest, hour * 60 + minute);
-      }, -1),
-    [classes],
-  );
-
-  useEffect(() => {
-    if (day !== today || lastClassEnd < 0) return;
-    const currentMinutes = now.getHours() * 60 + now.getMinutes();
-
-    if (currentMinutes >= lastClassEnd) {
-      setDay((currentDay) => (currentDay + 1) % DAYS.length);
-    }
-  }, [day, today, lastClassEnd, now]);
   const isWallpaper = theme === "wallpaper" && !!wallpaper;
   const themeClass =
     theme === "light" ? "theme-light" : theme === "ocean" ? "theme-ocean" : "theme-dark";
