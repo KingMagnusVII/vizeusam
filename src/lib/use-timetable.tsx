@@ -219,7 +219,16 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
 
   const updatePerson = useCallback(
     (id: string, fn: (p: Person) => Person) =>
-      setState((s) => ({ ...s, people: s.people.map((p) => (p.id === id ? fn(p) : p)) })),
+      setState((s) => {
+        const index = s.people.findIndex((p) => p.id === id);
+        if (index < 0) return s;
+        const current = s.people[index]!;
+        const next = fn(current);
+        if (next === current) return s;
+        const people = s.people.slice();
+        people[index] = next;
+        return { ...s, people };
+      }),
     [],
   );
 
@@ -371,7 +380,11 @@ export function useTimetable() {
   );
   const updateSettings = useCallback(
     (patch: Partial<AppState["settings"]>) =>
-      setState((s) => ({ ...s, settings: { ...s.settings, ...patch } })),
+      setState((s) => {
+        const keys = Object.keys(patch) as Array<keyof AppState["settings"]>;
+        if (keys.every((key) => s.settings[key] === patch[key])) return s;
+        return { ...s, settings: { ...s.settings, ...patch } };
+      }),
     [setState],
   );
 
