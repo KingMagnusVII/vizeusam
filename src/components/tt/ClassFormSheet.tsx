@@ -133,7 +133,7 @@ export function ClassFormSheet({
             />
           </Field>
           <Field label="Color">
-            <div className="grid grid-cols-12 gap-2 rounded-2xl bg-muted/30 p-3">
+            <div className="grid grid-cols-7 gap-2 rounded-2xl bg-muted/30 p-3">
               {CLASS_COLORS.map((c) => (
                 <button
                   key={c}
