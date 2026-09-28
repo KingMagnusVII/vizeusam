@@ -63,6 +63,7 @@ export type AppState = {
     customWallpaper: string;
     opacity: number;
     primaryColor: string;
+    use24HourTime: boolean;
     showDayCoordinators: boolean;
     appName: string;
     appIcon: string;
@@ -74,6 +75,14 @@ export const uid = () => Math.random().toString(36).slice(2, 10);
 export function todayIndex(): number {
   const js = new Date().getDay();
   return (js + 6) % 7;
+}
+
+export function formatTime(value: string, use24HourTime: boolean): string {
+  const [hour, minute] = value.split(":").map(Number);
+  if (use24HourTime || !Number.isFinite(hour) || !Number.isFinite(minute)) return value;
+  const suffix = hour >= 12 ? "PM" : "AM";
+  const displayHour = hour % 12 || 12;
+  return `${displayHour}:${String(minute).padStart(2, "0")} ${suffix}`;
 }
 
 export function formatToday(): string {
@@ -304,6 +313,7 @@ export function defaultState(): AppState {
       customWallpaper: "",
       opacity: 0.85,
       primaryColor: "#3b82f6",
+      use24HourTime: true,
       showDayCoordinators: true,
       appName: "My Timetable",
       appIcon: "/app-icons/golden_192x192.png",

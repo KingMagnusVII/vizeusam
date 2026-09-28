@@ -1,5 +1,5 @@
 import { Pencil, Pin, Trash2 } from "lucide-react";
-import type { ClassItem } from "@/lib/timetable";
+import { formatTime, type ClassItem } from "@/lib/timetable";
 import { cn } from "@/lib/utils";
 
 export function ClassCard({
@@ -10,8 +10,10 @@ export function ClassCard({
 }: {
   item: ClassItem;
   status?: "past" | "current" | "upcoming";
+  use24HourTime?: boolean;
   onEdit?: () => void;
   onDelete?: () => void;
+  use24HourTime?: boolean;
 }) {
   return (
     <div
@@ -30,10 +32,10 @@ export function ClassCard({
           className="time-mono text-sm font-semibold"
           style={{ color: item.color }}
         >
-          {item.start}
+          {formatTime(item.start, use24HourTime ?? true)}
         </span>
         <span className="mx-auto my-1 w-px flex-1 bg-border" />
-        <span className="time-mono text-xs text-muted-foreground">{item.end}</span>
+        <span className="time-mono text-xs text-muted-foreground">{formatTime(item.end, use24HourTime ?? true)}</span>
       </div>
       <div className="min-w-0 flex-1">
         <div className="flex items-start gap-2">

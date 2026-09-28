@@ -66,7 +66,7 @@ function TimetableApp() {
   const [confirmState, setConfirmState] = useState<ConfirmState>(null);
   const [now, setNow] = useState(() => new Date());
 
-  const { theme, wallpaper, opacity, primaryColor, showDayCoordinators, appName, appIcon } = state.settings;
+  const { theme, wallpaper, opacity, primaryColor, use24HourTime, showDayCoordinators, appName, appIcon } = state.settings;
   const schedule = activeSchedule(person);
   const classes = sortClasses(schedule.classes.filter((c) => c.day === day));
   const today = todayIndex();
@@ -191,6 +191,7 @@ function TimetableApp() {
                 <ClassCard
                   key={c.id}
                   item={c}
+                  use24HourTime={use24HourTime ?? true}
                   status={day === today ? getClassStatus(c, now) : "upcoming"}
                   onEdit={() => {
                     setEditing(c);
