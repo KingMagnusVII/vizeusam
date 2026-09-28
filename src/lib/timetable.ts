@@ -1,14 +1,16 @@
 export const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
 export type DayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
+// Expanded rainbow palette for class editing. The hues are spaced around the
+// colour wheel so the picker gives a much wider range than the old 7 colours.
 export const CLASS_COLORS = [
-  "#a78bfa",
-  "#f472b6",
-  "#2dd4bf",
-  "#fbbf24",
-  "#34d399",
-  "#fb7185",
-  "#38bdf8",
+  "#ef4444", "#f97316", "#f59e0b", "#eab308",
+  "#84cc16", "#22c55e", "#10b981", "#14b8a6",
+  "#06b6d4", "#0ea5e9", "#3b82f6", "#6366f1",
+  "#8b5cf6", "#a855f7", "#d946ef", "#ec4899",
+  "#f43f5e", "#fb7185", "#fda4af", "#fbbf24",
+  "#a3e635", "#34d399", "#2dd4bf", "#38bdf8",
+  "#818cf8", "#c084fc", "#e879f9", "#fb6f92",
 ];
 
 export type ClassItem = {
