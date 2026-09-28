@@ -328,8 +328,8 @@ export function useTimetable() {
     [updatePerson],
   );
   const addPerson = useCallback(
-    (name: string, classes: ClassItem[]) => {
-      const schedule = { id: uid(), name: "Week", classes };
+    (name: string, classes: ClassItem[], dayInfo?: Partial<Record<number, { date: string; morning: string; afternoon: string }>>) => {
+      const schedule = { id: uid(), name: "Week", classes, dayInfo };
       const p: Person = { id: uid(), name, schedules: [schedule], activeScheduleId: schedule.id };
       setState((s) => ({ ...s, people: [...s.people, p] }));
       return p.id;
