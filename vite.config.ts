@@ -11,5 +11,8 @@ export default defineConfig({
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
+    // Keep the app route in the main client bundle so Lovable preview does not request
+    // a fragile `?tsr-split=component` virtual module while rebuilding.
+    router: { autoCodeSplitting: false },
   },
 });
