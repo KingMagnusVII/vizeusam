@@ -156,6 +156,7 @@ function TimetableContent() {
     root.style.backgroundImage = isWallpaper ? `url(${wallpaper})` : "";
     root.style.backgroundSize = isWallpaper ? "cover" : "";
     root.style.backgroundPosition = isWallpaper ? "center" : "";
+    root.style.backgroundAttachment = isWallpaper ? "fixed" : "scroll";
     root.style.backgroundRepeat = isWallpaper ? "no-repeat" : "";
     document.title = appName || "My Timetable";
     const icon = document.querySelector<HTMLLinkElement>("link[rel=\"icon\"]");
