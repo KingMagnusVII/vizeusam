@@ -259,13 +259,21 @@ export function useTimetable() {
   const updateClass = useCallback(
     (personId: string, item: ClassItem) =>
       mutateClasses(personId, (list) => {
-        const previous = list.find((c) => c.id === item.id);
-        const colorChanged = previous ? previous.color !== item.color : false;
-        return list.map((c) => {
-          if (c.id === item.id) return item;
-          if (colorChanged && c.subject === item.subject) return { ...c, color: item.color };
-          return c;
-        });
+        const index = list.findIndex((c) => c.id === item.id);
+        if (index < 0) return list;
+
+        const previous = list[index]!;
+        if (previous.color === item.color) {
+          const next = list.slice();
+          next[index] = item;
+          return next;
+        }
+
+        return list.map((c) =>
+          c.id === item.id || c.subject === item.subject
+            ? { ...c, ...(c.id === item.id ? item : { color: item.color }) }
+            : c,
+        );
       }),
     [mutateClasses],
   );
