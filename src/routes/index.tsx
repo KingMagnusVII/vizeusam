@@ -1,3 +1,4 @@
+// Preview sync marker: keep this route module hash fresh after dependency/type fixes.
 // Route module intentionally touched to invalidate stale Vite/TanStack route chunks after preview sync.
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
