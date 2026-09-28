@@ -234,7 +234,6 @@
     var(--panel) calc(var(--panel-opacity) * 100%),
     transparent
   );
-  backdrop-filter: blur(18px) saturate(140%);
 }
 
 @utility panel-strong {
@@ -243,6 +242,15 @@
     var(--panel-strong) calc(min(var(--panel-opacity) + 0.15, 1) * 100%),
     transparent
   );
+}
+
+/* Backdrop blur is expensive on phones. It is only needed when a wallpaper
+   is actually visible through the panels. */
+html[data-wallpaper="true"] .panel {
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+html[data-wallpaper="true"] .panel-strong {
   backdrop-filter: blur(20px) saturate(140%);
 }
 
