@@ -39,7 +39,6 @@ self.addEventListener("fetch", (event) => {
     url.pathname.startsWith("/assets/") ||
     url.pathname.startsWith("/icons/") ||
     url.pathname.startsWith("/app-icons/") ||
-    url.pathname.startsWith("/timetable/") ||
     url.pathname === "/favicon.ico" ||
     url.pathname === "/app-icon.svg";
 
@@ -55,6 +54,23 @@ self.addEventListener("fetch", (event) => {
           return response;
         });
       })
+    );
+    return;
+  }
+
+  // Timetable CSVs are checked online first so updated bundled data can reach
+  // a fresh install, while the cached copy keeps the app usable offline.
+  if (url.pathname.startsWith("/timetable/")) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request))
     );
     return;
   }
