@@ -106,6 +106,17 @@ export function activeSchedule(person: Person): Schedule {
 
 const FIELDS = ["day", "subject", "professor", "start", "end", "room", "task", "color", "morning", "afternoon"];
 
+function normalizeHeader(value: string): string {
+  return value.trim().toLowerCase().replace(/[\s_-]+/g, "");
+}
+
+function normalizeImportColumn(value: string): string {
+  const h = normalizeHeader(value);
+  if (h === "morningcoordinator" || h === "datemanageram" || h === "coordinatoram") return "morning";
+  if (h === "afternooncoordinator" || h === "datemanagerpm" || h === "coordinatorpm") return "afternoon";
+  return h;
+}
+
 function normalizeDay(value: string): number {
   const v = value.trim().toLowerCase().slice(0, 3);
   const i = DAYS.findIndex((d) => d.toLowerCase() === v);
@@ -192,7 +203,7 @@ export function parseImport(fileName: string, text: string): ImportResult {
       .map((l) => l.trim())
       .filter(Boolean);
     if (!lines.length) return { classes: [] };
-    const header = splitCsvLine(lines[0]!).map((h) => h.trim().toLowerCase());
+    const header = splitCsvLine(lines[0]!).map(normalizeImportColumn);
     const hasHeader = header.some((h) => FIELDS.includes(h));
     const cols = hasHeader ? header : FIELDS;
     const body = hasHeader ? lines.slice(1) : lines;
