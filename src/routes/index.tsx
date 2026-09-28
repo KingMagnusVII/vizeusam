@@ -27,13 +27,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A phone-style timetable app: browse classes by day, track assignments, import friends' timetables from CSV or JSON, and theme it your way.",
+          "A phone-style timetable app: browse classes by day, track assignments, import friends' timetable from CSV or JSON, and theme it your way.",
       },
       { property: "og:title", content: "My Timetable — classes, tasks & friends" },
       {
         property: "og:description",
         content:
-          "Browse classes by day, track assignments, import timetables from CSV or JSON, and switch between light, dark, ocean and wallpaper themes.",
+          "Browse classes by day, track assignments, import timetable from CSV or JSON, and switch between light, dark, ocean and wallpaper themes.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
