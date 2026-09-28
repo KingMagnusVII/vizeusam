@@ -64,7 +64,7 @@ function TimetableApp() {
 
 function TimetableContent() {
   const { state, person, addClass, updateClass, removeClass, updateDayInfo } = useTimetable();
-  const [day, setDay] = useState(todayIndex);
+  const [day, setDay] = useState(() => todayIndex());
   const [tab, setTab] = useState<"timetable" | "todo">("timetable");
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<ClassItem | null>(null);
@@ -86,9 +86,9 @@ function TimetableContent() {
   );
 
   useEffect(() => {
-    // Always land on the current day when the app opens, rather than a previously selected day.
-    setDay(today);
-  }, [today]);
+    // Reset to the real current day on every fresh app mount. Manual day browsing remains unchanged afterward.
+    setDay(todayIndex());
+  }, []);
 
   useEffect(() => {
     const tick = () => setNow(new Date());
