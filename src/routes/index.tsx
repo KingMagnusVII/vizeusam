@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { CalendarDays, CheckSquare, Plus, Settings } from "lucide-react";
 import { ClassCard } from "@/components/tt/ClassCardV2";
@@ -73,9 +73,16 @@ function TimetableContent() {
 
   const { theme, wallpaper, opacity, primaryColor, use24HourTime, showDayCoordinators, appName, appIcon } = state.settings;
   const show24HourTime = use24HourTime ?? true;
-  const schedule = activeSchedule(person);
-  const classes = sortClasses(schedule.classes.filter((c) => c.day === day));
+  const schedule = useMemo(() => activeSchedule(person), [person]);
+  const classes = useMemo(
+    () => sortClasses(schedule.classes.filter((c) => c.day === day)),
+    [schedule.classes, day],
+  );
   const today = todayIndex();
+  const pendingCount = useMemo(
+    () => state.todos.reduce((count, todo) => count + (todo.done ? 0 : 1), 0),
+    [state.todos],
+  );
 
   useEffect(() => {
     // Always land on the current day when the app opens, rather than a previously selected day.
@@ -84,21 +91,23 @@ function TimetableContent() {
     return () => window.clearInterval(timer);
   }, [today]);
 
-  useEffect(() => {
-    if (day !== today || classes.length === 0) return;
-    const lastClassEnd = Math.max(
-      ...classes.map((item) => {
+  const lastClassEnd = useMemo(
+    () =>
+      classes.reduce((latest, item) => {
         const [hour, minute] = item.end.split(":").map(Number);
-        return hour * 60 + minute;
-      }),
-    );
+        return Math.max(latest, hour * 60 + minute);
+      }, -1),
+    [classes],
+  );
+
+  useEffect(() => {
+    if (day !== today || lastClassEnd < 0) return;
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
     if (currentMinutes >= lastClassEnd) {
       setDay((currentDay) => (currentDay + 1) % DAYS.length);
     }
-  }, [day, today, classes, now]);
-  const pendingCount = state.todos.filter((t) => !t.done).length;
+  }, [day, today, lastClassEnd, now]);
   const isWallpaper = theme === "wallpaper" && !!wallpaper;
   const themeClass =
     theme === "light" ? "theme-light" : theme === "ocean" ? "theme-ocean" : "theme-dark";
