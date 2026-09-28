@@ -73,6 +73,7 @@ function TimetableContent() {
   const [now, setNow] = useState(() => new Date());
 
   const { theme, wallpaper, opacity, primaryColor, use24HourTime, showDayCoordinators, appName, appIcon } = state.settings;
+  const fullDayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] as const;
   const show24HourTime = use24HourTime ?? true;
   const schedule = useMemo(() => activeSchedule(person), [person]);
   const classes = useMemo(
@@ -282,7 +283,7 @@ function TimetableContent() {
                   <div className="text-4xl">🎉</div>
                   <p className="mt-2 text-lg font-bold">No classes today</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    {day === 6 ? "Enjoy your Sunday!" : "Enjoy your " + DAYS[day] + "!"}
+                    Enjoy your {fullDayNames[day]}!
                   </p>
                 </div>
               ) : null}
@@ -293,7 +294,7 @@ function TimetableContent() {
                 }}
                 className="flex w-full items-center justify-center gap-1.5 rounded-2xl border border-dashed border-border py-4 text-sm font-medium text-primary hover:bg-muted/40"
               >
-                <Plus className="size-4" /> Add class on {DAYS[day]}
+                <Plus className="size-4" /> Add class on {fullDayNames[day]}
               </button>
             </>
           ) : (
