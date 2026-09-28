@@ -104,12 +104,12 @@ function TimetableContent() {
   );
 
   useEffect(() => {
-    // Only reset the viewed day when switching to a different timetable.
-    // Adding/editing/deleting classes must keep the day the user is viewing.
+    // Choose the startup day when the person or active timetable changes.
+    // Do not react to class edits while the user is browsing a day.
     const currentDay = todayIndex();
-    const todayClasses = person.schedules
-      .find((s) => s.id === person.activeScheduleId)
-      ?.classes.filter((c) => c.day === currentDay) ?? [];
+    const activeClasses =
+      person.schedules.find((s) => s.id === person.activeScheduleId)?.classes ?? [];
+    const todayClasses = activeClasses.filter((c) => c.day === currentDay);
 
     if (todayClasses.length === 0) {
       setDay(currentDay);
@@ -119,7 +119,8 @@ function TimetableContent() {
     const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes();
     const finishedToday = todayClasses.every((c) => {
       const [hour, minute] = c.end.split(":").map(Number);
-      return nowMinutes >= hour * 60 + minute;
+      const endMinutes = hour * 60 + minute;
+      return nowMinutes >= endMinutes;
     });
 
     if (!finishedToday) {
@@ -127,20 +128,18 @@ function TimetableContent() {
       return;
     }
 
-    // If today's classes are already over, show the next day that has classes.
+    // On startup/timetable switch, if today's classes are all finished,
+    // show the next day that actually has classes.
     for (let offset = 1; offset <= 7; offset += 1) {
       const nextDay = (currentDay + offset) % 7;
-      const hasClasses = person.schedules
-        .find((s) => s.id === person.activeScheduleId)
-        ?.classes.some((c) => c.day === nextDay);
-      if (hasClasses) {
+      if (activeClasses.some((c) => c.day === nextDay)) {
         setDay(nextDay);
         return;
       }
     }
 
     setDay(currentDay);
-  }, [person.id]);
+  }, [person.id, person.activeScheduleId]);
 
   useEffect(() => {
     const tick = () => setNow(new Date());
