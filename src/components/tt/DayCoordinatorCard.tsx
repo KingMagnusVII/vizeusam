@@ -27,38 +27,38 @@ export function DayCoordinatorCard({
   };
 
   return (
-    <div className="panel rounded-2xl border border-border px-3 py-2.5">
-      <div className="flex items-center justify-between gap-2">
+    <div className="panel rounded-2xl border border-border px-2.5 py-2">
+      <div className="flex items-center justify-between">
         <p className="text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">
           Date Co-ordinators
         </p>
         <button
           aria-label={editing ? "Finish editing date coordinators" : "Edit date coordinators"}
-          className="shrink-0 rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
+          className="grid size-6 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           onClick={() => setEditing((value) => !value)}
         >
-          <Pencil className="size-3.5" />
+          <Pencil className="size-3" />
         </button>
       </div>
 
       {editing ? (
-        <div className="mt-0 grid grid-cols-2 gap-2">
+        <div className="mt-0.5 grid grid-cols-2 gap-1.5">
           <Input
             value={form.morning}
             placeholder="Morning Section"
             onChange={(e) => updateField("morning", e.target.value)}
-            className="h-9 rounded-xl text-sm"
+            className="h-8 rounded-lg px-2.5 text-xs"
           />
           <Input
             value={form.afternoon}
             placeholder="Afternoon Section"
             onChange={(e) => updateField("afternoon", e.target.value)}
-            className="h-9 rounded-xl text-sm"
+            className="h-8 rounded-lg px-2.5 text-xs"
           />
         </div>
       ) : (
-        <div className="mt-2 grid grid-cols-2 gap-2">
-          <div className="min-w-0 rounded-xl bg-muted/60 px-2.5 py-2">
+        <div className="mt-1.5 grid grid-cols-2 gap-1.5">
+          <div className="min-w-0 rounded-lg bg-muted/60 px-2 py-1.5">
             <p className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
               Morning
             </p>
@@ -66,7 +66,7 @@ export function DayCoordinatorCard({
               {form.morning || "Not set"}
             </p>
           </div>
-          <div className="min-w-0 rounded-xl bg-muted/60 px-2.5 py-2">
+          <div className="min-w-0 rounded-lg bg-muted/60 px-2 py-1.5">
             <p className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
               Afternoon
             </p>
