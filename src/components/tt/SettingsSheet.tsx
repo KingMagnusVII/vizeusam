@@ -201,7 +201,7 @@ export function SettingsSheet({
               </>
             )}
 
-            <Section title={`Timetables · ${person.id === "me" ? "mine" : person.name}`}>
+            <Section title={`Timetable · ${person.id === "me" ? "mine" : person.name}`}>
               <div className="space-y-2">
                 {person.schedules.map((s) => (
                   <div key={s.id} className={cn("flex items-center gap-2 rounded-2xl border px-3 py-2", s.id === person.activeScheduleId ? "border-primary bg-primary/10" : "border-border")}>
