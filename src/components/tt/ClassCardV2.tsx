@@ -13,8 +13,8 @@ export const ClassCard = memo(function ClassCard({
   item: ClassItem;
   status?: "past" | "current" | "upcoming";
   show24HourTime?: boolean;
-  onEdit?: () => void;
-  onDelete?: () => void;
+  onEdit?: (item: ClassItem) => void;
+  onDelete?: (item: ClassItem) => void;
 }) {
   return (
     <div
@@ -80,7 +80,7 @@ export const ClassCard = memo(function ClassCard({
         <div className="flex flex-col justify-center gap-1 opacity-60 transition-opacity group-hover:opacity-100">
           {onEdit && (
             <button
-              onClick={onEdit}
+              onClick={() => onEdit?.(item)}
               aria-label={`Edit ${item.subject}`}
               className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
             >
@@ -89,7 +89,7 @@ export const ClassCard = memo(function ClassCard({
           )}
           {onDelete && (
             <button
-              onClick={onDelete}
+              onClick={() => onDelete?.(item)}
               aria-label={`Delete ${item.subject}`}
               className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
             >
