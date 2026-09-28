@@ -47,8 +47,12 @@ export function ClassFormSheet({
     setForm(initial ? { ...initial } : blank(day));
   }, [open, initial, day]);
 
-  const set = <K extends keyof Omit<ClassItem, "id">>(k: K, v: Omit<ClassItem, "id">[K]) =>
-    setForm((f) => ({ ...f, [k]: v }));
+  const set = <K extends keyof Omit<ClassItem, "id">>(k: K, v: Omit<ClassItem, "id">[K]) => {
+    const next = { ...form, [k]: v };
+    setForm(next);
+    // Editing is live: persist every field change immediately.
+    if (initial?.id) onSave(next, initial.id);
+  };
 
   const submit = () => {
     if (!form.subject.trim()) return;
@@ -150,9 +154,11 @@ export function ClassFormSheet({
               ))}
             </div>
           </Field>
-          <Button className="h-12 w-full rounded-2xl text-base" onClick={submit}>
-            {initial ? "Save changes" : "Add Class"}
-          </Button>
+          {!initial && (
+            <Button className="h-12 w-full rounded-2xl text-base" onClick={submit}>
+              Add Class
+            </Button>
+          )}
         </div>
       </SheetContent>
     </Sheet>
