@@ -39,9 +39,9 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (value: boo
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={cn("grid size-5 shrink-0 place-items-center rounded-full border-2 transition-colors", checked ? "border-primary bg-transparent" : "border-muted-foreground/45 bg-transparent")}
+      className={cn("grid size-5 shrink-0 place-items-center rounded-full border-2 p-0.5 transition-colors", checked ? "border-primary bg-transparent" : "border-muted-foreground/45 bg-transparent")}
     >
-      {checked && <span className="size-2.5 rounded-full bg-primary" />}
+      {checked && <span className="size-3 rounded-full bg-primary" />}
     </button>
   );
 }
@@ -129,7 +129,7 @@ export function SettingsSheet({
               </div>
             </Section>
 
-            <Section title="Accent colour">
+            <Section title="Accent">
               <div className="flex items-center gap-3">
                 <input aria-label="Accent colour" type="color" value={primaryColor} onChange={(e) => updateSettings({ primaryColor: e.target.value })} className="size-12 cursor-pointer rounded-xl border-0 bg-transparent p-0" />
                 <Input
