@@ -13,10 +13,15 @@ export const DayStrip = memo(function DayStrip({
   classes: ClassItem[];
   compact?: boolean;
 }) {
+  const counts = classes.reduce((acc, item) => {
+    acc[item.day] += 1;
+    return acc;
+  }, [0, 0, 0, 0, 0, 0, 0]);
+
   return (
     <div className="no-scrollbar flex gap-1.5 overflow-x-auto">
       {DAYS.map((label, i) => {
-        const count = classes.filter((c) => c.day === i).length;
+        const count = counts[i];
         const active = i === day;
         return (
           <button
