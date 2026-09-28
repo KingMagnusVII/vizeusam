@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { CalendarDays, CheckSquare, Plus, Settings } from "lucide-react";
 import { ClassCard } from "@/components/tt/ClassCardV2";
@@ -80,6 +80,23 @@ function TimetableContent() {
     [schedule.classes, day],
   );
   const today = todayIndex();
+  const handleEditClass = useCallback((item: ClassItem) => {
+    setEditing(item);
+    setFormOpen(true);
+  }, []);
+
+  const handleDeleteClass = useCallback((item: ClassItem) => {
+    setConfirmState({
+      title: `Delete ${item.subject}?`,
+      description: "This class will be removed from this timetable.",
+      onConfirm: () => removeClass(person.id, item.id),
+    });
+  }, [person.id, removeClass]);
+
+  const handleSaveDayInfo = useCallback((info: { date: string; morning: string; afternoon: string }) => {
+    updateDayInfo(person.id, day, info);
+  }, [person.id, day, updateDayInfo]);
+
   const pendingCount = useMemo(
     () => state.todos.reduce((count, todo) => count + (todo.done ? 0 : 1), 0),
     [state.todos],
@@ -247,7 +264,7 @@ function TimetableContent() {
                 <DayCoordinatorCard
                   day={day}
                   info={schedule.dayInfo?.[day]}
-                  onSave={(info) => updateDayInfo(person.id, day, info)}
+                  onSave={handleSaveDayInfo}
                 />
               )}
               {classes.map((c) => (
@@ -256,17 +273,8 @@ function TimetableContent() {
                   item={c}
                   show24HourTime={show24HourTime}
                   status={day === today ? getClassStatus(c, now) : "upcoming"}
-                  onEdit={() => {
-                    setEditing(c);
-                    setFormOpen(true);
-                  }}
-                  onDelete={() =>
-                    setConfirmState({
-                      title: `Delete ${c.subject}?`,
-                      description: "This class will be removed from this timetable.",
-                      onConfirm: () => removeClass(person.id, c.id),
-                    })
-                  }
+                  onEdit={handleEditClass}
+                  onDelete={handleDeleteClass}
                 />
               ))}
               {classes.length === 0 ? (
