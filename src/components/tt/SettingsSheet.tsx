@@ -68,7 +68,7 @@ export function SettingsSheet({
     replaceClasses,
     updateDayInfo,
   } = useTimetable();
-  const { theme, wallpaper, opacity, primaryColor, showDayCoordinators, appName, appIcon } = state.settings;
+  const { theme, wallpaper, opacity, primaryColor, use24HourTime, showDayCoordinators, appName, appIcon } = state.settings;
   const fileRef = useRef<HTMLInputElement>(null);
   const bgRef = useRef<HTMLInputElement>(null);
   const iconRef = useRef<HTMLInputElement>(null);
@@ -108,6 +108,13 @@ export function SettingsSheet({
           <div className="space-y-6 px-4 pb-8">
             <Section title="General">
               <div className="space-y-3">
+                <div className="flex items-center justify-between rounded-2xl border border-border px-4 py-3">
+                  <div className="min-w-0 pr-3">
+                    <p className="text-sm font-semibold">Show 24-hour time</p>
+                    <p className="text-[11px] text-muted-foreground">Use 24-hour times instead of AM/PM.</p>
+                  </div>
+                  <Toggle checked={use24HourTime} onChange={(value) => updateSettings({ use24HourTime: value })} />
+                </div>
                 <Input value={state.people[0]!.name} onChange={(e) => renamePerson("me", e.target.value)} placeholder="Your name" className="h-12 rounded-2xl" />
                 <div className="flex items-center justify-between rounded-2xl border border-border px-4 py-3">
                   <div className="min-w-0 pr-3">
