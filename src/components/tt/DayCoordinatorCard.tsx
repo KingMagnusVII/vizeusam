@@ -13,15 +13,15 @@ export const DayCoordinatorCard = memo(function DayCoordinatorCard({
 }) {
   const [editing, setEditing] = useState(!info);
   const [form, setForm] = useState<DayInfo>(
-    info ?? { date: "", morning: "", afternoon: "" },
+    info ?? { date: "None", morning: "None", afternoon: "None" },
   );
 
   useEffect(() => {
-    setForm(info ?? { date: "", morning: "", afternoon: "" });
+    setForm(info ?? { date: "None", morning: "None", afternoon: "None" });
   }, [info]);
 
   const updateField = (field: "morning" | "afternoon", value: string) => {
-    const next = { ...form, [field]: value, date: "" };
+    const next = { ...form, [field]: value || "None", date: "None" };
     setForm(next);
     onSave(next);
   };
@@ -63,7 +63,7 @@ export const DayCoordinatorCard = memo(function DayCoordinatorCard({
               Morning
             </p>
             <p className="mt-0.5 break-words text-xs font-medium">
-              {form.morning || "Not set"}
+              {form.morning || "None"}
             </p>
           </div>
           <div className="min-w-0 rounded-lg bg-muted/60 px-2 py-1.5">
@@ -71,7 +71,7 @@ export const DayCoordinatorCard = memo(function DayCoordinatorCard({
               Afternoon
             </p>
             <p className="mt-0.5 break-words text-xs font-medium">
-              {form.afternoon || "Not set"}
+              {form.afternoon || "None"}
             </p>
           </div>
         </div>
