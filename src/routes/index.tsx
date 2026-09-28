@@ -86,11 +86,43 @@ function TimetableContent() {
   );
 
   useEffect(() => {
-    // Pick today's day only when the app opens/reloads.
-    // Never jump to another day automatically; if today has no classes,
-    // the normal empty state is shown and the user can browse manually.
-    setDay(todayIndex());
-  }, [person]);
+    // Only reset the viewed day when switching to a different timetable.
+    // Adding/editing/deleting classes must keep the day the user is viewing.
+    const currentDay = todayIndex();
+    const todayClasses = person.schedules
+      .find((s) => s.id === person.activeScheduleId)
+      ?.classes.filter((c) => c.day === currentDay) ?? [];
+
+    if (todayClasses.length === 0) {
+      setDay(currentDay);
+      return;
+    }
+
+    const nowMinutes = new Date().getHours() * 60 + new Date().getMinutes();
+    const finishedToday = todayClasses.every((c) => {
+      const [hour, minute] = c.end.split(":").map(Number);
+      return nowMinutes >= hour * 60 + minute;
+    });
+
+    if (!finishedToday) {
+      setDay(currentDay);
+      return;
+    }
+
+    // If today's classes are already over, show the next day that has classes.
+    for (let offset = 1; offset <= 7; offset += 1) {
+      const nextDay = (currentDay + offset) % 7;
+      const hasClasses = person.schedules
+        .find((s) => s.id === person.activeScheduleId)
+        ?.classes.some((c) => c.day === nextDay);
+      if (hasClasses) {
+        setDay(nextDay);
+        return;
+      }
+    }
+
+    setDay(currentDay);
+  }, [person.id]);
 
   useEffect(() => {
     const tick = () => setNow(new Date());
