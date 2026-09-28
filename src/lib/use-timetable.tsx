@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   defaultState,
   parseImport,
@@ -148,12 +148,16 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("pagehide", persistNow);
   }, [loaded]);
 
+  const updatePerson = useCallback(
+    (id: string, fn: (p: Person) => Person) =>
+      setState((s) => ({ ...s, people: s.people.map((p) => (p.id === id ? fn(p) : p)) })),
+    [],
+  );
+
   const value = useMemo<Ctx>(() => {
     const person = state.people.find((p) => p.id === state.activePersonId) ?? state.people[0]!;
-    const updatePerson = (id: string, fn: (p: Person) => Person) =>
-      setState((s) => ({ ...s, people: s.people.map((p) => (p.id === id ? fn(p) : p)) }));
     return { state, setState, person, updatePerson };
-  }, [state]);
+  }, [state, updatePerson]);
 
   return <TimetableContext.Provider value={value}>{children}</TimetableContext.Provider>;
 }
@@ -163,60 +167,79 @@ export function useTimetable() {
   if (!ctx) throw new Error("useTimetable must be used inside TimetableProvider");
   const { state, setState, person, updatePerson } = ctx;
 
-  const mutateClasses = (personId: string, fn: (list: ClassItem[]) => ClassItem[]) =>
-    updatePerson(personId, (p) => ({
-      ...p,
-      schedules: p.schedules.map((s) =>
-        s.id === p.activeScheduleId ? { ...s, classes: fn(s.classes) } : s,
-      ),
-    }));
+  const mutateClasses = useCallback(
+    (personId: string, fn: (list: ClassItem[]) => ClassItem[]) =>
+      updatePerson(personId, (p) => ({
+        ...p,
+        schedules: p.schedules.map((s) =>
+          s.id === p.activeScheduleId ? { ...s, classes: fn(s.classes) } : s,
+        ),
+      })),
+    [updatePerson],
+  );
 
-  return {
-    state,
-    setState,
-    person,
-    updatePerson,
-    setActivePerson: (id: string) => setState((s) => ({ ...s, activePersonId: id })),
-
-    addClass: (personId: string, item: Omit<ClassItem, "id">) =>
+  const setActivePerson = useCallback(
+    (id: string) => setState((s) => ({ ...s, activePersonId: id })),
+    [setState],
+  );
+  const addClass = useCallback(
+    (personId: string, item: Omit<ClassItem, "id">) =>
       mutateClasses(personId, (list) => [...list, { ...item, id: uid() }]),
-    updateClass: (personId: string, item: ClassItem) =>
+    [mutateClasses],
+  );
+  const updateClass = useCallback(
+    (personId: string, item: ClassItem) =>
       mutateClasses(personId, (list) => {
         const previous = list.find((c) => c.id === item.id);
         const colorChanged = previous ? previous.color !== item.color : false;
-
         return list.map((c) => {
           if (c.id === item.id) return item;
-          if (colorChanged && c.subject === item.subject) {
-            return { ...c, color: item.color };
-          }
+          if (colorChanged && c.subject === item.subject) return { ...c, color: item.color };
           return c;
         });
       }),
-    removeClass: (personId: string, classId: string) =>
-      mutateClasses(personId, (list) => list.filter((c) => c.id !== classId)),
-    replaceClasses: (personId: string, list: ClassItem[]) => mutateClasses(personId, () => list),
-    appendClasses: (personId: string, list: ClassItem[]) =>
-      mutateClasses(personId, (old) => [...old, ...list]),
-
-    updateDayInfo: (personId: string, day: number, info: { date: string; morning: string; afternoon: string }) =>
+    [mutateClasses],
+  );
+  const removeClass = useCallback(
+    (personId: string, classId: string) => mutateClasses(personId, (list) => list.filter((c) => c.id !== classId)),
+    [mutateClasses],
+  );
+  const replaceClasses = useCallback(
+    (personId: string, list: ClassItem[]) => mutateClasses(personId, () => list),
+    [mutateClasses],
+  );
+  const appendClasses = useCallback(
+    (personId: string, list: ClassItem[]) => mutateClasses(personId, (old) => [...old, ...list]),
+    [mutateClasses],
+  );
+  const updateDayInfo = useCallback(
+    (personId: string, day: number, info: { date: string; morning: string; afternoon: string }) =>
       updatePerson(personId, (p) => ({
         ...p,
         schedules: p.schedules.map((s) =>
           s.id === p.activeScheduleId ? { ...s, dayInfo: { ...(s.dayInfo ?? {}), [day]: info } } : s,
         ),
       })),
-    addSchedule: (personId: string, name: string) =>
+    [updatePerson],
+  );
+  const addSchedule = useCallback(
+    (personId: string, name: string) =>
       updatePerson(personId, (p) => {
         const s = emptySchedule(name);
         return { ...p, schedules: [...p.schedules, s], activeScheduleId: s.id };
       }),
-    renameSchedule: (personId: string, scheduleId: string, name: string) =>
+    [updatePerson],
+  );
+  const renameSchedule = useCallback(
+    (personId: string, scheduleId: string, name: string) =>
       updatePerson(personId, (p) => ({
         ...p,
         schedules: p.schedules.map((s) => (s.id === scheduleId ? { ...s, name } : s)),
       })),
-    removeSchedule: (personId: string, scheduleId: string) =>
+    [updatePerson],
+  );
+  const removeSchedule = useCallback(
+    (personId: string, scheduleId: string) =>
       updatePerson(personId, (p) => {
         const schedules = p.schedules.filter((s) => s.id !== scheduleId);
         const list = schedules.length ? schedules : [emptySchedule("Week")];
@@ -228,34 +251,75 @@ export function useTimetable() {
             : list[0]!.id,
         };
       }),
-    setActiveSchedule: (personId: string, scheduleId: string) =>
+    [updatePerson],
+  );
+  const setActiveSchedule = useCallback(
+    (personId: string, scheduleId: string) =>
       updatePerson(personId, (p) => ({ ...p, activeScheduleId: scheduleId })),
-
-    addPerson: (name: string, classes: ClassItem[]) => {
+    [updatePerson],
+  );
+  const addPerson = useCallback(
+    (name: string, classes: ClassItem[]) => {
       const schedule = { id: uid(), name: "Week", classes };
       const p: Person = { id: uid(), name, schedules: [schedule], activeScheduleId: schedule.id };
       setState((s) => ({ ...s, people: [...s.people, p] }));
       return p.id;
     },
-    removePerson: (id: string) =>
+    [setState],
+  );
+  const removePerson = useCallback(
+    (id: string) =>
       setState((s) => ({
         ...s,
         people: s.people.filter((p) => p.id !== id),
         activePersonId: s.activePersonId === id ? "me" : s.activePersonId,
       })),
-    renamePerson: (id: string, name: string) => updatePerson(id, (p) => ({ ...p, name })),
-
-    addTodo: (todo: Omit<Todo, "id">) =>
-      setState((s) => ({ ...s, todos: [{ ...todo, id: uid() }, ...s.todos] })),
-    toggleTodo: (id: string) =>
-      setState((s) => ({
-        ...s,
-        todos: s.todos.map((t) => (t.id === id ? { ...t, done: !t.done } : t)),
-      })),
-    removeTodo: (id: string) =>
-      setState((s) => ({ ...s, todos: s.todos.filter((t) => t.id !== id) })),
-
-    updateSettings: (patch: Partial<AppState["settings"]>) =>
+    [setState],
+  );
+  const renamePerson = useCallback(
+    (id: string, name: string) => updatePerson(id, (p) => ({ ...p, name })),
+    [updatePerson],
+  );
+  const addTodo = useCallback(
+    (todo: Omit<Todo, "id">) => setState((s) => ({ ...s, todos: [{ ...todo, id: uid() }, ...s.todos] })),
+    [setState],
+  );
+  const toggleTodo = useCallback(
+    (id: string) => setState((s) => ({ ...s, todos: s.todos.map((t) => (t.id === id ? { ...t, done: !t.done } : t)) })),
+    [setState],
+  );
+  const removeTodo = useCallback(
+    (id: string) => setState((s) => ({ ...s, todos: s.todos.filter((t) => t.id !== id) })),
+    [setState],
+  );
+  const updateSettings = useCallback(
+    (patch: Partial<AppState["settings"]>) =>
       setState((s) => ({ ...s, settings: { ...s.settings, ...patch } })),
+    [setState],
+  );
+
+  return {
+    state,
+    setState,
+    person,
+    updatePerson,
+    setActivePerson,
+    addClass,
+    updateClass,
+    removeClass,
+    replaceClasses,
+    appendClasses,
+    updateDayInfo,
+    addSchedule,
+    renameSchedule,
+    removeSchedule,
+    setActiveSchedule,
+    addPerson,
+    removePerson,
+    renamePerson,
+    addTodo,
+    toggleTodo,
+    removeTodo,
+    updateSettings,
   };
 }
