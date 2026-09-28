@@ -158,27 +158,52 @@ function TimetableContent() {
     root.style.backgroundPosition = isWallpaper ? "center" : "";
     root.style.backgroundAttachment = isWallpaper ? "fixed" : "scroll";
     root.style.backgroundRepeat = isWallpaper ? "no-repeat" : "";
-    document.title = appName || "My Timetable";
+    const name = appName?.trim() || "My Timetable";
+    const iconSrc = appIcon || "/app-icons/golden_192x192.png";
+    const iconType = iconSrc.startsWith("data:image/jpeg") ? "image/jpeg" : "image/png";
+
+    document.title = name;
+
     const icon = document.querySelector<HTMLLinkElement>("link[rel=\"icon\"]");
-    if (icon) icon.href = appIcon || "/app-icons/golden_192x192.png";
+    if (icon) {
+      icon.href = iconSrc;
+      icon.type = iconType;
+    }
+
+    const metadata = {
+      name,
+      short_name: name.slice(0, 12) || "Timetable",
+      start_url: "/",
+      scope: "/",
+      display: "standalone",
+      background_color: "#000000",
+      theme_color: "#000000",
+      icons: [{ src: iconSrc, sizes: "512x512", type: iconType, purpose: "any maskable" }],
+    };
+
+    void (async () => {
+      try {
+        const request = indexedDB.open("timetable-pwa", 1);
+        const db = await new Promise<IDBDatabase>((resolve, reject) => {
+          request.onupgradeneeded = () => request.result.createObjectStore("metadata");
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+        await new Promise<void>((resolve, reject) => {
+          const tx = db.transaction("metadata", "readwrite");
+          tx.objectStore("metadata").put(metadata, "manifest");
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+        db.close();
+      } catch {
+        // Keep the bundled manifest if IndexedDB is unavailable.
+      }
+    })();
+
     const manifest = document.querySelector<HTMLLinkElement>("link[rel=\"manifest\"]");
     if (manifest) {
-      const manifestUrl = URL.createObjectURL(new Blob([JSON.stringify({
-        name: appName || "My Timetable",
-        short_name: appName || "Timetable",
-        start_url: "/",
-        scope: "/",
-        display: "standalone",
-        background_color: "#000000",
-        theme_color: "#000000",
-        icons: [{ src: appIcon || "/app-icons/golden_192x192.png", sizes: "512x512", type: "image/png", purpose: "any maskable" }],
-      })], { type: "application/manifest+json" }));
-      const previous = manifest.href;
-      manifest.href = manifestUrl;
-      return () => {
-        URL.revokeObjectURL(manifestUrl);
-        if (previous.startsWith("blob:")) URL.revokeObjectURL(previous);
-      };
+      manifest.href = `/manifest.webmanifest?v=${encodeURIComponent(name)}`;
     }
   }, [themeClass, isWallpaper, opacity, wallpaper, primaryColor, appName, appIcon]);
 
