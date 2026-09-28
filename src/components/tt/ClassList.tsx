@@ -29,7 +29,11 @@ export const ClassList = memo(function ClassList({
 }) {
   const [now, setNow] = useState(() => new Date());
 
+  const statusDay = day === todayIndex();
+
   useEffect(() => {
+    if (!statusDay) return;
+
     const tick = () => setNow(new Date());
     const delay = 60_000 - (Date.now() % 60_000) + 50;
     let interval: number | undefined;
@@ -43,10 +47,7 @@ export const ClassList = memo(function ClassList({
       window.clearTimeout(timeout);
       if (interval !== undefined) window.clearInterval(interval);
     };
-  }, []);
-
-  const today = todayIndex();
-  const statusDay = day === today;
+  }, [statusDay]);
 
   return (
     <>
