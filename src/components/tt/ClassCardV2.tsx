@@ -100,4 +100,4 @@ export const ClassCard = memo(function ClassCard({
       )}
     </div>
   );
-}
+});
