@@ -86,40 +86,10 @@ function TimetableContent() {
   );
 
   useEffect(() => {
-    // Decide the initial day once when the app opens/reloads.
-    // If today has classes and they are all finished, open the next
-    // timetable day that actually has classes. If today has no classes,
-    // also open the next day with classes. After startup, never change
-    // the selected day automatically so the user can browse freely.
-    const currentDay = todayIndex();
-    const scheduleNow = activeSchedule(person);
-    const timetableClasses = scheduleNow.classes;
-    const todayClasses = timetableClasses.filter((item) => item.day === currentDay);
-
-    const nextDayWithClasses = (fromDay: number) => {
-      for (let offset = 1; offset <= DAYS.length; offset += 1) {
-        const candidate = (fromDay + offset) % DAYS.length;
-        if (timetableClasses.some((item) => item.day === candidate)) {
-          return candidate;
-        }
-      }
-      return currentDay;
-    };
-
-    if (todayClasses.length === 0) {
-      setDay(nextDayWithClasses(currentDay));
-      return;
-    }
-
-    const currentMinutes = new Date().getHours() * 60 + new Date().getMinutes();
-    const lastClassEnd = Math.max(
-      ...todayClasses.map((item) => {
-        const [hour, minute] = item.end.split(":").map(Number);
-        return hour * 60 + minute;
-      }),
-    );
-
-    setDay(currentMinutes >= lastClassEnd ? nextDayWithClasses(currentDay) : currentDay);
+    // Pick today's day only when the app opens/reloads.
+    // Never jump to another day automatically; if today has no classes,
+    // the normal empty state is shown and the user can browse manually.
+    setDay(todayIndex());
   }, [person]);
 
   useEffect(() => {
@@ -268,17 +238,13 @@ function TimetableContent() {
                 />
               ))}
               {classes.length === 0 ? (
-                day === 6 ? (
-                  <div className="panel rounded-2xl border border-border p-8 text-center">
-                    <div className="text-4xl">🎉</div>
-                    <p className="mt-2 text-lg font-bold">No classes today</p>
-                    <p className="mt-1 text-sm text-muted-foreground">Enjoy your Sunday!</p>
-                  </div>
-                ) : (
-                  <p className="py-10 text-center text-sm text-muted-foreground">
-                    No classes on {DAYS[day]} yet.
+                <div className="panel rounded-2xl border border-border p-8 text-center">
+                  <div className="text-4xl">🎉</div>
+                  <p className="mt-2 text-lg font-bold">No classes today</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {day === 6 ? "Enjoy your Sunday!" : "Enjoy your " + DAYS[day] + "!"}
                   </p>
-                )
+                </div>
               ) : null}
               <button
                 onClick={() => {
