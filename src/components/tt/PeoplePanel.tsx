@@ -85,7 +85,7 @@ export const PeoplePanel = memo(function PeoplePanel({ confirm }: { confirm: (s:
                       <img src={p.avatar} alt="" className="size-11 rounded-full object-cover" />
                     ) : (
                       <span className="grid size-11 place-items-center rounded-full bg-primary/25 text-sm font-semibold text-primary">
-                        {p.id === "me" ? "ME" : initials(p.name)}
+                        {initials(p.name)}
                       </span>
                     )}
                     <span className="w-full truncate text-center text-xs font-semibold">
