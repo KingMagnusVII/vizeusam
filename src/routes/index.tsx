@@ -146,6 +146,7 @@ function TimetableContent() {
     const root = document.documentElement;
     root.classList.remove("theme-light", "theme-dark", "theme-ocean");
     root.classList.add(themeClass, "app-root");
+    root.dataset.wallpaper = isWallpaper ? "true" : "false";
     root.style.setProperty("--panel-opacity", String(isWallpaper ? opacity : 1));
     root.style.setProperty("--primary", primaryColor);
     const hex = primaryColor.replace("#", "");
