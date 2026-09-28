@@ -22,6 +22,7 @@ export function CropImageDialog({
   onSave,
 }: CropImageDialogProps) {
   const [src, setSrc] = useState("");
+  const [natural, setNatural] = useState({ width: 0, height: 0 });
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
@@ -101,7 +102,7 @@ export function CropImageDialog({
                 src={src}
                 alt="Crop preview"
                 draggable={false}
-                onLoad={() => setOffset({ x: 0, y: 0 })}
+                onLoad={(e) => { setOffset({ x: 0, y: 0 }); setNatural({ width: e.currentTarget.naturalWidth, height: e.currentTarget.naturalHeight }); }}
                 className="pointer-events-none absolute max-w-none select-none"
                 style={{
                   width: "auto",
