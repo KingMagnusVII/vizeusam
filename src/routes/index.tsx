@@ -191,6 +191,7 @@ function TimetableApp() {
                 <ClassCard
                   key={c.id}
                   item={c}
+                  status={day === today ? getClassStatus(c, now) : "upcoming"}
                   onEdit={() => {
                     setEditing(c);
                     setFormOpen(true);
