@@ -62,6 +62,9 @@ export type AppState = {
     wallpaper: string;
     opacity: number;
     primaryColor: string;
+    showDayCoordinators: boolean;
+    appName: string;
+    appIcon: string;
   };
 };
 
@@ -299,6 +302,9 @@ export function defaultState(): AppState {
       wallpaper: "",
       opacity: 0.85,
       primaryColor: "#3b82f6",
+      showDayCoordinators: true,
+      appName: "My Timetable",
+      appIcon: "/app-icons/golden_192x192.png",
     },
   };
 }
