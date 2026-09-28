@@ -27,7 +27,7 @@ export function ClassCard({
         className="absolute inset-y-2 left-0 w-1 rounded-full"
         style={{ backgroundColor: item.color }}
       />
-      <div className="w-[3.75rem] shrink-0 flex flex-col justify-between py-0.5">
+      <div className="flex w-[3.75rem] shrink-0 flex-col justify-between py-0.5">
         <span
           className="time-mono whitespace-nowrap text-[13px] font-semibold tracking-tight"
           style={{ color: item.color }}
@@ -35,7 +35,7 @@ export function ClassCard({
           {formatTime(item.start, show24HourTime)}
         </span>
         <span className="mx-auto my-1 w-px flex-1 bg-border" />
-        <span className="time-mono whitespace-nowrap text-[11px] text-muted-foreground tracking-tight">
+        <span className="time-mono whitespace-nowrap tracking-tight text-[11px] text-muted-foreground">
           {formatTime(item.end, show24HourTime)}
         </span>
       </div>
