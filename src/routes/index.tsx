@@ -1,6 +1,3 @@
-// Lovable sync trigger: PeoplePanel source has been normalized on main.
-// Preview sync marker: keep this route module hash fresh after dependency/type fixes.
-// Route module intentionally touched to invalidate stale Vite/TanStack route chunks after preview sync.
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { CalendarDays, CheckSquare, Plus, Settings } from "lucide-react";
@@ -75,6 +72,7 @@ function TimetableContent() {
   const [now, setNow] = useState(() => new Date());
 
   const { theme, wallpaper, opacity, primaryColor, use24HourTime, showDayCoordinators, appName, appIcon } = state.settings;
+  const show24HourTime = use24HourTime ?? true;
   const schedule = activeSchedule(person);
   const classes = sortClasses(schedule.classes.filter((c) => c.day === day));
   const today = todayIndex();
@@ -199,7 +197,7 @@ function TimetableContent() {
                 <ClassCard
                   key={c.id}
                   item={c}
-                  show24HourTime={use24HourTime ?? true}
+                  show24HourTime={show24HourTime}
                   status={day === today ? getClassStatus(c, now) : "upcoming"}
                   onEdit={() => {
                     setEditing(c);
