@@ -78,4 +78,4 @@ export const DayCoordinatorCard = memo(function DayCoordinatorCard({
       )}
     </div>
   );
-}
+});
