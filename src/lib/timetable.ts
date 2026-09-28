@@ -60,6 +60,7 @@ export type AppState = {
   settings: {
     theme: ThemeName;
     wallpaper: string;
+    customWallpaper: string;
     opacity: number;
     primaryColor: string;
     showDayCoordinators: boolean;
@@ -300,6 +301,7 @@ export function defaultState(): AppState {
     settings: {
       theme: "dark",
       wallpaper: "",
+      customWallpaper: "",
       opacity: 0.85,
       primaryColor: "#3b82f6",
       showDayCoordinators: true,

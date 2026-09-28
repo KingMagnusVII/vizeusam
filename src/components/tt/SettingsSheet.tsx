@@ -11,11 +11,10 @@ import type { ConfirmState } from "./ConfirmDialog";
 import { CropImageDialog } from "./CropImageDialog";
 
 import wallpaperNight from "@/assets/wallpaper-night.jpg";
-import wallpaperClouds from "@/assets/wallpaper-clouds.jpg";
 import wallpaperOcean from "@/assets/wallpaper-ocean.jpg";
 import wallpaperNeon from "@/assets/wallpaper-neon.jpg";
 
-export const WALLPAPERS = [wallpaperNight, wallpaperClouds, wallpaperOcean, wallpaperNeon];
+export const WALLPAPERS = [wallpaperNight, wallpaperOcean, wallpaperNeon];
 
 const THEMES: { id: ThemeName; label: string; Icon: typeof Sun }[] = [
   { id: "light", label: "Light", Icon: Sun },
@@ -40,7 +39,7 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (value: boo
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={cn("grid size-6 shrink-0 place-items-center rounded-full border-2 transition-colors", checked ? "border-primary bg-transparent" : "border-muted-foreground/45 bg-transparent")}
+      className={cn("grid size-5 shrink-0 place-items-center rounded-full border-2 transition-colors", checked ? "border-primary bg-transparent" : "border-muted-foreground/45 bg-transparent")}
     >
       {checked && <span className="size-2.5 rounded-full bg-primary" />}
     </button>
@@ -150,13 +149,42 @@ export function SettingsSheet({
 
             {theme === "wallpaper" && (
               <>
-                <Section title="Custom background">
-                  <Button variant="secondary" className="w-full rounded-2xl" onClick={() => bgRef.current?.click()}><Upload className="size-4" /> Import picture from device</Button>
-                  <p className="text-[11px] text-muted-foreground">Choose a picture, crop it, and it will be stored on this device for offline use.</p>
-                </Section>
                 <Section title="Wallpaper">
                   <div className="grid grid-cols-4 gap-2">
-                    {WALLPAPERS.map((w) => <button key={w} onClick={() => updateSettings({ wallpaper: w })} className={cn("aspect-9/16 overflow-hidden rounded-xl border-2", wallpaper === w ? "border-primary" : "border-transparent")}><img src={w} alt="" loading="lazy" className="size-full object-cover" /></button>)}
+                    {WALLPAPERS.map((w) => (
+                      <button
+                        key={w}
+                        onClick={() => updateSettings({ wallpaper: w })}
+                        className={cn("relative aspect-9/16 overflow-hidden rounded-xl border-2", wallpaper === w ? "border-primary" : "border-transparent")}
+                      >
+                        <img src={w} alt="" loading="lazy" className="size-full object-cover" />
+                      </button>
+                    ))}
+                    {(() => {
+                      const hasCustomWallpaper = wallpaper.startsWith("data:image/");
+                      return hasCustomWallpaper ? (
+                        <div className="relative aspect-9/16 overflow-hidden rounded-xl border-2 border-primary">
+                          <img src={wallpaper} alt="Custom wallpaper" className="size-full object-cover" />
+                          <button
+                            type="button"
+                            aria-label="Delete custom wallpaper"
+                            onClick={() => updateSettings({ wallpaper: "" , theme: "dark" })}
+                            className="absolute right-1 top-1 grid size-7 place-items-center rounded-full bg-black/70 text-white backdrop-blur-sm"
+                          >
+                            <Trash2 className="size-3.5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          aria-label="Add custom wallpaper"
+                          onClick={() => bgRef.current?.click()}
+                          className="flex aspect-9/16 items-center justify-center rounded-xl border-2 border-dashed border-border bg-muted/30 text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                        >
+                          <Plus className="size-5" />
+                        </button>
+                      );
+                    })()}
                   </div>
                 </Section>
                 <Section title={`Widget transparency · ${Math.round((1 - opacity) * 100)}%`}>
@@ -227,7 +255,7 @@ export function SettingsSheet({
         title={cropMode === "wallpaper" ? "Crop wallpaper" : "Crop app icon"}
         onOpenChange={(value) => { if (!value) { setCropMode(null); setCropFile(null); } }}
         onSave={(dataUrl) => {
-          if (cropMode === "wallpaper") updateSettings({ wallpaper: dataUrl, theme: "wallpaper" });
+          if (cropMode === "wallpaper") updateSettings({ wallpaper: dataUrl, customWallpaper: dataUrl, theme: "wallpaper" });
           else updateSettings({ appIcon: dataUrl });
           setCropMode(null);
           setCropFile(null);
