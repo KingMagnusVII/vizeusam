@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CLASS_COLORS, DAYS, type ClassItem } from "@/lib/timetable";
@@ -59,13 +60,18 @@ export function ClassFormSheet({
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="mx-auto max-h-[92svh] max-w-md overflow-y-auto rounded-t-3xl">
-        <SheetHeader className="flex-row items-center justify-between space-y-0">
+        <SheetHeader className="relative flex-row items-center justify-between space-y-0 pr-10">
           <SheetTitle>
             {initial ? "Edit class" : "Add class"} · {DAYS[form.day]}
           </SheetTitle>
-          <Button variant="secondary" size="sm" className="rounded-full" onClick={() => onOpenChange(false)}>
-            Cancel
-          </Button>
+          <button
+            type="button"
+            aria-label="Close"
+            onClick={() => onOpenChange(false)}
+            className="absolute right-1 top-1 grid size-8 translate-y-1 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            <X className="size-4" />
+          </button>
         </SheetHeader>
 
         <div className="space-y-4 px-4 pb-6">
