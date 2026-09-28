@@ -40,9 +40,9 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (value: boo
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={cn("grid size-8 place-items-center rounded-full border-2 transition-colors", checked ? "border-primary bg-primary" : "border-muted-foreground/40 bg-transparent")}
+      className={cn("grid size-6 shrink-0 place-items-center rounded-full border-2 transition-colors", checked ? "border-primary bg-transparent" : "border-muted-foreground/45 bg-transparent")}
     >
-      {checked && <span className="size-2.5 rounded-full bg-primary-foreground" />}
+      {checked && <span className="size-2.5 rounded-full bg-primary" />}
     </button>
   );
 }
@@ -223,7 +223,7 @@ export function SettingsSheet({
       <CropImageDialog
         open={!!cropMode && !!cropFile}
         file={cropFile}
-        aspect={cropMode === "wallpaper" ? 1.5 : 1}
+        aspect={cropMode === "wallpaper" ? 9 / 16 : 1}
         title={cropMode === "wallpaper" ? "Crop wallpaper" : "Crop app icon"}
         onOpenChange={(value) => { if (!value) { setCropMode(null); setCropFile(null); } }}
         onSave={(dataUrl) => {

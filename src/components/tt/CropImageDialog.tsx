@@ -22,14 +22,14 @@ export function CropImageDialog({
   onSave,
 }: CropImageDialogProps) {
   const [src, setSrc] = useState("");
-  const [natural, setNatural] = useState({ width: 0, height: 0 });
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const dragStart = useRef({ x: 0, y: 0 });
   const offsetStart = useRef({ x: 0, y: 0 });
   const imageRef = useRef<HTMLImageElement>(null);
-  const boxWidth = 300;
+  // Portrait wallpapers match the phone-shaped app viewport; square icons stay square.
+  const boxWidth = aspect === 1 ? 260 : 280;
   const boxHeight = boxWidth / aspect;
 
   useEffect(() => {
@@ -58,8 +58,8 @@ export function CropImageDialog({
     const sourceW = boxWidth / scale;
     const sourceH = boxHeight / scale;
     const canvas = document.createElement("canvas");
-    const outW = aspect === 1 ? 512 : 900;
-    const outH = Math.round(outW / aspect);
+    const outW = aspect === 1 ? 512 : 1080;
+    const outH = aspect === 1 ? 512 : 1920;
     canvas.width = outW;
     canvas.height = outH;
     const ctx = canvas.getContext("2d");
@@ -102,7 +102,7 @@ export function CropImageDialog({
                 src={src}
                 alt="Crop preview"
                 draggable={false}
-                onLoad={(e) => { setOffset({ x: 0, y: 0 }); setNatural({ width: e.currentTarget.naturalWidth, height: e.currentTarget.naturalHeight }); }}
+                onLoad={() => { setOffset({ x: 0, y: 0 }); }}
                 className="pointer-events-none absolute max-w-none select-none"
                 style={{
                   width: "auto",
