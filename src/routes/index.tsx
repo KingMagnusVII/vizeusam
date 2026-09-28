@@ -86,8 +86,24 @@ function TimetableContent() {
   );
 
   useEffect(() => {
-    // Reset to the real current day on every fresh app mount. Manual day browsing remains unchanged afterward.
-    setDay(todayIndex());
+    // On app open, show today unless today's classes are already finished.
+    // In that case start on the next calendar day. Do not auto-switch while the app stays open.
+    const currentDay = todayIndex();
+    const currentClasses = activeSchedule(person).classes.filter((item) => item.day === currentDay);
+    if (currentClasses.length === 0) {
+      setDay(currentDay);
+      return;
+    }
+
+    const currentMinutes = new Date().getHours() * 60 + new Date().getMinutes();
+    const lastClassEnd = Math.max(
+      ...currentClasses.map((item) => {
+        const [hour, minute] = item.end.split(":").map(Number);
+        return hour * 60 + minute;
+      }),
+    );
+
+    setDay(currentMinutes >= lastClassEnd ? (currentDay + 1) % DAYS.length : currentDay);
   }, []);
 
   useEffect(() => {
