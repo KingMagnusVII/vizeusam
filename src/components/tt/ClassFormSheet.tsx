@@ -61,7 +61,7 @@ export function ClassFormSheet({
       <SheetContent side="bottom" className="mx-auto max-h-[92svh] max-w-md overflow-y-auto rounded-t-3xl">
         <SheetHeader className="flex-row items-center justify-between space-y-0">
           <SheetTitle>
-            {initial ? "Edit class" : "Add class"} · {DAYS[form.day]}
+            {initial ? "Edit class" : "Add Class"} · {DAYS[form.day]}
           </SheetTitle>
         </SheetHeader>
 
@@ -70,7 +70,7 @@ export function ClassFormSheet({
             <Input
               value={form.subject}
               onChange={(e) => set("subject", e.target.value)}
-              placeholder="e.g. Calculus II"
+              placeholder="e.g. Calculus VII"
               className="h-12 rounded-2xl"
             />
           </Field>
@@ -78,7 +78,7 @@ export function ClassFormSheet({
             <Input
               value={form.professor}
               onChange={(e) => set("professor", e.target.value)}
-              placeholder="e.g. Dr. Mehta"
+              placeholder="e.g. Dr. Samyuktha"
               className="h-12 rounded-2xl"
             />
           </Field>
@@ -149,7 +149,7 @@ export function ClassFormSheet({
             </div>
           </Field>
           <Button className="h-12 w-full rounded-2xl text-base" onClick={submit}>
-            {initial ? "Save changes" : "Add class"}
+            {initial ? "Save changes" : "Add Class"}
           </Button>
         </div>
       </SheetContent>
