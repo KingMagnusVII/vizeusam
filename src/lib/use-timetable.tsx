@@ -57,7 +57,6 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
             ...defaults,
             ...parsed,
             people: normalizedPeople,
-            // Keep newly added settings fields when loading older local data.
             settings: { ...defaults.settings, ...(parsed.settings ?? {}) },
           });
           return;
@@ -147,7 +146,18 @@ export function useTimetable() {
     addClass: (personId: string, item: Omit<ClassItem, "id">) =>
       mutateClasses(personId, (list) => [...list, { ...item, id: uid() }]),
     updateClass: (personId: string, item: ClassItem) =>
-      mutateClasses(personId, (list) => list.map((c) => (c.id === item.id ? item : c))),
+      mutateClasses(personId, (list) => {
+        const previous = list.find((c) => c.id === item.id);
+        const colorChanged = previous ? previous.color !== item.color : false;
+
+        return list.map((c) => {
+          if (c.id === item.id) return item;
+          if (colorChanged && c.subject === item.subject) {
+            return { ...c, color: item.color };
+          }
+          return c;
+        });
+      }),
     removeClass: (personId: string, classId: string) =>
       mutateClasses(personId, (list) => list.filter((c) => c.id !== classId)),
     replaceClasses: (personId: string, list: ClassItem[]) => mutateClasses(personId, () => list),
