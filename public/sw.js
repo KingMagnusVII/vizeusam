@@ -1,4 +1,4 @@
-const CACHE = "timetable-shell-v3";
+const CACHE = "timetable-shell-v4";
 const APP_SHELL = ["/", "/manifest.webmanifest", "/favicon.ico", "/app-icon.svg"];
 
 self.addEventListener("install", (event) => {
@@ -35,15 +35,31 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        if (response.ok && (url.pathname.startsWith("/assets/") || url.pathname.startsWith("/icons/"))) {
-          const copy = response.clone();
-          caches.open(CACHE).then((cache) => cache.put(event.request, copy));
-        }
-        return response;
+  const isStatic =
+    url.pathname.startsWith("/assets/") ||
+    url.pathname.startsWith("/icons/") ||
+    url.pathname.startsWith("/app-icons/") ||
+    url.pathname.startsWith("/timetable/") ||
+    url.pathname === "/favicon.ico" ||
+    url.pathname === "/app-icon.svg";
+
+  if (isStatic) {
+    event.respondWith(
+      caches.match(event.request).then((cached) => {
+        if (cached) return cached;
+        return fetch(event.request).then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+          }
+          return response;
+        });
       })
-      .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  event.respondWith(
+    fetch(event.request).catch(() => caches.match(event.request))
   );
 });
