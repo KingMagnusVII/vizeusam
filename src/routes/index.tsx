@@ -191,7 +191,7 @@ function TimetablePage() {\n  return (\n    <TimetableProvider>\n      <Timetabl
                 <ClassCard
                   key={c.id}
                   item={c}
-                  use24HourTime={use24HourTime ?? true}
+                  show24HourTime={use24HourTime ?? true}
                   status={day === today ? getClassStatus(c, now) : "upcoming"}
                   onEdit={() => {
                     setEditing(c);
