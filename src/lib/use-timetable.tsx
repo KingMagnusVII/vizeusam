@@ -34,9 +34,29 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
         if (raw) {
           const parsed = JSON.parse(raw) as Partial<AppState>;
           const defaults = defaultState();
+          const normalizedPeople = (parsed.people ?? defaults.people).map((person) => ({
+            ...person,
+            schedules: (person.schedules ?? []).map((schedule) => ({
+              ...schedule,
+              dayInfo: Object.fromEntries(
+                Object.entries(schedule.dayInfo ?? {}).map(([day, info]) => [
+                  day,
+                  info
+                    ? {
+                        ...info,
+                        morning: info.morning?.replaceAll("Dr ", "Dr. "),
+                        afternoon: info.afternoon?.replaceAll("Dr ", "Dr. "),
+                      }
+                    : info,
+                ]),
+              ),
+            })),
+          }));
+
           setState({
             ...defaults,
             ...parsed,
+            people: normalizedPeople,
             // Keep newly added settings fields when loading older local data.
             settings: { ...defaults.settings, ...(parsed.settings ?? {}) },
           });
