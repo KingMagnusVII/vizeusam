@@ -37,6 +37,7 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#000000" },
     ],
   }),
   component: TimetableApp,
@@ -137,7 +138,7 @@ function TimetableContent() {
         scope: "/",
         display: "standalone",
         background_color: "#000000",
-        theme_color: primaryColor,
+        theme_color: "#000000",
         icons: [{ src: appIcon || "/app-icons/golden_192x192.png", sizes: "512x512", type: "image/png", purpose: "any maskable" }],
       })], { type: "application/manifest+json" }));
       const previous = manifest.href;
