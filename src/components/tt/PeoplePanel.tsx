@@ -89,20 +89,21 @@ export const PeoplePanel = memo(function PeoplePanel({ confirm }: { confirm: (s:
                       </span>
                     )}
                     <span className="w-full truncate text-center text-xs font-semibold">
-                      {p.id === "me" ? "Me" : p.name.split(" ")[0]}
+                      {p.name.split(" ")[0]}
                     </span>
                     <span className="time-mono text-[10px] text-muted-foreground">{count} cls</span>
                   </button>
 
+                  <button
+                    aria-label={"Edit " + (p.id === "me" ? "my profile" : p.name)}
+                    onClick={(e) => { e.stopPropagation(); openProfile(p.id); }}
+                    className="absolute right-1 top-1 rounded-full bg-muted p-1 text-muted-foreground shadow-sm hover:text-foreground"
+                  >
+                    <Pencil className="size-3" />
+                  </button>
+
                   {p.id !== "me" && (
                     <>
-                      <button
-                        aria-label={"Edit " + p.name}
-                        onClick={(e) => { e.stopPropagation(); openProfile(p.id); }}
-                        className="absolute right-1 top-1 rounded-full bg-muted p-1 text-muted-foreground shadow-sm hover:text-foreground"
-                      >
-                        <Pencil className="size-3" />
-                      </button>
                       <button
                         aria-label={"Remove " + p.name}
                         onClick={() => confirm({
@@ -147,8 +148,8 @@ export const PeoplePanel = memo(function PeoplePanel({ confirm }: { confirm: (s:
         <Dialog open={!!profileId} onOpenChange={(value) => !value && setProfileId(null)}>
           <DialogContent className="max-w-sm rounded-3xl">
             <DialogHeader>
-              <DialogTitle>Edit friend</DialogTitle>
-              <DialogDescription>Change the name or add a profile picture for this friend.</DialogDescription>
+              <DialogTitle>{profilePerson?.id === "me" ? "Edit my profile" : "Edit friend"}</DialogTitle>
+              <DialogDescription>Change the name or add a profile picture.</DialogDescription>
             </DialogHeader>
 
             <div className="space-y-5">
