@@ -86,25 +86,41 @@ function TimetableContent() {
   );
 
   useEffect(() => {
-    // On app open, show today unless today's classes are already finished.
-    // In that case start on the next calendar day. Do not auto-switch while the app stays open.
+    // Decide the initial day once when the app opens/reloads.
+    // If today has classes and they are all finished, open the next
+    // timetable day that actually has classes. If today has no classes,
+    // also open the next day with classes. After startup, never change
+    // the selected day automatically so the user can browse freely.
     const currentDay = todayIndex();
-    const currentClasses = activeSchedule(person).classes.filter((item) => item.day === currentDay);
-    if (currentClasses.length === 0) {
-      setDay(currentDay);
+    const scheduleNow = activeSchedule(person);
+    const timetableClasses = scheduleNow.classes;
+    const todayClasses = timetableClasses.filter((item) => item.day === currentDay);
+
+    const nextDayWithClasses = (fromDay: number) => {
+      for (let offset = 1; offset <= DAYS.length; offset += 1) {
+        const candidate = (fromDay + offset) % DAYS.length;
+        if (timetableClasses.some((item) => item.day === candidate)) {
+          return candidate;
+        }
+      }
+      return currentDay;
+    };
+
+    if (todayClasses.length === 0) {
+      setDay(nextDayWithClasses(currentDay));
       return;
     }
 
     const currentMinutes = new Date().getHours() * 60 + new Date().getMinutes();
     const lastClassEnd = Math.max(
-      ...currentClasses.map((item) => {
+      ...todayClasses.map((item) => {
         const [hour, minute] = item.end.split(":").map(Number);
         return hour * 60 + minute;
       }),
     );
 
-    setDay(currentMinutes >= lastClassEnd ? (currentDay + 1) % DAYS.length : currentDay);
-  }, []);
+    setDay(currentMinutes >= lastClassEnd ? nextDayWithClasses(currentDay) : currentDay);
+  }, [person]);
 
   useEffect(() => {
     const tick = () => setNow(new Date());
