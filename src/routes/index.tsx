@@ -52,7 +52,7 @@ function TimetableApp() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [confirmState, setConfirmState] = useState<ConfirmState>(null);
 
-  const { theme, wallpaper, opacity, primaryColor } = state.settings;
+  const { theme, wallpaper, opacity, primaryColor, showDayCoordinators, appName, appIcon } = state.settings;
   const schedule = activeSchedule(person);
   const classes = sortClasses(schedule.classes.filter((c) => c.day === day));
   const pendingCount = state.todos.filter((t) => !t.done).length;
