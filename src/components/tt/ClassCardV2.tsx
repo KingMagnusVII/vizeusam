@@ -19,7 +19,7 @@ export const ClassCard = memo(function ClassCard({
   return (
     <div
       className={cn(
-        "group panel relative flex gap-3 overflow-hidden rounded-2xl border border-border p-3 pl-4 transition-all duration-300",
+        "group panel relative flex gap-3 overflow-hidden rounded-2xl border border-border p-3 pl-4 transition-opacity duration-300",
         status === "past" && "opacity-40 grayscale-[0.15]",
         status === "current" && "ring-1 ring-primary/45 shadow-sm",
       )}
