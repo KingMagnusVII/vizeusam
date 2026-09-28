@@ -142,6 +142,7 @@ export function ClassFormSheet({
                   aria-label={`Color ${c}`}
                   className={cn(
                     "size-8 rounded-full ring-offset-2 ring-offset-background transition-transform hover:scale-110",
+                    c === "#000000" && "border border-white/45",
                     form.color === c && "scale-110 ring-2 ring-foreground",
                   )}
                   style={{ backgroundColor: c }}
