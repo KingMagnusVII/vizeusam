@@ -126,14 +126,16 @@ export function CropImageDialog({
                 onLoad={() => { setOffset({ x: 0, y: 0 }); }}
                 className="pointer-events-none absolute max-w-none select-none"
                 style={(() => {
-                  const baseScale = imgNaturalSize(imageRef.current, boxWidth, boxHeight);
+                  const geometry = getCropGeometry();
+                  if (!geometry) return { visibility: "hidden" as const };
+                  const { img, scale, left, top } = geometry;
                   return {
-                    width: imageRef.current ? imageRef.current.naturalWidth * baseScale * zoom : "auto",
-                    height: imageRef.current ? imageRef.current.naturalHeight * baseScale * zoom : "auto",
+                    width: img.naturalWidth * scale,
+                    height: img.naturalHeight * scale,
                     maxWidth: "none",
-                    left: "50%",
-                    top: "50%",
-                    transform: `translate(calc(-50% + ${offset.x}px), calc(-50% + ${offset.y}px))`,
+                    left,
+                    top,
+                    transform: "none",
                   };
                 })()}
               />
