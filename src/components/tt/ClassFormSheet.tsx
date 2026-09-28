@@ -133,15 +133,16 @@ export function ClassFormSheet({
             />
           </Field>
           <Field label="Color">
-            <div className="flex gap-3">
+            <div className="grid grid-cols-7 gap-2 rounded-2xl bg-muted/30 p-3">
               {CLASS_COLORS.map((c) => (
                 <button
                   key={c}
+                  type="button"
                   onClick={() => set("color", c)}
                   aria-label={`Color ${c}`}
                   className={cn(
-                    "size-7 rounded-full ring-offset-2 ring-offset-background transition",
-                    form.color === c && "ring-2 ring-foreground",
+                    "size-8 rounded-full ring-offset-2 ring-offset-background transition-transform hover:scale-110",
+                    form.color === c && "scale-110 ring-2 ring-foreground",
                   )}
                   style={{ backgroundColor: c }}
                 />
