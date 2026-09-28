@@ -42,7 +42,7 @@ export function DayCoordinatorCard({
       </div>
 
       {editing ? (
-        <div className="mt-1 grid grid-cols-2 gap-2">
+        <div className="mt-0 grid grid-cols-2 gap-2">
           <Input
             value={form.morning}
             placeholder="Morning Section"
