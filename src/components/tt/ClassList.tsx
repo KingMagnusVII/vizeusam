@@ -52,7 +52,7 @@ export const ClassList = memo(function ClassList({
     const timeout = window.setTimeout(() => setNow(new Date()), delay);
 
     return () => window.clearTimeout(timeout);
-  }, [statusDay, classes]);
+  }, [statusDay, classes, now]);
 
   return (
     <>
