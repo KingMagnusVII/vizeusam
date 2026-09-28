@@ -88,7 +88,7 @@ export function SettingsSheet({
   const onFile = async (file: File, mode: "merge" | "replace") => {
     try {
       const { classes, dayInfo } = parseImport(file.name, await file.text());
-      if (!classes.length && !dayInfo) throw new Error("No timetable data found in that file.");
+      if (!classes.length && !Object.keys(dayInfo ?? {}).length) throw new Error("No timetable data found in that file.");
       if (mode === "replace") replaceClasses(person.id, classes);
       else if (classes.length) appendClasses(person.id, classes);
       if (dayInfo) Object.entries(dayInfo).forEach(([day, info]) => info && updateDayInfo(person.id, Number(day), info));
