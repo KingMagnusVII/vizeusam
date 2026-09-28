@@ -1,5 +1,31 @@
-const CACHE = "timetable-shell-v4";
-const APP_SHELL = ["/", "/manifest.webmanifest", "/favicon.ico", "/app-icon.svg"];
+const CACHE = "timetable-shell-v5";
+const APP_SHELL = ["/", "/favicon.ico", "/app-icon.svg"];
+
+async function getCustomManifest() {
+  const fallback = await caches.match("/manifest.webmanifest");
+  try {
+    const db = await new Promise((resolve, reject) => {
+      const request = indexedDB.open("timetable-pwa", 1);
+      request.onupgradeneeded = () => request.result.createObjectStore("metadata");
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    const metadata = await new Promise((resolve, reject) => {
+      const request = db.transaction("metadata", "readonly").objectStore("metadata").get("manifest");
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    db.close();
+    if (metadata?.name && metadata?.icons?.[0]?.src) {
+      return new Response(JSON.stringify(metadata), {
+        headers: { "Content-Type": "application/manifest+json", "Cache-Control": "no-store" },
+      });
+    }
+  } catch {
+    // Use the bundled manifest if IndexedDB is unavailable.
+  }
+  return fallback;
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -21,6 +47,11 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+
+  if (url.pathname === "/manifest.webmanifest") {
+    event.respondWith(getCustomManifest());
+    return;
+  }
 
   if (event.request.mode === "navigate") {
     event.respondWith(
