@@ -11,7 +11,7 @@ import {
 } from "./timetable";
 
 const KEY = "timetable-app-state-v2";
-const PERSIST_DELAY_MS = 150;
+const PERSIST_DELAY_MS = 500;
 
 type Ctx = {
   state: AppState;
@@ -26,7 +26,15 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AppState>(() => defaultState());
   const [loaded, setLoaded] = useState(false);
   const latestState = useRef(state);
+  const persistedStateRef = useRef("");
   const persistTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const persist = useCallback(() => {
+    const serialized = JSON.stringify(latestState.current);
+    if (serialized === persistedStateRef.current) return;
+    localStorage.setItem(KEY, serialized);
+    persistedStateRef.current = serialized;
+  }, []);
 
   useEffect(() => {
     latestState.current = state;
@@ -60,12 +68,14 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
             })),
           }));
 
-          setState({
+          const normalizedState = {
             ...defaults,
             ...parsed,
             people: normalizedPeople,
             settings: { ...defaults.settings, ...(parsed.settings ?? {}) },
-          });
+          } as AppState;
+          setState(normalizedState);
+          persistedStateRef.current = raw;
           return;
         }
 
@@ -92,7 +102,7 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
         ];
 
         if (!cancelled) {
-          setState({
+          const bundledState = {
             ...defaults,
             people: [
               {
@@ -101,7 +111,8 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
                 activeScheduleId: schedules[0]!.id,
               },
             ],
-          });
+          } as AppState;
+          setState(bundledState);
         }
       } catch {
         // Keep the built-in empty Week 1/Week 2 state if the bundled CSVs fail.
@@ -121,7 +132,7 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
 
     if (persistTimer.current) clearTimeout(persistTimer.current);
     persistTimer.current = setTimeout(() => {
-      localStorage.setItem(KEY, JSON.stringify(latestState.current));
+      persist();
       persistTimer.current = null;
     }, PERSIST_DELAY_MS);
 
@@ -131,7 +142,7 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
         persistTimer.current = null;
       }
     };
-  }, [state, loaded]);
+  }, [state, loaded, persist]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -141,12 +152,12 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
         clearTimeout(persistTimer.current);
         persistTimer.current = null;
       }
-      localStorage.setItem(KEY, JSON.stringify(latestState.current));
+      persist();
     };
 
     window.addEventListener("pagehide", persistNow);
     return () => window.removeEventListener("pagehide", persistNow);
-  }, [loaded]);
+  }, [loaded, persist]);
 
   const updatePerson = useCallback(
     (id: string, fn: (p: Person) => Person) =>
