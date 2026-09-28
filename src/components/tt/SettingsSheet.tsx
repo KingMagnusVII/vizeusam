@@ -103,7 +103,7 @@ export function SettingsSheet({
     <>
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent side="bottom" className="mx-auto max-h-[92svh] max-w-md overflow-y-auto rounded-t-3xl">
-          <SheetHeader className="flex-row items-center justify-between space-y-0"><SheetTitle>Settings</SheetTitle></SheetHeader>
+          <SheetHeader className="mb-2 flex-row items-center justify-between space-y-0"><SheetTitle>Settings</SheetTitle></SheetHeader>
 
           <div className="space-y-6 px-4 pb-8">
             <Section title="General">
