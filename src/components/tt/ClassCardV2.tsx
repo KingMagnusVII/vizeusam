@@ -40,7 +40,7 @@ export const ClassCard = memo(function ClassCard({
         >
           {formatTime(item.start, show24HourTime)}
         </span>
-        <span className="mx-auto my-1 w-px flex-1 bg-border" />
+        <span className="mx-auto my-1 w-px flex-1 bg-foreground/70" />
         <span className="time-mono whitespace-nowrap tracking-tight text-[11px] text-muted-foreground">
           {formatTime(item.end, show24HourTime)}
         </span>
