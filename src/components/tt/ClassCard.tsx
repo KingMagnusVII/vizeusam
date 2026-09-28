@@ -1,5 +1,5 @@
 import { Pencil, Pin, Trash2 } from "lucide-react";
-import type { ClassItem } from "@/lib/timetable";
+import type { ClassItem } from "@/lib/timetable";\nimport { cn } from "@/lib/utils";
 
 export function ClassCard({
   item,
@@ -11,7 +11,7 @@ export function ClassCard({
   onDelete?: () => void;
 }) {
   return (
-    <div className="group panel relative flex gap-3 overflow-hidden rounded-2xl border border-border p-3 pl-4">
+    <div className={cn("group panel relative flex gap-3 overflow-hidden rounded-2xl border border-border p-3 pl-4 transition-opacity", status === "past" && "opacity-40", status === "current" && "ring-1 ring-primary/40")}>
       <span
         className="absolute inset-y-2 left-0 w-1 rounded-full"
         style={{ backgroundColor: item.color }}
