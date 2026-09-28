@@ -42,7 +42,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: TimetablePage,
+  component: TimetableApp,
 });
 
 function getClassStatus(item: ClassItem, now: Date): "past" | "current" | "upcoming" {
@@ -56,15 +56,15 @@ function getClassStatus(item: ClassItem, now: Date): "past" | "current" | "upcom
   return "upcoming";
 }
 
-function TimetablePage() {
+function TimetableApp() {
   return (
     <TimetableProvider>
-      <TimetableApp />
+      <TimetableContent />
     </TimetableProvider>
   );
 }
 
-function TimetableApp() {
+function TimetableContent() {
   const { state, person, addClass, updateClass, removeClass, updateDayInfo } = useTimetable();
   const [day, setDay] = useState(todayIndex);
   const [tab, setTab] = useState<"timetable" | "todo">("timetable");
