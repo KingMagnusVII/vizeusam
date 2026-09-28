@@ -68,12 +68,61 @@ export function TimetableProvider({ children }: { children: ReactNode }) {
             })),
           }));
 
-          const normalizedState = {
+          let normalizedState = {
             ...defaults,
             ...parsed,
             people: normalizedPeople,
             settings: { ...defaults.settings, ...(parsed.settings ?? {}) },
           } as AppState;
+
+          // Saved app state is normally used after the first CSV import. If an
+          // older saved state has no coordinator data, fetch the bundled CSVs
+          // and fill only the missing coordinator values without overwriting
+          // classes or any coordinator values the user already edited.
+          const needsCoordinatorImport = normalizedState.people.some((p) =>
+            p.schedules.some((s) => !s.dayInfo || Object.keys(s.dayInfo).length === 0),
+          );
+
+          if (needsCoordinatorImport) {
+            try {
+              const [week1Response, week2Response] = await Promise.all([
+                fetch("/timetable/Foundation_Course_Week1_BatchC_v2.csv"),
+                fetch("/timetable/Foundation_Course_Week2_BatchC_v2.csv"),
+              ]);
+
+              if (week1Response.ok && week2Response.ok) {
+                const [week1Text, week2Text] = await Promise.all([
+                  week1Response.text(),
+                  week2Response.text(),
+                ]);
+                const bundled = [
+                  parseImport("Week1.csv", week1Text),
+                  parseImport("Week2.csv", week2Text),
+                ];
+
+                normalizedState = {
+                  ...normalizedState,
+                  people: normalizedState.people.map((p) => ({
+                    ...p,
+                    schedules: p.schedules.map((s) => {
+                      const source = bundled.find((b) => b.name === s.name) ?? (
+                        s.name === "Week 1" ? bundled[0] :
+                        s.name === "Week 2" ? bundled[1] : undefined
+                      );
+                      if (!source?.dayInfo) return s;
+
+                      const existing = s.dayInfo ?? {};
+                      const merged = { ...source.dayInfo, ...existing };
+                      return { ...s, dayInfo: merged };
+                    }),
+                  })),
+                };
+              }
+            } catch {
+              // Keep the saved state if the bundled coordinator CSVs fail.
+            }
+          }
+
           setState(normalizedState);
           persistedStateRef.current = raw;
           return;
