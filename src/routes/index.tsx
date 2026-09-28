@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { CalendarDays, CheckSquare, Plus, Settings } from "lucide-react";
-import { ClassCard } from "@/components/tt/ClassCardV2";
 import { ClassFormSheet } from "@/components/tt/ClassFormSheet";
+import { ClassList } from "@/components/tt/ClassList";
 import { ConfirmDialog, type ConfirmState } from "@/components/tt/ConfirmDialog";
 import { DayStrip } from "@/components/tt/DayStrip";
 import { PeoplePanel } from "@/components/tt/PeoplePanel";
@@ -43,17 +43,6 @@ export const Route = createFileRoute("/")({
   component: TimetableApp,
 });
 
-function getClassStatus(item: ClassItem, now: Date): "past" | "current" | "upcoming" {
-  const [startHour, startMinute] = item.start.split(":").map(Number);
-  const [endHour, endMinute] = item.end.split(":").map(Number);
-  const currentMinutes = now.getHours() * 60 + now.getMinutes();
-  const startMinutes = startHour * 60 + startMinute;
-  const endMinutes = endHour * 60 + endMinute;
-  if (currentMinutes >= endMinutes) return "past";
-  if (currentMinutes >= startMinutes) return "current";
-  return "upcoming";
-}
-
 function TimetableApp() {
   return (
     <TimetableProvider>
@@ -70,7 +59,6 @@ function TimetableContent() {
   const [editing, setEditing] = useState<ClassItem | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [confirmState, setConfirmState] = useState<ConfirmState>(null);
-  const [now, setNow] = useState(() => new Date());
 
   const { theme, wallpaper, opacity, primaryColor, use24HourTime, showDayCoordinators, appName, appIcon } = state.settings;
 
@@ -88,7 +76,6 @@ function TimetableContent() {
     () => sortClasses(schedule.classes.filter((c) => c.day === day)),
     [schedule.classes, day],
   );
-  const today = todayIndex();
   const handleEditClass = useCallback((item: ClassItem) => {
     setEditing(item);
     setFormOpen(true);
@@ -149,22 +136,6 @@ function TimetableContent() {
     setDay(currentDay);
   }, [person.id, person.activeScheduleId]);
 
-  useEffect(() => {
-    const tick = () => setNow(new Date());
-    tick();
-
-    const delay = 60_000 - (Date.now() % 60_000) + 50;
-    let interval: number | undefined;
-    const timeout = window.setTimeout(() => {
-      tick();
-      interval = window.setInterval(tick, 60_000);
-    }, delay);
-
-    return () => {
-      window.clearTimeout(timeout);
-      if (interval !== undefined) window.clearInterval(interval);
-    };
-  }, []);
 
   const isWallpaper = theme === "wallpaper" && !!wallpaper;
   const themeClass =
@@ -275,16 +246,13 @@ function TimetableContent() {
                   onSave={handleSaveDayInfo}
                 />
               )}
-              {classes.map((c) => (
-                <ClassCard
-                  key={c.id}
-                  item={c}
-                  show24HourTime={show24HourTime}
-                  status={day === today ? getClassStatus(c, now) : "upcoming"}
-                  onEdit={handleEditClass}
-                  onDelete={handleDeleteClass}
-                />
-              ))}
+              <ClassList
+                classes={classes}
+                day={day}
+                show24HourTime={show24HourTime}
+                onEdit={handleEditClass}
+                onDelete={handleDeleteClass}
+              />
               {classes.length === 0 ? (
                 <div className="panel rounded-2xl border border-border p-8 text-center">
                   <div className="text-4xl">🎉</div>
