@@ -45,6 +45,17 @@ export const Route = createFileRoute("/")({
   component: TimetableApp,
 });
 
+function getClassStatus(item: ClassItem, now: Date): "past" | "current" | "upcoming" {
+  const [startHour, startMinute] = item.start.split(":").map(Number);
+  const [endHour, endMinute] = item.end.split(":").map(Number);
+  const currentMinutes = now.getHours() * 60 + now.getMinutes();
+  const startMinutes = startHour * 60 + startMinute;
+  const endMinutes = endHour * 60 + endMinute;
+  if (currentMinutes >= endMinutes) return "past";
+  if (currentMinutes >= startMinutes) return "current";
+  return "upcoming";
+}
+
 function TimetableApp() {
   const { state, person, addClass, updateClass, removeClass, updateDayInfo } = useTimetable();
   const [day, setDay] = useState(todayIndex);
@@ -53,10 +64,19 @@ function TimetableApp() {
   const [editing, setEditing] = useState<ClassItem | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [confirmState, setConfirmState] = useState<ConfirmState>(null);
+  const [now, setNow] = useState(() => new Date());
 
   const { theme, wallpaper, opacity, primaryColor, showDayCoordinators, appName, appIcon } = state.settings;
   const schedule = activeSchedule(person);
   const classes = sortClasses(schedule.classes.filter((c) => c.day === day));
+  const today = todayIndex();
+
+  useEffect(() => {
+    // Always land on the current day when the app opens, rather than a previously selected day.
+    setDay(today);
+    const timer = window.setInterval(() => setNow(new Date()), 30_000);
+    return () => window.clearInterval(timer);
+  }, [today]);
   const pendingCount = state.todos.filter((t) => !t.done).length;
   const isWallpaper = theme === "wallpaper" && !!wallpaper;
   const themeClass =
@@ -171,6 +191,7 @@ function TimetableApp() {
                 <ClassCard
                   key={c.id}
                   item={c}
+                  status={day === today ? getClassStatus(c, now) : "upcoming"}
                   onEdit={() => {
                     setEditing(c);
                     setFormOpen(true);

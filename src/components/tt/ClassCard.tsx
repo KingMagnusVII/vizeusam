@@ -1,23 +1,35 @@
 import { Pencil, Pin, Trash2 } from "lucide-react";
 import type { ClassItem } from "@/lib/timetable";
+import { cn } from "@/lib/utils";
 
 export function ClassCard({
   item,
+  status = "upcoming",
   onEdit,
   onDelete,
 }: {
   item: ClassItem;
+  status?: "past" | "current" | "upcoming";
   onEdit?: () => void;
   onDelete?: () => void;
 }) {
   return (
-    <div className="group panel relative flex gap-3 overflow-hidden rounded-2xl border border-border p-3 pl-4">
+    <div
+      className={cn(
+        "group panel relative flex gap-3 overflow-hidden rounded-2xl border border-border p-3 pl-4 transition-all duration-300",
+        status === "past" && "opacity-40 grayscale-[0.15]",
+        status === "current" && "ring-1 ring-primary/45 shadow-sm",
+      )}
+    >
       <span
         className="absolute inset-y-2 left-0 w-1 rounded-full"
         style={{ backgroundColor: item.color }}
       />
       <div className="flex w-14 shrink-0 flex-col justify-between py-0.5">
-        <span className="time-mono text-sm font-semibold" style={{ color: item.color }}>
+        <span
+          className="time-mono text-sm font-semibold"
+          style={{ color: item.color }}
+        >
           {item.start}
         </span>
         <span className="mx-auto my-1 w-px flex-1 bg-border" />
@@ -25,7 +37,14 @@ export function ClassCard({
       </div>
       <div className="min-w-0 flex-1">
         <div className="flex items-start gap-2">
-          <h3 className="min-w-0 flex-1 whitespace-normal break-words text-base font-semibold">{item.subject}</h3>
+          <h3 className="min-w-0 flex-1 whitespace-normal break-words text-base font-semibold">
+            {item.subject}
+          </h3>
+          {status === "current" ? (
+            <span className="shrink-0 rounded-full bg-primary/15 px-2 py-0.5 text-[9px] font-bold tracking-wider text-primary">
+              NOW
+            </span>
+          ) : null}
           {item.room ? (
             <span className="time-mono rounded-md bg-muted px-1.5 py-0.5 text-[11px] text-muted-foreground">
               {item.room}
@@ -33,10 +52,15 @@ export function ClassCard({
           ) : null}
         </div>
         {item.professor ? (
-          <p className="mt-0.5 whitespace-normal break-words text-sm text-muted-foreground">{item.professor}</p>
+          <p className="mt-0.5 whitespace-normal break-words text-sm text-muted-foreground">
+            {item.professor}
+          </p>
         ) : null}
         {item.task ? (
-          <p className="mt-1 flex items-start gap-1.5 whitespace-normal break-words text-[13px]" style={{ color: item.color }}>
+          <p
+            className="mt-1 flex items-start gap-1.5 whitespace-normal break-words text-[13px]"
+            style={{ color: item.color }}
+          >
             <Pin className="size-3 shrink-0" />
             {item.task}
           </p>
