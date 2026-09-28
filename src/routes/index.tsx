@@ -74,6 +74,9 @@ function TimetableApp() {
     const luminance = (0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
     root.style.setProperty("--primary-foreground", luminance > 0.62 ? "#17131f" : "#ffffff");
     root.style.backgroundImage = isWallpaper ? `url(${wallpaper})` : "";
+    root.style.backgroundSize = isWallpaper ? "cover" : "";
+    root.style.backgroundPosition = isWallpaper ? "center" : "";
+    root.style.backgroundRepeat = isWallpaper ? "no-repeat" : "";
     document.title = appName || "My Timetable";
     const icon = document.querySelector<HTMLLinkElement>("link[rel=\"icon\"]");
     if (icon) icon.href = appIcon || "/app-icons/golden_192x192.png";
