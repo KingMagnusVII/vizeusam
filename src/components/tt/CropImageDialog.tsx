@@ -13,6 +13,11 @@ type CropImageDialogProps = {
   onSave: (dataUrl: string) => void;
 };
 
+function imgNaturalSize(img: HTMLImageElement | null, width: number, height: number) {
+  if (!img?.naturalWidth || !img.naturalHeight) return 1;
+  return Math.max(width / img.naturalWidth, height / img.naturalHeight);
+}
+
 export function CropImageDialog({
   open,
   onOpenChange,
@@ -122,16 +127,17 @@ export function CropImageDialog({
                 draggable={false}
                 onLoad={() => { setOffset({ x: 0, y: 0 }); }}
                 className="pointer-events-none absolute max-w-none select-none"
-                style={{
-                  width: "auto",
-                  height: "auto",
-                  minWidth: "100%",
-                  minHeight: "100%",
-                  maxWidth: "none",
-                  transform: `translate(calc(-50% + ${offset.x}px), calc(-50% + ${offset.y}px)) scale(${zoom})`,
-                  left: "50%",
-                  top: "50%",
-                }}
+                style={(() => {
+                  const baseScale = imgNaturalSize(imageRef.current, boxWidth, boxHeight);
+                  return {
+                    width: imageRef.current ? imageRef.current.naturalWidth * baseScale * zoom : "auto",
+                    height: imageRef.current ? imageRef.current.naturalHeight * baseScale * zoom : "auto",
+                    maxWidth: "none",
+                    left: "50%",
+                    top: "50%",
+                    transform: `translate(calc(-50% + ${offset.x}px), calc(-50% + ${offset.y}px))`,
+                  };
+                })()}
               />
             )}
             <div className="pointer-events-none absolute inset-0 ring-2 ring-inset ring-white/80" />
