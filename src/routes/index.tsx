@@ -56,7 +56,15 @@ function getClassStatus(item: ClassItem, now: Date): "past" | "current" | "upcom
   return "upcoming";
 }
 
-function TimetablePage() {\n  return (\n    <TimetableProvider>\n      <TimetableApp />\n    </TimetableProvider>\n  );\n}\n\nfunction TimetableApp() {
+function TimetablePage() {
+  return (
+    <TimetableProvider>
+      <TimetableApp />
+    </TimetableProvider>
+  );
+}
+
+function TimetableApp() {
   const { state, person, addClass, updateClass, removeClass, updateDayInfo } = useTimetable();
   const [day, setDay] = useState(todayIndex);
   const [tab, setTab] = useState<"timetable" | "todo">("timetable");
