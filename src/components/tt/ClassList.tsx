@@ -32,22 +32,27 @@ export const ClassList = memo(function ClassList({
   const statusDay = day === todayIndex();
 
   useEffect(() => {
-    if (!statusDay) return;
+    if (!statusDay || classes.length === 0) return;
 
-    const tick = () => setNow(new Date());
-    const delay = 60_000 - (Date.now() % 60_000) + 50;
-    let interval: number | undefined;
+    const current = new Date();
+    const currentMinutes = current.getHours() * 60 + current.getMinutes();
+    const boundaries = classes
+      .flatMap((item) => [item.start, item.end])
+      .map((value) => {
+        const [hour, minute] = value.split(":").map(Number);
+        return hour * 60 + minute;
+      })
+      .filter((minute) => minute > currentMinutes)
+      .sort((a, b) => a - b);
 
-    const timeout = window.setTimeout(() => {
-      tick();
-      interval = window.setInterval(tick, 60_000);
-    }, delay);
+    if (boundaries.length === 0) return;
 
-    return () => {
-      window.clearTimeout(timeout);
-      if (interval !== undefined) window.clearInterval(interval);
-    };
-  }, [statusDay]);
+    const nextBoundary = boundaries[0]!;
+    const delay = Math.max(250, (nextBoundary - currentMinutes) * 60_000 - current.getSeconds() * 1_000 - current.getMilliseconds() + 50);
+    const timeout = window.setTimeout(() => setNow(new Date()), delay);
+
+    return () => window.clearTimeout(timeout);
+  }, [statusDay, classes]);
 
   return (
     <>
