@@ -53,15 +53,17 @@ export function CropImageDialog({
     const img = imageRef.current;
     if (!img || !img.naturalWidth || !img.naturalHeight) return null;
 
-    // Use exactly the same "cover" scale for the preview and exported image.
-    const baseScale = Math.max(boxWidth / img.naturalWidth, boxHeight / img.naturalHeight);
-    const scale = baseScale * zoom;
+    const scale = Math.max(boxWidth / img.naturalWidth, boxHeight / img.naturalHeight) * zoom;
     const renderedW = img.naturalWidth * scale;
     const renderedH = img.naturalHeight * scale;
-    const left = (boxWidth - renderedW) / 2 + offset.x;
-    const top = (boxHeight - renderedH) / 2 + offset.y;
+    const maxX = Math.max(0, (renderedW - boxWidth) / 2);
+    const maxY = Math.max(0, (renderedH - boxHeight) / 2);
+    const safeOffsetX = Math.max(-maxX, Math.min(maxX, offset.x));
+    const safeOffsetY = Math.max(-maxY, Math.min(maxY, offset.y));
+    const left = (boxWidth - renderedW) / 2 + safeOffsetX;
+    const top = (boxHeight - renderedH) / 2 + safeOffsetY;
 
-    return { img, scale, left, top, renderedW, renderedH };
+    return { img, scale, left, top };
   };
 
   const save = () => {
@@ -71,8 +73,6 @@ export function CropImageDialog({
     const { img, scale, left, top } = geometry;
     const sourceW = boxWidth / scale;
     const sourceH = boxHeight / scale;
-
-    // Convert the exact preview rectangle back into source-image coordinates.
     const sourceX = Math.max(0, Math.min(img.naturalWidth - sourceW, -left / scale));
     const sourceY = Math.max(0, Math.min(img.naturalHeight - sourceH, -top / scale));
 
@@ -81,14 +81,12 @@ export function CropImageDialog({
     const canvas = document.createElement("canvas");
     canvas.width = outW;
     canvas.height = outH;
-
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
     ctx.drawImage(img, sourceX, sourceY, sourceW, sourceH, 0, 0, outW, outH);
-
-    onSave(canvas.toDataURL("image/jpeg", 0.9));
+    onSave(canvas.toDataURL("image/jpeg", 0.92));
     onOpenChange(false);
   };
 
