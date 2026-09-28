@@ -131,11 +131,11 @@ export function toClassItem(row: Record<string, string>, index: number): ClassIt
     id: uid(),
     day: normalizeDay(row["day"] ?? ""),
     subject: row["subject"]?.trim() || "Untitled class",
-    professor: row["professor"]?.trim() || "None",
+    professor: row["professor"]?.trim() || "",
     start: normalizeTime(row["start"] ?? "09:00"),
     end: normalizeTime(row["end"] ?? "10:00"),
-    room: row["room"]?.trim() || "None",
-    task: row["task"]?.trim() || "None",
+    room: row["room"]?.trim() || "",
+    task: row["task"]?.trim() || "",
     color: row["color"]?.trim() || CLASS_COLORS[index % CLASS_COLORS.length]!,
   };
 }
