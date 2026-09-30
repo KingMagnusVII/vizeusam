@@ -1,5 +1,5 @@
 const CACHE = "timetable-shell-v5";
-const APP_SHELL = ["/", "/favicon.ico", "/app-icon.svg"];
+const APP_SHELL = ["/", "/manifest.webmanifest", "/favicon.ico", "/app-icon.svg", "/app-icons/golden_192x192.png", "/app-icons/golden_512x512.png"];
 
 async function getCustomManifest() {
   const fallback = await caches.match("/manifest.webmanifest");
