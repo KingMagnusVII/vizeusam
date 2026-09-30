@@ -118,6 +118,14 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    if (!("serviceWorker" in navigator)) return;
+
+    void navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch((error) => {
+      console.error("Offline service worker registration failed:", error);
+    });
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
